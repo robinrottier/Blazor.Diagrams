@@ -1,0 +1,1358 @@
+{
+  "settings": {
+    "components": {
+      "code": false,
+      "binaries": false
+    },
+    "targetId": "net10.0",
+    "targetDisplayName": ".NETCoreApp,Version=v10.0"
+  },
+  "analysisStartTime": "2026-02-05T16:03:42.6650495Z",
+  "analysisEndTime": "2026-02-05T16:03:44.2388017Z",
+  "privacyModeHelpUrl": "https://go.microsoft.com/fwlink/?linkid=2270980",
+  "stats": {
+    "summary": {
+      "projects": 12,
+      "issues": 5,
+      "incidents": 38,
+      "effort": 38
+    },
+    "charts": {
+      "severity": {
+        "Mandatory": 16,
+        "Optional": 0,
+        "Potential": 22,
+        "Information": 0
+      },
+      "category": {
+        "Project": 12,
+        "NuGet": 13,
+        "Api": 13
+      }
+    }
+  },
+  "projects": [
+    {
+      "path": "src\\Blazor.Diagrams.Algorithms\\Blazor.Diagrams.Algorithms.csproj",
+      "startingProject": true,
+      "issues": 1,
+      "storyPoints": 1,
+      "properties": {
+        "appName": "Blazor.Diagrams.Algorithms",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net10.0",
+          "net9.0",
+          "net8.0",
+          "net7.0",
+          "net6.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 1,
+        "numberOfCodeFiles": 1,
+        "linesTotal": 65,
+        "linesOfCode": 65,
+        "totalApiScanned": 26,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "985ffaf2-293b-44f9-a80b-11fa7160aad6",
+          "ruleId": "Project.0002",
+          "projectPath": "src\\Blazor.Diagrams.Algorithms\\Blazor.Diagrams.Algorithms.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net10.0;net9.0;net8.0;net7.0;net6.0\nRecommended target framework: net10.0;net9.0;net8.0;net7.0;net6.0;net10.0",
+              "protected": "Current target framework: net10.0;net9.0;net8.0;net7.0;net6.0\nRecommended target framework: net10.0;net9.0;net8.0;net7.0;net6.0;net10.0"
+            },
+            "kind": "File",
+            "path": "src\\Blazor.Diagrams.Algorithms\\Blazor.Diagrams.Algorithms.csproj",
+            "snippet": "Current target framework: net10.0;net9.0;net8.0;net7.0;net6.0\nRecommended target framework: net10.0;net9.0;net8.0;net7.0;net6.0;net10.0",
+            "protectedSnippet": "Current target framework: net10.0;net9.0;net8.0;net7.0;net6.0\nRecommended target framework: net10.0;net9.0;net8.0;net7.0;net6.0;net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net10.0;net9.0;net8.0;net7.0;net6.0",
+              "RecommendedTargetFramework": "net10.0;net9.0;net8.0;net7.0;net6.0;net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "src\\Blazor.Diagrams.Core\\Blazor.Diagrams.Core.csproj",
+      "startingProject": true,
+      "issues": 1,
+      "storyPoints": 1,
+      "properties": {
+        "appName": "Blazor.Diagrams.Core",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net10.0",
+          "net9.0",
+          "net8.0",
+          "net7.0",
+          "net6.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 84,
+        "numberOfCodeFiles": 84,
+        "linesTotal": 4578,
+        "linesOfCode": 4578,
+        "totalApiScanned": 4128,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "4b03cf2b-5090-4883-9765-6a98b4e1c696",
+          "ruleId": "Project.0002",
+          "projectPath": "src\\Blazor.Diagrams.Core\\Blazor.Diagrams.Core.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net10.0;net9.0;net8.0;net7.0;net6.0\nRecommended target framework: net10.0;net9.0;net8.0;net7.0;net6.0;net10.0",
+              "protected": "Current target framework: net10.0;net9.0;net8.0;net7.0;net6.0\nRecommended target framework: net10.0;net9.0;net8.0;net7.0;net6.0;net10.0"
+            },
+            "kind": "File",
+            "path": "src\\Blazor.Diagrams.Core\\Blazor.Diagrams.Core.csproj",
+            "snippet": "Current target framework: net10.0;net9.0;net8.0;net7.0;net6.0\nRecommended target framework: net10.0;net9.0;net8.0;net7.0;net6.0;net10.0",
+            "protectedSnippet": "Current target framework: net10.0;net9.0;net8.0;net7.0;net6.0\nRecommended target framework: net10.0;net9.0;net8.0;net7.0;net6.0;net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net10.0;net9.0;net8.0;net7.0;net6.0",
+              "RecommendedTargetFramework": "net10.0;net9.0;net8.0;net7.0;net6.0;net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "tests\\Blazor.Diagrams.Core.Tests\\Blazor.Diagrams.Core.Tests.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 3,
+      "properties": {
+        "appName": "Blazor.Diagrams.Core.Tests",
+        "projectKind": "DotNetCoreApp",
+        "frameworks": [
+          "net10.0",
+          "net9.0",
+          "net8.0",
+          "net7.0",
+          "net6.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 21,
+        "numberOfCodeFiles": 19,
+        "linesTotal": 4337,
+        "linesOfCode": 2562,
+        "totalApiScanned": 1999,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "d61fb3f6-b056-477d-aa6c-c567f8e96ea8",
+          "ruleId": "NuGet.0003",
+          "projectPath": "tests\\Blazor.Diagrams.Core.Tests\\Blazor.Diagrams.Core.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Net.Http, 4.3.4\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+              "protected": "System.Net.Http, 4.3.4\n\nRecommendation:\n\nPackage functionality included with new framework reference"
+            },
+            "kind": "File",
+            "path": "tests\\Blazor.Diagrams.Core.Tests\\Blazor.Diagrams.Core.Tests.csproj",
+            "snippet": "System.Net.Http, 4.3.4\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "protectedSnippet": "System.Net.Http, 4.3.4\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "label": "System.Net.Http 4.3.4",
+            "properties": {
+              "PackageId": "System.Net.Http",
+              "PackageVersion": "4.3.4",
+              "PackageNewVersion": null,
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "df806309-e814-46f5-8739-34936517ee2c",
+          "ruleId": "NuGet.0003",
+          "projectPath": "tests\\Blazor.Diagrams.Core.Tests\\Blazor.Diagrams.Core.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Text.RegularExpressions, 4.3.1\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+              "protected": "System.Text.RegularExpressions, 4.3.1\n\nRecommendation:\n\nPackage functionality included with new framework reference"
+            },
+            "kind": "File",
+            "path": "tests\\Blazor.Diagrams.Core.Tests\\Blazor.Diagrams.Core.Tests.csproj",
+            "snippet": "System.Text.RegularExpressions, 4.3.1\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "protectedSnippet": "System.Text.RegularExpressions, 4.3.1\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "label": "System.Text.RegularExpressions 4.3.1",
+            "properties": {
+              "PackageId": "System.Text.RegularExpressions",
+              "PackageVersion": "4.3.1",
+              "PackageNewVersion": null,
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "d7860892-daca-481f-871d-2001671c4c93",
+          "ruleId": "Project.0002",
+          "projectPath": "tests\\Blazor.Diagrams.Core.Tests\\Blazor.Diagrams.Core.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net10.0;net9.0;net8.0;net7.0;net6.0\nRecommended target framework: net10.0;net9.0;net8.0;net7.0;net6.0;net10.0",
+              "protected": "Current target framework: net10.0;net9.0;net8.0;net7.0;net6.0\nRecommended target framework: net10.0;net9.0;net8.0;net7.0;net6.0;net10.0"
+            },
+            "kind": "File",
+            "path": "tests\\Blazor.Diagrams.Core.Tests\\Blazor.Diagrams.Core.Tests.csproj",
+            "snippet": "Current target framework: net10.0;net9.0;net8.0;net7.0;net6.0\nRecommended target framework: net10.0;net9.0;net8.0;net7.0;net6.0;net10.0",
+            "protectedSnippet": "Current target framework: net10.0;net9.0;net8.0;net7.0;net6.0\nRecommended target framework: net10.0;net9.0;net8.0;net7.0;net6.0;net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net10.0;net9.0;net8.0;net7.0;net6.0",
+              "RecommendedTargetFramework": "net10.0;net9.0;net8.0;net7.0;net6.0;net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "src\\Blazor.Diagrams\\Blazor.Diagrams.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 3,
+      "properties": {
+        "appName": "Blazor.Diagrams",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net10.0",
+          "net9.0",
+          "net8.0",
+          "net7.0",
+          "net6.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 48,
+        "numberOfCodeFiles": 26,
+        "linesTotal": 2312,
+        "linesOfCode": 1625,
+        "totalApiScanned": 2502,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "3a4ff8d1-4309-4658-ad60-164f8da7b446",
+          "ruleId": "NuGet.0002",
+          "projectPath": "src\\Blazor.Diagrams\\Blazor.Diagrams.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Components, 10\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components, and replace with new package Microsoft.AspNetCore.Components 10.0.2",
+              "protected": "Microsoft.AspNetCore.Components, 10\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components, and replace with new package Microsoft.AspNetCore.Components 10.0.2"
+            },
+            "kind": "File",
+            "path": "src\\Blazor.Diagrams\\Blazor.Diagrams.csproj",
+            "snippet": "Microsoft.AspNetCore.Components, 10\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components, and replace with new package Microsoft.AspNetCore.Components 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Components, 10\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components, and replace with new package Microsoft.AspNetCore.Components 10.0.2",
+            "label": "Microsoft.AspNetCore.Components 10",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Components",
+              "PackageVersion": "10",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "d29ac71e-e890-426b-8414-4fa7b097aef5",
+          "ruleId": "NuGet.0002",
+          "projectPath": "src\\Blazor.Diagrams\\Blazor.Diagrams.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Components.Web, 10\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.Web, and replace with new package Microsoft.AspNetCore.Components.Web 10.0.2",
+              "protected": "Microsoft.AspNetCore.Components.Web, 10\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.Web, and replace with new package Microsoft.AspNetCore.Components.Web 10.0.2"
+            },
+            "kind": "File",
+            "path": "src\\Blazor.Diagrams\\Blazor.Diagrams.csproj",
+            "snippet": "Microsoft.AspNetCore.Components.Web, 10\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.Web, and replace with new package Microsoft.AspNetCore.Components.Web 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Components.Web, 10\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.Web, and replace with new package Microsoft.AspNetCore.Components.Web 10.0.2",
+            "label": "Microsoft.AspNetCore.Components.Web 10",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Components.Web",
+              "PackageVersion": "10",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "299c37a6-804b-4b4a-8cf6-c8a4d034f2f7",
+          "ruleId": "Project.0002",
+          "projectPath": "src\\Blazor.Diagrams\\Blazor.Diagrams.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net10.0;net9.0;net8.0;net7.0;net6.0\nRecommended target framework: net10.0;net9.0;net8.0;net7.0;net6.0;net10.0",
+              "protected": "Current target framework: net10.0;net9.0;net8.0;net7.0;net6.0\nRecommended target framework: net10.0;net9.0;net8.0;net7.0;net6.0;net10.0"
+            },
+            "kind": "File",
+            "path": "src\\Blazor.Diagrams\\Blazor.Diagrams.csproj",
+            "snippet": "Current target framework: net10.0;net9.0;net8.0;net7.0;net6.0\nRecommended target framework: net10.0;net9.0;net8.0;net7.0;net6.0;net10.0",
+            "protectedSnippet": "Current target framework: net10.0;net9.0;net8.0;net7.0;net6.0\nRecommended target framework: net10.0;net9.0;net8.0;net7.0;net6.0;net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net10.0;net9.0;net8.0;net7.0;net6.0",
+              "RecommendedTargetFramework": "net10.0;net9.0;net8.0;net7.0;net6.0;net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "tests\\Blazor.Diagrams.Tests\\Blazor.Diagrams.Tests.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 3,
+      "properties": {
+        "appName": "Blazor.Diagrams.Tests",
+        "projectKind": "DotNetCoreApp",
+        "frameworks": [
+          "net10.0",
+          "net9.0",
+          "net8.0",
+          "net7.0",
+          "net6.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 10,
+        "numberOfCodeFiles": 6,
+        "linesTotal": 2133,
+        "linesOfCode": 340,
+        "totalApiScanned": 424,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "8f7a6004-6ccb-4727-a57e-4b66855d8c1d",
+          "ruleId": "NuGet.0003",
+          "projectPath": "tests\\Blazor.Diagrams.Tests\\Blazor.Diagrams.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Net.Http, 4.3.4\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+              "protected": "System.Net.Http, 4.3.4\n\nRecommendation:\n\nPackage functionality included with new framework reference"
+            },
+            "kind": "File",
+            "path": "tests\\Blazor.Diagrams.Tests\\Blazor.Diagrams.Tests.csproj",
+            "snippet": "System.Net.Http, 4.3.4\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "protectedSnippet": "System.Net.Http, 4.3.4\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "label": "System.Net.Http 4.3.4",
+            "properties": {
+              "PackageId": "System.Net.Http",
+              "PackageVersion": "4.3.4",
+              "PackageNewVersion": null,
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "fddd1173-e616-4a0d-b80f-0eb77ee996a3",
+          "ruleId": "NuGet.0003",
+          "projectPath": "tests\\Blazor.Diagrams.Tests\\Blazor.Diagrams.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Text.RegularExpressions, 4.3.1\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+              "protected": "System.Text.RegularExpressions, 4.3.1\n\nRecommendation:\n\nPackage functionality included with new framework reference"
+            },
+            "kind": "File",
+            "path": "tests\\Blazor.Diagrams.Tests\\Blazor.Diagrams.Tests.csproj",
+            "snippet": "System.Text.RegularExpressions, 4.3.1\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "protectedSnippet": "System.Text.RegularExpressions, 4.3.1\n\nRecommendation:\n\nPackage functionality included with new framework reference",
+            "label": "System.Text.RegularExpressions 4.3.1",
+            "properties": {
+              "PackageId": "System.Text.RegularExpressions",
+              "PackageVersion": "4.3.1",
+              "PackageNewVersion": null,
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "73cf4053-5a32-4a53-9c44-348ce5f188e9",
+          "ruleId": "Project.0002",
+          "projectPath": "tests\\Blazor.Diagrams.Tests\\Blazor.Diagrams.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net10.0;net9.0;net8.0;net7.0;net6.0\nRecommended target framework: net10.0;net9.0;net8.0;net7.0;net6.0;net10.0",
+              "protected": "Current target framework: net10.0;net9.0;net8.0;net7.0;net6.0\nRecommended target framework: net10.0;net9.0;net8.0;net7.0;net6.0;net10.0"
+            },
+            "kind": "File",
+            "path": "tests\\Blazor.Diagrams.Tests\\Blazor.Diagrams.Tests.csproj",
+            "snippet": "Current target framework: net10.0;net9.0;net8.0;net7.0;net6.0\nRecommended target framework: net10.0;net9.0;net8.0;net7.0;net6.0;net10.0",
+            "protectedSnippet": "Current target framework: net10.0;net9.0;net8.0;net7.0;net6.0\nRecommended target framework: net10.0;net9.0;net8.0;net7.0;net6.0;net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net10.0;net9.0;net8.0;net7.0;net6.0",
+              "RecommendedTargetFramework": "net10.0;net9.0;net8.0;net7.0;net6.0;net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "docs\\CustomNodesLinks\\CustomNodesLinks.csproj",
+      "startingProject": true,
+      "issues": 3,
+      "storyPoints": 3,
+      "properties": {
+        "appName": "CustomNodesLinks",
+        "projectKind": "AspNetCore",
+        "frameworks": [
+          "net9.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 29,
+        "numberOfCodeFiles": 8,
+        "linesTotal": 2149,
+        "linesOfCode": 230,
+        "totalApiScanned": 747,
+        "minLinesOfCodeToChange": 2,
+        "maxLinesOfCodeToChange": 2
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "2bcb9ae9-3726-4cf1-9c95-6e4acc56963a",
+          "ruleId": "Project.0002",
+          "projectPath": "docs\\CustomNodesLinks\\CustomNodesLinks.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net9.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net9.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "docs\\CustomNodesLinks\\CustomNodesLinks.csproj",
+            "snippet": "Current target framework: net9.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net9.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net9.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        },
+        {
+          "incidentId": "0c5c15d9-3ccc-4e93-b695-23111bde6b89",
+          "ruleId": "Api.0002",
+          "description": "This property is obsolete and configuring it has not effect. ",
+          "projectPath": "docs\\CustomNodesLinks\\CustomNodesLinks.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "__builder.AddComponentParameter(2, nameof(global::Microsoft.AspNetCore.Components.Routing.Router.\r\n#nullable restore\r\n#line (1,49)-(1,67) \u0022C:\\Users\\robin\\source\\repos\\Blazor.Diagrams\\docs\\CustomNodesLinks\\App.razor\u0022\r\nPreferExactMatches\r\n\r\n#line default\r\n#line hidden\r\n#nullable disable\r\n            ), global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck\u003Cglobal::System.Boolean\u003E(\r\n#nullable restore\r\n#line (1,70)-(1,74) \u0022C:\\Users\\robin\\source\\repos\\Blazor.Diagrams\\docs\\CustomNodesLinks\\App.razor\u0022\r\ntrue\r\n\r\n#line default\r\n#line hidden\r\n#nullable disable\r\n            ));",
+              "protected": "P:Microsoft.AspNetCore.Components.Routing.Router.PreferExactMatches"
+            },
+            "kind": "File",
+            "path": "docs\\CustomNodesLinks\\App.razor.KUhUZefqYkTXzKzH.ide.g.cs",
+            "snippet": "__builder.AddComponentParameter(2, nameof(global::Microsoft.AspNetCore.Components.Routing.Router.\r\n#nullable restore\r\n#line (1,49)-(1,67) \u0022C:\\Users\\robin\\source\\repos\\Blazor.Diagrams\\docs\\CustomNodesLinks\\App.razor\u0022\r\nPreferExactMatches\r\n\r\n#line default\r\n#line hidden\r\n#nullable disable\r\n            ), global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck\u003Cglobal::System.Boolean\u003E(\r\n#nullable restore\r\n#line (1,70)-(1,74) \u0022C:\\Users\\robin\\source\\repos\\Blazor.Diagrams\\docs\\CustomNodesLinks\\App.razor\u0022\r\ntrue\r\n\r\n#line default\r\n#line hidden\r\n#nullable disable\r\n            ));",
+            "protectedSnippet": "P:Microsoft.AspNetCore.Components.Routing.Router.PreferExactMatches",
+            "label": "P:Microsoft.AspNetCore.Components.Routing.Router.PreferExactMatches",
+            "line": 98,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "f51d5371-de64-4726-8d29-4e550b07666a",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: Exception diagnostics are suppressed when IExceptionHandler.TryHandleAsync returns true ",
+          "projectPath": "docs\\CustomNodesLinks\\CustomNodesLinks.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "app.UseExceptionHandler(\u0022/Error\u0022);",
+              "protected": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)"
+            },
+            "kind": "File",
+            "path": "docs\\CustomNodesLinks\\Startup.cs",
+            "snippet": "app.UseExceptionHandler(\u0022/Error\u0022);",
+            "protectedSnippet": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)",
+            "label": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/aspnet-core/10/exception-handler-diagnostics-suppressed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 34,
+            "column": 4
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "docs\\Diagram-Demo\\Diagram-Demo.csproj",
+      "startingProject": true,
+      "issues": 3,
+      "storyPoints": 3,
+      "properties": {
+        "appName": "Diagram-Demo",
+        "projectKind": "AspNetCore",
+        "frameworks": [
+          "net9.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 26,
+        "numberOfCodeFiles": 5,
+        "linesTotal": 2083,
+        "linesOfCode": 184,
+        "totalApiScanned": 772,
+        "minLinesOfCodeToChange": 2,
+        "maxLinesOfCodeToChange": 2
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "9b513f6c-56ac-4e9a-b09f-6d9d6d218a21",
+          "ruleId": "Project.0002",
+          "projectPath": "docs\\Diagram-Demo\\Diagram-Demo.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net9.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net9.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "docs\\Diagram-Demo\\Diagram-Demo.csproj",
+            "snippet": "Current target framework: net9.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net9.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net9.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        },
+        {
+          "incidentId": "f13b064d-745f-4962-b811-aa3afa5afb95",
+          "ruleId": "Api.0002",
+          "description": "This property is obsolete and configuring it has not effect. ",
+          "projectPath": "docs\\Diagram-Demo\\Diagram-Demo.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "__builder.AddComponentParameter(2, nameof(global::Microsoft.AspNetCore.Components.Routing.Router.\r\n#nullable restore\r\n#line (1,49)-(1,67) \u0022C:\\Users\\robin\\source\\repos\\Blazor.Diagrams\\docs\\Diagram-Demo\\App.razor\u0022\r\nPreferExactMatches\r\n\r\n#line default\r\n#line hidden\r\n#nullable disable\r\n            ), global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck\u003Cglobal::System.Boolean\u003E(\r\n#nullable restore\r\n#line (1,70)-(1,74) \u0022C:\\Users\\robin\\source\\repos\\Blazor.Diagrams\\docs\\Diagram-Demo\\App.razor\u0022\r\ntrue\r\n\r\n#line default\r\n#line hidden\r\n#nullable disable\r\n            ));",
+              "protected": "P:Microsoft.AspNetCore.Components.Routing.Router.PreferExactMatches"
+            },
+            "kind": "File",
+            "path": "docs\\Diagram-Demo\\App.razor.vqi0RoAtb3OH2l1c.ide.g.cs",
+            "snippet": "__builder.AddComponentParameter(2, nameof(global::Microsoft.AspNetCore.Components.Routing.Router.\r\n#nullable restore\r\n#line (1,49)-(1,67) \u0022C:\\Users\\robin\\source\\repos\\Blazor.Diagrams\\docs\\Diagram-Demo\\App.razor\u0022\r\nPreferExactMatches\r\n\r\n#line default\r\n#line hidden\r\n#nullable disable\r\n            ), global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck\u003Cglobal::System.Boolean\u003E(\r\n#nullable restore\r\n#line (1,70)-(1,74) \u0022C:\\Users\\robin\\source\\repos\\Blazor.Diagrams\\docs\\Diagram-Demo\\App.razor\u0022\r\ntrue\r\n\r\n#line default\r\n#line hidden\r\n#nullable disable\r\n            ));",
+            "protectedSnippet": "P:Microsoft.AspNetCore.Components.Routing.Router.PreferExactMatches",
+            "label": "P:Microsoft.AspNetCore.Components.Routing.Router.PreferExactMatches",
+            "line": 98,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "c5a7f076-5db1-45bf-9834-408e8bfedc81",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: Exception diagnostics are suppressed when IExceptionHandler.TryHandleAsync returns true ",
+          "projectPath": "docs\\Diagram-Demo\\Diagram-Demo.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "app.UseExceptionHandler(\u0022/Error\u0022);",
+              "protected": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)"
+            },
+            "kind": "File",
+            "path": "docs\\Diagram-Demo\\Startup.cs",
+            "snippet": "app.UseExceptionHandler(\u0022/Error\u0022);",
+            "protectedSnippet": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)",
+            "label": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/aspnet-core/10/exception-handler-diagnostics-suppressed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 34,
+            "column": 4
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "docs\\Layouts\\Layouts.csproj",
+      "startingProject": true,
+      "issues": 3,
+      "storyPoints": 3,
+      "properties": {
+        "appName": "Layouts",
+        "projectKind": "AspNetCore",
+        "frameworks": [
+          "net9.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 24,
+        "numberOfCodeFiles": 5,
+        "linesTotal": 2100,
+        "linesOfCode": 187,
+        "totalApiScanned": 838,
+        "minLinesOfCodeToChange": 2,
+        "maxLinesOfCodeToChange": 2
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "8f9f6ee2-dc0c-4564-9dc5-0281c2c163e1",
+          "ruleId": "Project.0002",
+          "projectPath": "docs\\Layouts\\Layouts.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net9.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net9.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "docs\\Layouts\\Layouts.csproj",
+            "snippet": "Current target framework: net9.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net9.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net9.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        },
+        {
+          "incidentId": "34f3e34d-19f6-40d2-9da3-5d5683a66483",
+          "ruleId": "Api.0002",
+          "description": "This property is obsolete and configuring it has not effect. ",
+          "projectPath": "docs\\Layouts\\Layouts.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "__builder.AddComponentParameter(2, nameof(global::Microsoft.AspNetCore.Components.Routing.Router.\r\n#nullable restore\r\n#line (1,49)-(1,67) \u0022C:\\Users\\robin\\source\\repos\\Blazor.Diagrams\\docs\\Layouts\\App.razor\u0022\r\nPreferExactMatches\r\n\r\n#line default\r\n#line hidden\r\n#nullable disable\r\n            ), global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck\u003Cglobal::System.Boolean\u003E(\r\n#nullable restore\r\n#line (1,70)-(1,74) \u0022C:\\Users\\robin\\source\\repos\\Blazor.Diagrams\\docs\\Layouts\\App.razor\u0022\r\ntrue\r\n\r\n#line default\r\n#line hidden\r\n#nullable disable\r\n            ));",
+              "protected": "P:Microsoft.AspNetCore.Components.Routing.Router.PreferExactMatches"
+            },
+            "kind": "File",
+            "path": "docs\\Layouts\\App.razor.9YEctXsdXBtlVPDX.ide.g.cs",
+            "snippet": "__builder.AddComponentParameter(2, nameof(global::Microsoft.AspNetCore.Components.Routing.Router.\r\n#nullable restore\r\n#line (1,49)-(1,67) \u0022C:\\Users\\robin\\source\\repos\\Blazor.Diagrams\\docs\\Layouts\\App.razor\u0022\r\nPreferExactMatches\r\n\r\n#line default\r\n#line hidden\r\n#nullable disable\r\n            ), global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck\u003Cglobal::System.Boolean\u003E(\r\n#nullable restore\r\n#line (1,70)-(1,74) \u0022C:\\Users\\robin\\source\\repos\\Blazor.Diagrams\\docs\\Layouts\\App.razor\u0022\r\ntrue\r\n\r\n#line default\r\n#line hidden\r\n#nullable disable\r\n            ));",
+            "protectedSnippet": "P:Microsoft.AspNetCore.Components.Routing.Router.PreferExactMatches",
+            "label": "P:Microsoft.AspNetCore.Components.Routing.Router.PreferExactMatches",
+            "line": 104,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "61e4d46c-0097-4ca9-901b-2a34f9b1c93e",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: Exception diagnostics are suppressed when IExceptionHandler.TryHandleAsync returns true ",
+          "projectPath": "docs\\Layouts\\Layouts.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "app.UseExceptionHandler(\u0022/Error\u0022);",
+              "protected": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)"
+            },
+            "kind": "File",
+            "path": "docs\\Layouts\\Startup.cs",
+            "snippet": "app.UseExceptionHandler(\u0022/Error\u0022);",
+            "protectedSnippet": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)",
+            "label": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/aspnet-core/10/exception-handler-diagnostics-suppressed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 38,
+            "column": 4
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "samples\\ServerSide\\ServerSide.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 2,
+      "properties": {
+        "appName": "ServerSide",
+        "projectKind": "AspNetCore",
+        "frameworks": [
+          "net9.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 9,
+        "numberOfCodeFiles": 3,
+        "linesTotal": 177,
+        "linesOfCode": 117,
+        "totalApiScanned": 768,
+        "minLinesOfCodeToChange": 1,
+        "maxLinesOfCodeToChange": 1
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "02250dc2-aead-4738-9a10-50cc4ea2662c",
+          "ruleId": "Project.0002",
+          "projectPath": "samples\\ServerSide\\ServerSide.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net9.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net9.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "samples\\ServerSide\\ServerSide.csproj",
+            "snippet": "Current target framework: net9.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net9.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net9.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        },
+        {
+          "incidentId": "b81c1e85-b722-457d-ba0e-a8cea97e6174",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: Exception diagnostics are suppressed when IExceptionHandler.TryHandleAsync returns true ",
+          "projectPath": "samples\\ServerSide\\ServerSide.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "app.UseExceptionHandler(\u0022/Error\u0022);",
+              "protected": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)"
+            },
+            "kind": "File",
+            "path": "samples\\ServerSide\\Startup.cs",
+            "snippet": "app.UseExceptionHandler(\u0022/Error\u0022);",
+            "protectedSnippet": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)",
+            "label": "M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/aspnet-core/10/exception-handler-diagnostics-suppressed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 33,
+            "column": 12
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "samples\\SharedDemo\\SharedDemo.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 3,
+      "properties": {
+        "appName": "SharedDemo",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net9.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 2567,
+        "numberOfCodeFiles": 34,
+        "linesTotal": 207905,
+        "linesOfCode": 1554,
+        "totalApiScanned": 3079,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "0e2c50eb-af2d-4653-9c31-396855d6c003",
+          "ruleId": "NuGet.0002",
+          "projectPath": "samples\\SharedDemo\\SharedDemo.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Components, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components, and replace with new package Microsoft.AspNetCore.Components 10.0.2",
+              "protected": "Microsoft.AspNetCore.Components, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components, and replace with new package Microsoft.AspNetCore.Components 10.0.2"
+            },
+            "kind": "File",
+            "path": "samples\\SharedDemo\\SharedDemo.csproj",
+            "snippet": "Microsoft.AspNetCore.Components, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components, and replace with new package Microsoft.AspNetCore.Components 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Components, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components, and replace with new package Microsoft.AspNetCore.Components 10.0.2",
+            "label": "Microsoft.AspNetCore.Components 9",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Components",
+              "PackageVersion": "9",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "ed2b0912-f97b-4f68-9e43-7aef14a57544",
+          "ruleId": "NuGet.0002",
+          "projectPath": "samples\\SharedDemo\\SharedDemo.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Components.Web, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.Web, and replace with new package Microsoft.AspNetCore.Components.Web 10.0.2",
+              "protected": "Microsoft.AspNetCore.Components.Web, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.Web, and replace with new package Microsoft.AspNetCore.Components.Web 10.0.2"
+            },
+            "kind": "File",
+            "path": "samples\\SharedDemo\\SharedDemo.csproj",
+            "snippet": "Microsoft.AspNetCore.Components.Web, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.Web, and replace with new package Microsoft.AspNetCore.Components.Web 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Components.Web, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.Web, and replace with new package Microsoft.AspNetCore.Components.Web 10.0.2",
+            "label": "Microsoft.AspNetCore.Components.Web 9",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Components.Web",
+              "PackageVersion": "9",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "acfdfaaa-ec76-4281-9cbe-02b1969588d1",
+          "ruleId": "Project.0002",
+          "projectPath": "samples\\SharedDemo\\SharedDemo.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net9.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net9.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "samples\\SharedDemo\\SharedDemo.csproj",
+            "snippet": "Current target framework: net9.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net9.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net9.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "site\\Site\\Site.csproj",
+      "startingProject": true,
+      "issues": 3,
+      "storyPoints": 6,
+      "properties": {
+        "appName": "Site",
+        "projectKind": "AspNetCore",
+        "frameworks": [
+          "net9.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 104,
+        "numberOfCodeFiles": 28,
+        "linesTotal": 11741,
+        "linesOfCode": 921,
+        "totalApiScanned": 5424,
+        "minLinesOfCodeToChange": 3,
+        "maxLinesOfCodeToChange": 3
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "e31653f7-3c1e-4256-a57e-5c9fc6b85a61",
+          "ruleId": "NuGet.0002",
+          "projectPath": "site\\Site\\Site.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Components.WebAssembly, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.WebAssembly, and replace with new package Microsoft.AspNetCore.Components.WebAssembly 10.0.2",
+              "protected": "Microsoft.AspNetCore.Components.WebAssembly, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.WebAssembly, and replace with new package Microsoft.AspNetCore.Components.WebAssembly 10.0.2"
+            },
+            "kind": "File",
+            "path": "site\\Site\\Site.csproj",
+            "snippet": "Microsoft.AspNetCore.Components.WebAssembly, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.WebAssembly, and replace with new package Microsoft.AspNetCore.Components.WebAssembly 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Components.WebAssembly, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.WebAssembly, and replace with new package Microsoft.AspNetCore.Components.WebAssembly 10.0.2",
+            "label": "Microsoft.AspNetCore.Components.WebAssembly 9",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Components.WebAssembly",
+              "PackageVersion": "9",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "860e0f5f-64e2-45af-b3bb-1e5b6983d74e",
+          "ruleId": "NuGet.0002",
+          "projectPath": "site\\Site\\Site.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Components.WebAssembly.DevServer, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.WebAssembly.DevServer, and replace with new package Microsoft.AspNetCore.Components.WebAssembly.DevServer 10.0.2",
+              "protected": "Microsoft.AspNetCore.Components.WebAssembly.DevServer, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.WebAssembly.DevServer, and replace with new package Microsoft.AspNetCore.Components.WebAssembly.DevServer 10.0.2"
+            },
+            "kind": "File",
+            "path": "site\\Site\\Site.csproj",
+            "snippet": "Microsoft.AspNetCore.Components.WebAssembly.DevServer, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.WebAssembly.DevServer, and replace with new package Microsoft.AspNetCore.Components.WebAssembly.DevServer 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Components.WebAssembly.DevServer, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.WebAssembly.DevServer, and replace with new package Microsoft.AspNetCore.Components.WebAssembly.DevServer 10.0.2",
+            "label": "Microsoft.AspNetCore.Components.WebAssembly.DevServer 9",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Components.WebAssembly.DevServer",
+              "PackageVersion": "9",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "0006e9f2-42d3-4d16-b467-ee84080cb9a1",
+          "ruleId": "Project.0002",
+          "projectPath": "site\\Site\\Site.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net9.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net9.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "site\\Site\\Site.csproj",
+            "snippet": "Current target framework: net9.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net9.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net9.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        },
+        {
+          "incidentId": "24eb9d4a-dde3-4d1a-870b-921e9d362a7d",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "site\\Site\\Site.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "builder.Services.AddScoped(sp =\u003E new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });",
+              "protected": "T:System.Uri"
+            },
+            "kind": "File",
+            "path": "site\\Site\\Program.cs",
+            "snippet": "builder.Services.AddScoped(sp =\u003E new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });",
+            "protectedSnippet": "T:System.Uri",
+            "label": "T:System.Uri",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 8,
+            "column": 0
+          }
+        },
+        {
+          "incidentId": "135dfbdd-14af-4856-a099-205a8c7a52e5",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "site\\Site\\Site.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "builder.Services.AddScoped(sp =\u003E new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });",
+              "protected": "M:System.Uri.#ctor(System.String)"
+            },
+            "kind": "File",
+            "path": "site\\Site\\Program.cs",
+            "snippet": "builder.Services.AddScoped(sp =\u003E new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });",
+            "protectedSnippet": "M:System.Uri.#ctor(System.String)",
+            "label": "M:System.Uri.#ctor(System.String)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 8,
+            "column": 0
+          }
+        },
+        {
+          "incidentId": "9bce985b-f233-4608-9d88-188a70ccd3c2",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "site\\Site\\Site.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "builder.Services.AddScoped(sp =\u003E new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });",
+              "protected": "T:System.Uri"
+            },
+            "kind": "File",
+            "path": "site\\Site\\Program.cs",
+            "snippet": "builder.Services.AddScoped(sp =\u003E new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });",
+            "protectedSnippet": "T:System.Uri",
+            "label": "T:System.Uri",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 8,
+            "column": 0
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "samples\\Wasm\\Wasm.csproj",
+      "startingProject": true,
+      "issues": 3,
+      "storyPoints": 7,
+      "properties": {
+        "appName": "Wasm",
+        "projectKind": "AspNetCore",
+        "frameworks": [
+          "net9.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 8,
+        "numberOfCodeFiles": 1,
+        "linesTotal": 2203,
+        "linesOfCode": 22,
+        "totalApiScanned": 96,
+        "minLinesOfCodeToChange": 3,
+        "maxLinesOfCodeToChange": 3
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "ebdfad14-cdaa-4c36-8b74-2cd536c6923e",
+          "ruleId": "NuGet.0002",
+          "projectPath": "samples\\Wasm\\Wasm.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Components.WebAssembly, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.WebAssembly, and replace with new package Microsoft.AspNetCore.Components.WebAssembly 10.0.2",
+              "protected": "Microsoft.AspNetCore.Components.WebAssembly, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.WebAssembly, and replace with new package Microsoft.AspNetCore.Components.WebAssembly 10.0.2"
+            },
+            "kind": "File",
+            "path": "samples\\Wasm\\Wasm.csproj",
+            "snippet": "Microsoft.AspNetCore.Components.WebAssembly, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.WebAssembly, and replace with new package Microsoft.AspNetCore.Components.WebAssembly 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Components.WebAssembly, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.WebAssembly, and replace with new package Microsoft.AspNetCore.Components.WebAssembly 10.0.2",
+            "label": "Microsoft.AspNetCore.Components.WebAssembly 9",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Components.WebAssembly",
+              "PackageVersion": "9",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "fe6021f1-5662-47d8-b8bd-9afbb8ac85b2",
+          "ruleId": "NuGet.0002",
+          "projectPath": "samples\\Wasm\\Wasm.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Components.WebAssembly.DevServer, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.WebAssembly.DevServer, and replace with new package Microsoft.AspNetCore.Components.WebAssembly.DevServer 10.0.2",
+              "protected": "Microsoft.AspNetCore.Components.WebAssembly.DevServer, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.WebAssembly.DevServer, and replace with new package Microsoft.AspNetCore.Components.WebAssembly.DevServer 10.0.2"
+            },
+            "kind": "File",
+            "path": "samples\\Wasm\\Wasm.csproj",
+            "snippet": "Microsoft.AspNetCore.Components.WebAssembly.DevServer, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.WebAssembly.DevServer, and replace with new package Microsoft.AspNetCore.Components.WebAssembly.DevServer 10.0.2",
+            "protectedSnippet": "Microsoft.AspNetCore.Components.WebAssembly.DevServer, 9\n\nRecommendation:\n\nRemove Microsoft.AspNetCore.Components.WebAssembly.DevServer, and replace with new package Microsoft.AspNetCore.Components.WebAssembly.DevServer 10.0.2",
+            "label": "Microsoft.AspNetCore.Components.WebAssembly.DevServer 9",
+            "properties": {
+              "PackageId": "Microsoft.AspNetCore.Components.WebAssembly.DevServer",
+              "PackageVersion": "9",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "5898fe40-83e2-473f-b13c-28ae1fa01af8",
+          "ruleId": "NuGet.0002",
+          "projectPath": "samples\\Wasm\\Wasm.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "System.Net.Http.Json, 9.0.0\n\nRecommendation:\n\nRemove System.Net.Http.Json, and replace with new package System.Net.Http.Json 10.0.2",
+              "protected": "System.Net.Http.Json, 9.0.0\n\nRecommendation:\n\nRemove System.Net.Http.Json, and replace with new package System.Net.Http.Json 10.0.2"
+            },
+            "kind": "File",
+            "path": "samples\\Wasm\\Wasm.csproj",
+            "snippet": "System.Net.Http.Json, 9.0.0\n\nRecommendation:\n\nRemove System.Net.Http.Json, and replace with new package System.Net.Http.Json 10.0.2",
+            "protectedSnippet": "System.Net.Http.Json, 9.0.0\n\nRecommendation:\n\nRemove System.Net.Http.Json, and replace with new package System.Net.Http.Json 10.0.2",
+            "label": "System.Net.Http.Json 9.0.0",
+            "properties": {
+              "PackageId": "System.Net.Http.Json",
+              "PackageVersion": "9.0.0",
+              "PackageNewVersion": "10.0.2",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "806df268-ff39-43aa-8841-e6b671365a08",
+          "ruleId": "Project.0002",
+          "projectPath": "samples\\Wasm\\Wasm.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net9.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net9.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "samples\\Wasm\\Wasm.csproj",
+            "snippet": "Current target framework: net9.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net9.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net9.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        },
+        {
+          "incidentId": "86fda6ed-5099-4d56-8839-eb1bc978f62f",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "samples\\Wasm\\Wasm.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "builder.Services.AddTransient(sp =\u003E new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });",
+              "protected": "T:System.Uri"
+            },
+            "kind": "File",
+            "path": "samples\\Wasm\\Program.cs",
+            "snippet": "builder.Services.AddTransient(sp =\u003E new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });",
+            "protectedSnippet": "T:System.Uri",
+            "label": "T:System.Uri",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 17,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "867b2044-52cc-44b0-a7a4-a4930903287d",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "samples\\Wasm\\Wasm.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "builder.Services.AddTransient(sp =\u003E new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });",
+              "protected": "M:System.Uri.#ctor(System.String)"
+            },
+            "kind": "File",
+            "path": "samples\\Wasm\\Program.cs",
+            "snippet": "builder.Services.AddTransient(sp =\u003E new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });",
+            "protectedSnippet": "M:System.Uri.#ctor(System.String)",
+            "label": "M:System.Uri.#ctor(System.String)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 17,
+            "column": 8
+          }
+        },
+        {
+          "incidentId": "c08556be-dcc2-4950-897d-0c34cddd6a90",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: URI length limits removed ",
+          "projectPath": "samples\\Wasm\\Wasm.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "builder.Services.AddTransient(sp =\u003E new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });",
+              "protected": "T:System.Uri"
+            },
+            "kind": "File",
+            "path": "samples\\Wasm\\Program.cs",
+            "snippet": "builder.Services.AddTransient(sp =\u003E new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });",
+            "protectedSnippet": "T:System.Uri",
+            "label": "T:System.Uri",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/networking/10.0/uri-length-limits-removed.md",
+                "isCustom": false
+              }
+            ],
+            "line": 17,
+            "column": 8
+          }
+        }
+      ],
+      "features": []
+    }
+  ],
+  "rules": {
+    "Project.0002": {
+      "id": "Project.0002",
+      "isFeature": false,
+      "description": "Project\u0027s target framework(s) needs to be changed to the new target framework that you selected for this upgrade.\n\nDuring upgrade target framework will be adjusted to corresponding platform when applicable. In some cases project would result in multiple target frameworks after the upgrade if it was using features that now have their own platforms in modern .NET frameworks (windows, iOS, Android etc).",
+      "label": "Project\u0027s target framework(s) needs to be changed",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Overview of porting from .NET Framework to .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265227",
+          "isCustom": false
+        },
+        {
+          "title": ".NET project SDKs",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265226",
+          "isCustom": false
+        }
+      ]
+    },
+    "NuGet.0002": {
+      "id": "NuGet.0002",
+      "isFeature": false,
+      "description": "NuGet package upgrade is recommended for selected target framework.\n\nStandard .NET packages are recommended to have versions matching version of .NET that project targets.\n\nSome other packages also are known to work better for selected target frameworks.",
+      "label": "NuGet package upgrade is recommended",
+      "severity": "Potential",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262530",
+          "isCustom": false
+        }
+      ]
+    },
+    "NuGet.0003": {
+      "id": "NuGet.0003",
+      "isFeature": false,
+      "description": "NuGet package functionality is included with framework reference.\n\nPackage needs to be removed.",
+      "label": "NuGet package functionality is included with framework reference",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262609",
+          "isCustom": false
+        }
+      ]
+    },
+    "Api.0002": {
+      "id": "Api.0002",
+      "isFeature": false,
+      "description": "API is source incompatible for selected .NET version: requires code changes to compile successfully when targeting a new version, such as removing obsolete APIs or changing method signatures.",
+      "label": "Source incompatible for selected .NET version",
+      "severity": "Potential",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Breaking changes in .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262679",
+          "isCustom": false
+        }
+      ]
+    },
+    "Api.0003": {
+      "id": "Api.0003",
+      "isFeature": false,
+      "description": "API has a behavioral change in selected .NET version: code and binaries may behave differently at runtime without needing recompilation, but the new behavior might be undesirable and require updates.",
+      "label": "Behavioral change in selected .NET version",
+      "severity": "Potential",
+      "effort": 1
+    }
+  }
+}
