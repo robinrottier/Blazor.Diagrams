@@ -131,3 +131,21 @@ Status: Complete
 
 Success - All behavioral changes verified and acceptable
 
+
+## [2026-02-05 16:52] TASK-008: Commit all changes to upgrade branch
+
+Status: Complete
+
+- **Commit**: dc093e3 (dotnet10-upgrade branch)
+- **Files Modified**: 13 total
+  - Directory.Packages.props (package versions)
+  - docs/Directory.Build.props (TargetFramework net9.0 → net10.0)
+  - samples/Directory.Build.props (TargetFramework net9.0 → net10.0)
+  - site/Site/Site.csproj (TargetFramework net9.0 → net10.0)
+  - 3 App.razor files (Router.PreferExactMatches removed)
+  - 6 Documentation files (assessment, plan, tasks, execution-log)
+
+- **Commit Message**: "upgrade: migrate to .NET 10 (all-at-once)"
+
+Success - All changes committed to dotnet10-upgrade branch, ready for PR and merge
+
