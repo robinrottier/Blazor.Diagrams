@@ -45,6 +45,7 @@ public static class JSRuntimeExtensions
                    ex is ObjectDisposedException 
                 || ex is InvalidOperationException 
                 || ex is JSDisconnectedException
+                || ex is TaskCanceledException
             )
         {
             // This can happens alot in some "normal" operations,
