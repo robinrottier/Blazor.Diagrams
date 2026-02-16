@@ -51,9 +51,5 @@ public static class JSRuntimeExtensions
             // This can happens alot in some "normal" operations,
             // System.Diagnostics.Debug.WriteLine($"Ignore {ex.GetType().FullName} from JSRuntime.{identifier}");
         }
-        catch (TaskCanceledException)
-        {
-            // Ignore, Task was canceled
-        }
     }
 }
