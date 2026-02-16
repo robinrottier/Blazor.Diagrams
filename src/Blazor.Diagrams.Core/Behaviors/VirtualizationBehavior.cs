@@ -1,3 +1,4 @@
+using Blazor.Diagrams.Core.Behaviors.Base;
 using Blazor.Diagrams.Core.Models.Base;
 
 namespace Blazor.Diagrams.Core.Behaviors;
@@ -9,6 +10,11 @@ public class VirtualizationBehavior : Behavior
         Diagram.ZoomChanged += CheckVisibility;
         Diagram.PanChanged += CheckVisibility;
         Diagram.ContainerChanged += CheckVisibility;
+    }
+
+    private void CheckVisibility(double deltaX, double deltaY)
+    {
+        CheckVisibility();
     }
 
     private void CheckVisibility()

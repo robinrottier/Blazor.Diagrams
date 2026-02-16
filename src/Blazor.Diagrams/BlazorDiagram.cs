@@ -10,7 +10,7 @@ public class BlazorDiagram : Diagram
 {
     private readonly Dictionary<Type, Type> _componentsMapping;
 
-    public BlazorDiagram(BlazorDiagramOptions? options = null, bool registerDefaultBehaviors = true) : base(registerDefaultBehaviors)
+    public BlazorDiagram(BlazorDiagramOptions? options = null)
     {
         _componentsMapping = new Dictionary<Type, Type>
         {

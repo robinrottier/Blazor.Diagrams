@@ -1,22 +1,18 @@
-﻿using Blazor.Diagrams.Core.Events;
-
+﻿using Blazor.Diagrams.Core.Behaviors.Base;
+using Blazor.Diagrams.Core.Events;
 using System;
 
 namespace Blazor.Diagrams.Core.Behaviors;
 
-public class ZoomBehavior : Behavior
+public class ZoomBehavior : WheelBehavior
 {
     public ZoomBehavior(Diagram diagram) : base(diagram)
     {
-        Diagram.Wheel += Diagram_Wheel;
     }
 
-    private void Diagram_Wheel(WheelEventArgs e)
+    protected override void OnDiagramWheel(WheelEventArgs e)
     {
-        if (Diagram.Container == null || e.DeltaY == 0)
-            return;
-
-        if (!Diagram.Options.Zoom.Enabled)
+        if (Diagram.Container == null || e.DeltaY == 0 || !Diagram.Options.Zoom.Enabled || !IsBehaviorEnabled(e))
             return;
 
         var scale = Diagram.Options.Zoom.ScaleFactor;
@@ -46,10 +42,5 @@ public class ZoomBehavior : Behavior
             Diagram.SetPan(newPanX, newPanY);
             Diagram.SetZoom(newZoom);
         });
-    }
-
-    public override void Dispose()
-    {
-        Diagram.Wheel -= Diagram_Wheel;
     }
 }

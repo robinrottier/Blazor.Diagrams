@@ -18,6 +18,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Behavior.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\..\ZBD.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
