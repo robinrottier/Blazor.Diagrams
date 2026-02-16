@@ -1,4 +1,5 @@
 ﻿using Blazor.Diagrams.Core.Behaviors;
+using Blazor.Diagrams.Core.Behaviors.Base;
 using Blazor.Diagrams.Core.Extensions;
 using Blazor.Diagrams.Core.Geometry;
 using Blazor.Diagrams.Core.Layers;
@@ -30,13 +31,13 @@ public abstract class Diagram
     public event Action<Model?, PointerEventArgs>? PointerDoubleClick;
 
     public event Action<SelectableModel>? SelectionChanged;
-    public event Action? PanChanged;
+    public event Action<double, double>? PanChanged;
     public event Action? ZoomChanged;
     public event Action? ContainerChanged;
     public event Action? Changed;
 
-    protected Diagram(bool registerDefaultBehaviors = true)
-    {
+    protected Diagram()
+    { 
         _behaviors = new Dictionary<Type, Behavior>();
         _orderedSelectables = new List<SelectableModel>();
 
@@ -44,6 +45,7 @@ public abstract class Diagram
         Links = new LinkLayer(this);
         Groups = new GroupLayer(this);
         Controls = new ControlsLayer();
+        BehaviorOptions = new DiagramBehaviorOptions();
 
         Nodes.Added += OnSelectableAdded;
         Links.Added += OnSelectableAdded;
@@ -53,21 +55,15 @@ public abstract class Diagram
         Links.Removed += OnSelectableRemoved;
         Groups.Removed += OnSelectableRemoved;
 
-        if (!registerDefaultBehaviors)
-            return;
+        RegisterDefaultBehaviors();
 
-        RegisterBehavior(new SelectionBehavior(this));
-        RegisterBehavior(new DragMovablesBehavior(this));
-        RegisterBehavior(new DragNewLinkBehavior(this));
-        RegisterBehavior(new PanBehavior(this));
-        RegisterBehavior(new ZoomBehavior(this));
-        RegisterBehavior(new EventsBehavior(this));
-        RegisterBehavior(new KeyboardShortcutsBehavior(this));
-        RegisterBehavior(new ControlsBehavior(this));
-        RegisterBehavior(new VirtualizationBehavior(this));
+        BehaviorOptions.DiagramDragBehavior ??= GetBehavior<PanBehavior>();
+        BehaviorOptions.DiagramShiftDragBehavior ??= GetBehavior<SelectionBoxBehavior>();
+        BehaviorOptions.DiagramWheelBehavior ??= GetBehavior<ZoomBehavior>();
     }
 
     public abstract DiagramOptions Options { get; }
+    public DiagramBehaviorOptions BehaviorOptions { get; }
     public NodeLayer Nodes { get; }
     public LinkLayer Links { get; }
     public GroupLayer Groups { get; }
@@ -169,7 +165,20 @@ public abstract class Diagram
     #endregion
 
     #region Behaviors
-
+    void RegisterDefaultBehaviors()
+    {
+        RegisterBehavior(new SelectionBehavior(this));
+        RegisterBehavior(new DragMovablesBehavior(this));
+        RegisterBehavior(new DragNewLinkBehavior(this));
+        RegisterBehavior(new PanBehavior(this));
+        RegisterBehavior(new ZoomBehavior(this));
+        RegisterBehavior(new EventsBehavior(this));
+        RegisterBehavior(new KeyboardShortcutsBehavior(this));
+        RegisterBehavior(new ControlsBehavior(this));
+        RegisterBehavior(new VirtualizationBehavior(this));
+        RegisterBehavior(new ScrollBehavior(this));
+        RegisterBehavior(new SelectionBoxBehavior(this));
+    }
     public void RegisterBehavior(Behavior behavior)
     {
         var type = behavior.GetType();
@@ -226,15 +235,18 @@ public abstract class Diagram
 
     public void SetPan(double x, double y)
     {
+        var oldPanX = Pan.X;
+        var oldPanY = Pan.Y;
+
         Pan = new Point(x, y);
-        PanChanged?.Invoke();
+        PanChanged?.Invoke(oldPanX - Pan.X, oldPanY - Pan.Y);
         Refresh();
     }
 
     public void UpdatePan(double deltaX, double deltaY)
     {
         Pan = Pan.Add(deltaX, deltaY);
-        PanChanged?.Invoke();
+        PanChanged?.Invoke(-deltaX, -deltaY);
         Refresh();
     }
 
@@ -253,7 +265,7 @@ public abstract class Diagram
 
     public void SetContainer(Rectangle newRect)
     {
-        if (newRect.Equals(Container))
+        if (Equals(newRect, Container))
             return;
 
         Container = newRect;
