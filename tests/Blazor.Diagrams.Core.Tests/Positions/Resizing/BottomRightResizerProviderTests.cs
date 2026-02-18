@@ -168,4 +168,37 @@ public class BottomRightResizerProviderTests
         Assert.Equal(105,node.Size.Width);
         Assert.Equal(207.5,node.Size.Height);
     }
+
+    [Fact]
+    public void DragResizer_ShouldResizeNodeWithSnapToGrid()
+    {
+        // setup
+        var diagram = new TestDiagram();
+        diagram.SetContainer(new Rectangle(0, 0, 1000, 400));
+        var node = new NodeModel(position: new Point(0, 0));
+        node.Size = new Size(100, 200);
+        var control = new ResizeControl(new BottomRightResizerProvider());
+        diagram.Controls.AddFor(node).Add(control);
+        diagram.SelectModel(node, false);
+        diagram.Options.GridSize = 10;
+
+        // before resize
+        Assert.Equal(0, node.Position.X);
+        Assert.Equal(0, node.Position.Y);
+        Assert.Equal(100, node.Size.Width);
+        Assert.Equal(200, node.Size.Height);
+
+        // resize
+        var eventArgs = new PointerEventArgs(0, 0, 0, 0, false, false, false, 1, 1, 1, 1, 1, 1, "arrow", true);
+        control.OnPointerDown(diagram, node, eventArgs);
+        eventArgs = new PointerEventArgs(10, 15, 0, 0, false, false, false, 1, 1, 1, 1, 1, 1, "arrow", true);
+        diagram.TriggerPointerMove(null, eventArgs);
+
+        // after resize
+        Assert.Equal(0, node.Position.X);
+        Assert.Equal(0, node.Position.Y);
+        Assert.Equal(110, node.Size.Width);
+        Assert.Equal(210, node.Size.Height); // snapped to grid, so height should be 210 instead of 215
+    }
+
 }

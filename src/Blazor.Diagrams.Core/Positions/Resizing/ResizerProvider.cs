@@ -35,6 +35,9 @@ namespace Blazor.Diagrams.Core.Positions.Resizing
             var width = OriginalSize!.Width + (ShouldAddTotalMovedX ? _totalMovedX : -_totalMovedX) / Diagram!.Zoom;
             var height = OriginalSize.Height + (ShouldAddTotalMovedY ? _totalMovedY : -_totalMovedY) / Diagram!.Zoom;
 
+            width = ApplyGridSize(width);
+            height = ApplyGridSize(height);
+
             var positionX = OriginalPosition!.X + (ShouldChangeXPositionOnResize ? _totalMovedX : 0) / Diagram!.Zoom;
             var positionY = OriginalPosition.Y + (ShouldChangeYPositionOnResize ? _totalMovedY : 0) / Diagram!.Zoom;
 
@@ -115,6 +118,18 @@ namespace Blazor.Diagrams.Core.Positions.Resizing
             LastClientX = null;
             LastClientY = null;
             Diagram = null;
+        }
+
+        // ApplyGridSize copied from DragMovablesBehavior
+        // - except draging snapped to nearest grid by adding half grid size before div, 
+        // - here we'll just div this position by the grid size so its always lower snap point
+        private double ApplyGridSize(double n)
+        {
+            if (Diagram?.Options.GridSize == null)
+                return n;
+
+            var gridSize = Diagram.Options.GridSize.Value;
+            return Math.Floor(n/gridSize) * gridSize;
         }
     }
 }

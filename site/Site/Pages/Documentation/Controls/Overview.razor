@@ -233,5 +233,7 @@ Diagram.Controls.AddFor(SomeModel).Add(new ResizeControl(new TopLeftResizerProvi
 		_resizerDiagram.Controls.AddFor(resizeNode2, ControlsType.OnSelection).Add(new ResizeControl(new BottomRightResizerProvider()));
 		_resizerDiagram.SelectModel(resizeNode1, false);
 		_resizerDiagram.SelectModel(resizeNode2, false);
+
+		_resizerDiagram.Options.GridSize = 10;
 	}
 }
