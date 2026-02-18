@@ -171,4 +171,69 @@ public class BottomLeftResizerProviderTests
         Assert.Equal(95, node.Size.Width);
         Assert.Equal(207.5, node.Size.Height);
     }
+
+    [Fact]
+    public void DragResizer_ShouldResizeNode_WhenSnapToGrid()
+    {
+        // setup
+        var diagram = new TestDiagram();
+        diagram.SetContainer(new Rectangle(0, 0, 1000, 400));
+        var node = new NodeModel(position: new Point(0, 0));
+        node.Size = new Size(100, 200);
+        var control = new ResizeControl(new BottomLeftResizerProvider());
+        diagram.Controls.AddFor(node).Add(control);
+        diagram.SelectModel(node, false);
+        diagram.Options.GridSize = 10;
+
+        // before resize
+        Assert.Equal(0, node.Position.X);
+        Assert.Equal(0, node.Position.Y);
+        Assert.Equal(100, node.Size.Width);
+        Assert.Equal(200, node.Size.Height);
+
+        // resize 10,15 ...15 gets truncated
+        var eventArgs = new PointerEventArgs(0, 0, 0, 0, false, false, false, 1, 1, 1, 1, 1, 1, "arrow", true);
+        control.OnPointerDown(diagram, node, eventArgs);
+        eventArgs = new PointerEventArgs(10, 15, 0, 0, false, false, false, 1, 1, 1, 1, 1, 1, "arrow", true);
+        diagram.TriggerPointerMove(null, eventArgs);
+
+        // after resize
+        Assert.Equal(10, node.Position.X);
+        Assert.Equal(0, node.Position.Y);
+        Assert.Equal(90, node.Size.Width);
+        // the moved height would be 215 (i.e. 200+15) BUT snapping to 10 
+        Assert.Equal(210, node.Size.Height);
+    }
+        [Fact]
+        public void DragResizer_ShouldResizeNode_WhenSnapToGridHit()
+        {
+            // setup
+            var diagram = new TestDiagram();
+            diagram.SetContainer(new Rectangle(0, 0, 1000, 400));
+            var node = new NodeModel(position: new Point(0, 0));
+            node.Size = new Size(100, 200);
+            var control = new ResizeControl(new BottomLeftResizerProvider());
+            diagram.Controls.AddFor(node).Add(control);
+            diagram.SelectModel(node, false);
+            diagram.Options.GridSize = 10;
+
+            // before resize
+            Assert.Equal(0, node.Position.X);
+            Assert.Equal(0, node.Position.Y);
+            Assert.Equal(100, node.Size.Width);
+            Assert.Equal(200, node.Size.Height);
+
+        // resize 10,20 ...not truncated
+        var eventArgs = new PointerEventArgs(0, 0, 0, 0, false, false, false, 1, 1, 1, 1, 1, 1, "arrow", true);
+        control.OnPointerDown(diagram, node, eventArgs);
+        eventArgs = new PointerEventArgs(10, 20, 0, 0, false, false, false, 1, 1, 1, 1, 1, 1, "arrow", true);
+        diagram.TriggerPointerMove(null, eventArgs);
+
+        // after more resize
+        Assert.Equal(10, node.Position.X);
+        Assert.Equal(0, node.Position.Y);
+        Assert.Equal(90, node.Size.Width);
+        // the moved height is now 230 (ie. 210+20) which snap exactly
+        Assert.Equal(220, node.Size.Height);
+    }
 }
