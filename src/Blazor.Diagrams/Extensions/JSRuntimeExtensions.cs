@@ -6,9 +6,21 @@ namespace Blazor.Diagrams.Extensions;
 
 public static class JSRuntimeExtensions
 {
-    public static async Task<Rectangle> GetBoundingClientRect(this IJSRuntime jsRuntime, ElementReference element)
+    public static async Task<Rectangle?> GetBoundingClientRect(this IJSRuntime jsRuntime, ElementReference element)
     {
-        return await jsRuntime.InvokeAsync<Rectangle>("ZBlazorDiagrams.getBoundingClientRect", element);
+        try
+        {
+            return await jsRuntime.InvokeAsync<Rectangle>("ZBlazorDiagrams.getBoundingClientRect", element);
+        }
+        catch (Exception ex) when (
+                   ex is ObjectDisposedException
+                || ex is InvalidOperationException
+                || ex is JSDisconnectedException
+                || ex is TaskCanceledException
+            )
+        {
+            return null;
+        }
     }
 
     public static async Task ObserveResizes<T>(this IJSRuntime jsRuntime, ElementReference element,

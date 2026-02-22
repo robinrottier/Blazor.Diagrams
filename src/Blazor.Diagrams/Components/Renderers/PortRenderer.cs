@@ -132,6 +132,11 @@ public class PortRenderer : ComponentBase, IDisposable
         var zoom = BlazorDiagram.Zoom;
         var pan = BlazorDiagram.Pan;
         var rect = await JSRuntime.GetBoundingClientRect(_element);
+        if (rect == null)//exception in JSRuntime caught there
+        {
+            _updatingDimensions = false;
+            return;
+        }
 
         Port.Size = new Size(rect.Width / zoom, rect.Height / zoom);
         Port.Position = new Point((rect.Left - BlazorDiagram.Container.Left - pan.X) / zoom,

@@ -70,7 +70,11 @@ public partial class DiagramCanvas : IAsyncDisposable
 
             if (firstRender)
             {
-                BlazorDiagram.SetContainer(await JSRuntime.GetBoundingClientRect(elementReference));
+                var rect = await JSRuntime.GetBoundingClientRect(elementReference);
+                // GetBoundingClientRect catches more exceptions and returns zero rectanlgle, ignore it
+                if (rect == null)
+                    return;
+                BlazorDiagram.SetContainer(rect);
                 await JSRuntime.ObserveResizes(elementReference, _reference!);
             }
         }
@@ -78,6 +82,7 @@ public partial class DiagramCanvas : IAsyncDisposable
         {
             // This exception is expected when the user navigates away from the page
             // and the component is disposed. It can be ignored
+            // - shouldnt get these now as GetBoundingClientRect is catches them first
         }
     }
 
