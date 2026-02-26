@@ -1,0 +1,149 @@
+﻿@page "/documentation/links-animation"
+@using Blazor.Diagrams.Core.PathGenerators;
+@using Blazor.Diagrams.Core.Routers;
+@layout DocumentationLayout
+@inherits DocumentationPage
+
+<PageTitle>Link Animation - Documentation - Blazor Diagrams</PageTitle>
+
+<h1>Link Animation</h1>
+
+<p>
+    Add an <code>AnimateModel</code> object to the Link and it will generate an Animate child element to
+    add an animation to the link display.
+    Combine with the <code>DashPatten</code> property to initiailize the dash sizing, and use attribute name of <code>stroke-dashoffset</code> in the animation
+    to shift it
+</p>
+
+<h2>Usage</h2>
+
+<pre @key="_codeKey"><code class="language-cs">
+        link.DashPattern = "@(_dashSize),@(_dashSize)";
+        link.AddAnimation(new AnimateModel()
+            {
+                AttributeName = "stroke-dashoffset",
+                From = "0",
+                To = "@(_dashSize * _aniFactor)",
+                Duration = "@(_duration)s",
+                RepeatCount = "indefinite"
+            });
+</code></pre>
+
+<div class="diagram-container" style="width: 100%; height: 200px;">
+    <CascadingValue Value="_sampleDiagram" IsFixed="true">
+        <DiagramCanvas></DiagramCanvas>
+    </CascadingValue>
+</div>
+
+<div style="display: flex; align-items: center; gap: 10px; margin: 20px 0;">
+    <span>Animation:</span>
+    <button @onclick="ReverseAnimation" class="control-button">Reverse</button>
+    <button @onclick="FasterAnimation" class="control-button" disabled="@(_duration <= 0.2)">Faster</button>
+    <button @onclick="SlowerAnimation" class="control-button" disabled="@(_duration >= 5.0)">Slower</button>
+    <span>Dash size:</span>
+    <button @onclick="IncreaseDashSize" class="control-button" disabled="@(_dashSize >= 25)">Increase</button>
+    <button @onclick="DecreaseDashSize" class="control-button" disabled="@(_dashSize <= 2)">Decrease</button>
+</div>
+
+<NavigationButtons PreviousTitle="Vertices"
+                   PreviousLink="/documentation/links-vertices"
+/>
+
+
+@code {
+    private BlazorDiagram _sampleDiagram = new();
+    private AnimateModel? _animation;
+    private LinkModel? _link;
+    private int _dashSize = 5;
+    private int _aniFactor = 2;
+    private double _duration = 1.0;
+    private int _codeKey = 0;
+
+    protected override void OnInitialized()
+    {
+        _sampleDiagram.Options.Zoom.Enabled = false;
+
+        // Sample
+        var node1 = _sampleDiagram.Nodes.Add(new NodeModel(new Point(100, 40)));
+        var node2 = _sampleDiagram.Nodes.Add(new NodeModel(new Point(400, 90)));
+        _link = _sampleDiagram.Links.Add(new LinkModel(node1, node2)
+        {
+            PathGenerator = new StraightPathGenerator()
+        });
+
+        _link.SourceMarker = LinkMarker.Arrow;
+        _link.TargetMarker = LinkMarker.Square;
+
+        UpdateDashPattern();
+    }
+
+    private void UpdateDashPattern()
+    {
+        if (_link == null) return;
+
+        _link.DashPattern = $"{_dashSize},{_dashSize}";
+
+        if (_animation == null)
+        {
+            _animation = new AnimateModel()
+            {
+                AttributeName = "stroke-dashoffset",
+                From = "0",
+                To = (_dashSize * _aniFactor).ToString(),
+                Duration = $"{_duration}s",
+                RepeatCount = "indefinite"
+            };
+            _link.AddAnimation(_animation);
+        }
+        else
+        {
+            _animation.To = (_dashSize * _aniFactor).ToString();
+            _animation.Duration = $"{_duration}s";
+        }
+
+        _link.Refresh();
+        _codeKey++;
+    }
+
+    private void ReverseAnimation()
+    {
+        _aniFactor = -_aniFactor;
+        UpdateDashPattern();
+    }
+
+    private void FasterAnimation()
+    {
+        if (_duration > 0.2)
+        {
+            _duration = Math.Round(_duration - 0.2, 1);
+            UpdateDashPattern();
+        }
+    }
+
+    private void SlowerAnimation()
+    {
+        if (_duration < 5.0)
+        {
+            _duration = Math.Round(_duration + 0.2, 1);
+            UpdateDashPattern();
+        }
+    }
+
+    private void IncreaseDashSize()
+    {
+        if (_dashSize < 25)
+        {
+            _dashSize++;
+            UpdateDashPattern();
+        }
+    }
+
+    private void DecreaseDashSize()
+    {
+        if (_dashSize > 2)
+        {
+            _dashSize--;
+            UpdateDashPattern();
+        }
+    }
+}

@@ -30,4 +30,22 @@ public class LinkModel : BaseLinkModel
     /// </summary>
     public string? DashPattern { get; set; }
     public double Width { get; set; } = 2;
+
+    /// <summary>
+    /// Collection of Animation elements to add to this path.
+    /// Each element will be converted to an SVG <animate> element and added as a child of the path element.
+    /// </summary>
+    public List<AnimateModel>? Animations { get; private set; }
+
+    public void AddAnimation(AnimateModel animation)
+    {
+        Animations ??= new List<AnimateModel>();
+        Animations.Add(animation);
+    }
+
+    public void RemoveAnimation(AnimateModel animation)
+    {
+        Animations?.Remove(animation);
+    }
+
 }

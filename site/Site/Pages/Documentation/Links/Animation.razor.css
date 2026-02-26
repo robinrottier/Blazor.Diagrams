@@ -1,0 +1,23 @@
+﻿.diagram-container {
+    border: 1px solid black;
+    caret-color: transparent;
+}
+
+.control-button {
+    background-color: lightblue;
+    color: darkblue;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 2px 2px;
+}
+
+.control-button:hover {
+    background-color: #0056b3;
+}
+
+.control-button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
