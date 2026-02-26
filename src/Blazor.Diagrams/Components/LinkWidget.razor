@@ -20,7 +20,23 @@
       stroke-width="@Link.Width.ToInvariantString()"
       fill="none"
       stroke="@color" 
-      @attributes="extraPathAttributes"/>
+      @attributes="extraPathAttributes">
+    @if (Link.Animations != null)
+        {
+        @foreach (var animation in Link.Animations)
+        {
+            if (animation.AttributeName != null)
+            {
+                <animate attributeName="@animation.AttributeName" 
+                from="@animation.From"
+                to="@animation.To"
+                dur="@animation.Duration"
+                repeatCount="@(animation.RepeatCount ?? "indefinite")"
+                />
+            }
+        }
+    }
+  </path>
 
 @if (dnlb?.OngoingLink == null || dnlb.OngoingLink != Link)
 {

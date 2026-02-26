@@ -45,6 +45,7 @@ public static class Documentation
             new MenuItem("Path Generators", "/documentation/links-path-generators"),
             new MenuItem("Markers", "/documentation/links-markers"),
             new MenuItem("Vertices", "/documentation/links-vertices"),
+            new MenuItem("Animation", "/documentation/links-animation"),
         }, Icon: Icons.Link),
         new MenuGroup("Groups", new List<MenuItem>
         {
