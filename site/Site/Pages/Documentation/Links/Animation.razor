@@ -55,7 +55,7 @@
     private AnimateModel? _animation;
     private LinkModel? _link;
     private int _dashSize = 5;
-    private int _aniFactor = 2;
+    private int _aniFactor = -2;
     private double _duration = 1.0;
     private int _codeKey = 0;
 
@@ -71,8 +71,8 @@
             PathGenerator = new StraightPathGenerator()
         });
 
-        _link.SourceMarker = LinkMarker.Arrow;
-        _link.TargetMarker = LinkMarker.Square;
+        _link.SourceMarker = LinkMarker.Square;
+        _link.TargetMarker = LinkMarker.Arrow;
 
         UpdateDashPattern();
     }
