@@ -14,7 +14,7 @@ jobs:
 
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9'
+          dotnet-version: '10'
   
       - name: Pack Blazor.Diagrams.Core
         working-directory: src/Blazor.Diagrams.Core
