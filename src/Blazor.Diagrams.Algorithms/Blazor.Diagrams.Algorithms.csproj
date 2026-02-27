@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Algorithms for RR.Blazor.Diagrams</Description>
+    <Description>Algorithms for Blazor.Diagrams</Description>
     <PackageTags>blazor diagrams diagramming svg drag algorithms layouts</PackageTags>
   </PropertyGroup>
 
