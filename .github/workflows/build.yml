@@ -1,12 +1,13 @@
-name: Build
+name: Build, Test, Analyze on SonarCloud
+
 on:
   push:
     branches:
       - master
       - develop
-      - 3.0.0
   pull_request:
     types: [opened, synchronize, reopened]
+
 jobs:
   build:
     name: Build
@@ -22,32 +23,25 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
-            6
-            7
+            8
             9
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v4
-        with:
-          path: ~\sonar\cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: Cache SonarCloud scanner
-        id: cache-sonar-scanner
-        uses: actions/cache@v4
-        with:
-          path: .\.sonar\scanner
-          key: ${{ runner.os }}-sonar-scanner
-          restore-keys: ${{ runner.os }}-sonar-scanner
-      - name: Install SonarCloud scanner
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        run: |
-          dotnet tool install --global dotnet-sonarscanner
-      - name: Build and analyze
+            10
+
+      # Build + test + coverage first
+      - name: Build
+        run: dotnet build
+
+      - name: Test (with coverage)
+        run: dotnet test --no-build --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
+
+      # Then scan via the action
+      - name: SonarQube/SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v6
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          dotnet-sonarscanner begin /k:"Blazor-Diagrams_Blazor.Diagrams" /o:"blazor-diagrams" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**\TestResults\*\*.xml" /d:sonar.exclusions="**/wwwroot/**"
-          dotnet build
-          dotnet test --no-build --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
-          dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          SONAR_HOST_URL: https://sonarcloud.io
+        with:
+          args: >
+            "-Dsonar.projectKey=robinrottier_Blazor.Diagrams"
+            "-Dsonar.organization=robinrottier"
+            "-Dsonar.cs.opencover.reportsPaths=**/TestResults/*/*.xml"
