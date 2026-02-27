@@ -5,8 +5,8 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 		<!-- Package identity -->
-		<PackageId>RR.$(MSBuildProjectName)</PackageId>
-		<Product>RR.$(MSBuildProjectName)</Product>
+		<PackageId>rrSoft.$(MSBuildProjectName)</PackageId>
+		<Product>rrSoft.$(MSBuildProjectName)</Product>
 		<Authors>zHaytam, robinrottier</Authors>
 		<Version>0.1.0</Version>
 		<AssemblyVersion>0.1.0</AssemblyVersion>
