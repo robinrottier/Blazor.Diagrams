@@ -4,5 +4,32 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+		<!-- Package identity -->
+		<PackageId>RR.$(MSBuildProjectName)</PackageId>
+		<Product>RR.$(MSBuildProjectName)</Product>
+		<Authors>zHaytam, robinrottier</Authors>
+		<Version>0.1.0</Version>
+		<AssemblyVersion>0.1.0</AssemblyVersion>
+		<FileVersion>0.1.0</FileVersion>
+		<!-- Package metadata -->
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RepositoryUrl>https://github.com/robinrottier/Blazor.Diagrams</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/robinrottier/Blazor.Diagrams</PackageProjectUrl>
+		<Description>A fully customizable and extensible all-purpose diagrams library for Blazor</Description>
+		<PackageTags>blazor diagrams diagramming svg drag</PackageTags>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageIcon>ZBD.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\ZBD.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 </Project>
