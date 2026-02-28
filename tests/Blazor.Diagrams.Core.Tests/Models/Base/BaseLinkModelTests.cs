@@ -41,7 +41,7 @@ public class BaseLinkModelTests
         oldSp.Should().NotBeNull();
         newSp.Should().BeSameAs(sp);
         linkInstance.Should().BeSameAs(link);
-        link.Source.Model.Should().BeSameAs(port);
+        link.Source!.Model!.Should().BeSameAs(port);
     }
 
     [Fact]
