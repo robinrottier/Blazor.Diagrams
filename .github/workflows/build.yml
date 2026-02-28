@@ -1,10 +1,14 @@
 name: Build, Test, Analyze on SonarCloud
 
 on:
+  workflow_dispatch:  # manual trigger
+  workflow_call:      # called from other workflows
   push:
     branches:
+      - main
       - master
       - develop
+      - 'fix/**'
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -13,13 +17,10 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - name: Set up JDK 17
-        uses: actions/setup-java@v1
-        with:
-          java-version: 17
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
@@ -27,21 +28,27 @@ jobs:
             9
             10
 
-      # Build + test + coverage first
+      - name: Install SonarScanner for .NET
+        run: dotnet tool install --global dotnet-sonarscanner
+
+      - name: Begin SonarCloud analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: >
+          dotnet sonarscanner begin
+          /k:"robinrottier_Blazor.Diagrams"
+          /o:"robinrottier"
+          /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          /d:sonar.host.url="https://sonarcloud.io"
+          /d:sonar.cs.opencover.reportsPaths="**/TestResults/*/*.xml"
+
       - name: Build
         run: dotnet build
 
       - name: Test (with coverage)
         run: dotnet test --no-build --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
 
-      # Then scan via the action
-      - name: SonarQube/SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v6
+      - name: End SonarCloud analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: https://sonarcloud.io
-        with:
-          args: >
-            "-Dsonar.projectKey=robinrottier_Blazor.Diagrams"
-            "-Dsonar.organization=robinrottier"
-            "-Dsonar.cs.opencover.reportsPaths=**/TestResults/*/*.xml"
+        run: dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
