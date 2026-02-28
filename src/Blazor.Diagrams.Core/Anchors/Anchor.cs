@@ -1,7 +1,5 @@
 ﻿using Blazor.Diagrams.Core.Geometry;
 using Blazor.Diagrams.Core.Models.Base;
-using System;
-using System.Collections.Generic;
 
 namespace Blazor.Diagrams.Core.Anchors;
 
@@ -23,7 +21,7 @@ public abstract class Anchor
     protected static Point? GetOtherPosition(BaseLinkModel link, bool isTarget)
     {
         var anchor = isTarget ? link.Source : link.Target!;
-        return anchor.GetPlainPosition();
+        return anchor?.GetPlainPosition();
     }
 
     protected static Point? GetClosestPointTo(IEnumerable<Point?> points, Point point)
@@ -35,7 +33,7 @@ public abstract class Anchor
         {
             if (pt == null)
                 continue;
-            
+
             var dist = pt.DistanceTo(point);
             if (dist < minDist)
             {
