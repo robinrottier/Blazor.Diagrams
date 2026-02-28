@@ -263,7 +263,7 @@ public abstract class Diagram
         Refresh();
     }
 
-    public void SetContainer(Rectangle newRect)
+    public void SetContainer(Rectangle? newRect)
     {
         if (Equals(newRect, Container))
             return;
