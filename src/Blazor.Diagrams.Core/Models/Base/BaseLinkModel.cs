@@ -70,7 +70,7 @@ public abstract class BaseLinkModel : SelectableModel, IHasBounds, ILinkable
         return vertex;
     }
 
-    public void SetSource(Anchor anchor)
+    public void SetSource(Anchor? anchor)
     {
         ArgumentNullException.ThrowIfNull(anchor, nameof(anchor));
 
