@@ -6,7 +6,7 @@
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 		<!-- Package identity -->
 		<PackageId>rrSoft.$(MSBuildProjectName)</PackageId>
-		<Product>rrSoft.$(MSBuildProjectName)</Product>
+		<Product>rrSoft.Blazor.Diagrams</Product>
 		<Authors>zHaytam, robinrottier</Authors>
 		<Version>0.1.0</Version>
 		<AssemblyVersion>0.1.0</AssemblyVersion>
@@ -20,6 +20,7 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageIcon>ZBD.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<StaticWebAssetBasePath>_content/Z.Blazor.Diagrams</StaticWebAssetBasePath>
 	</PropertyGroup>
 
 	<ItemGroup>
