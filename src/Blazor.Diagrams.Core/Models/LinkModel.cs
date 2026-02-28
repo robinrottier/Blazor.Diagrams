@@ -19,8 +19,9 @@ public class LinkModel : BaseLinkModel
     public LinkModel(string id, PortModel sourcePort, PortModel targetPort)
         : base(id, new SinglePortAnchor(sourcePort), new SinglePortAnchor(targetPort)) { }
 
-    public LinkModel(string id, NodeModel sourceNode, NodeModel targetNode)
-        : base(id, new ShapeIntersectionAnchor(sourceNode), new ShapeIntersectionAnchor(targetNode)) { }
+    public LinkModel(string id, NodeModel sourceNode, NodeModel? targetNode)
+        : base(id, new ShapeIntersectionAnchor(sourceNode), 
+            targetNode == null ? null : new ShapeIntersectionAnchor(targetNode)) { }
 
     public string? Color { get; set; }
     public string? SelectedColor { get; set; }
