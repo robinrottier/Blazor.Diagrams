@@ -31,7 +31,7 @@ public class ArrowHeadControl : ExecutableControl
         var p1 = pp.GetPosition(link);
         if (p1 is not null)
         {
-            var p2 = Source ? link.Source.GetPosition(link) : link.Target.GetPosition(link);
+            var p2 = Source ? link.Source?.GetPosition(link) : link.Target?.GetPosition(link);
             if (p2 is not null)
             {
                 Angle = Math.Atan2(p2.Y - p1.Y, p2.X - p1.X) * 180 / Math.PI;
