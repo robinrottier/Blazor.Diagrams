@@ -9,6 +9,4 @@ public class CustomGroupModel : GroupModel
     {
         Title = title;
     }
-
-    public string Title { get; }
 }
