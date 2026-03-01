@@ -23,7 +23,7 @@ public class DynamicInsertionsComponent : ComponentBase
 
         BlazorDiagram.Options.Links.Factory = (d, s, ta) =>
         {
-            var link = new LinkModel(new SinglePortAnchor(s as PortModel)
+            var link = new LinkModel(new SinglePortAnchor((s as PortModel)!)
             {
                 UseShapeAndAlignment = false
             }, ta)
@@ -36,9 +36,12 @@ public class DynamicInsertionsComponent : ComponentBase
 
     protected void AddNode()
     {
-        var x = _random.Next(0, (int)BlazorDiagram.Container.Width - 120);
-        var y = _random.Next(0, (int)BlazorDiagram.Container.Height - 100);
-        BlazorDiagram.Nodes.Add(new NodeModel(new Point(x, y)));
+        if (BlazorDiagram.Container != null)
+        {
+            var x = _random.Next(0, (int)BlazorDiagram.Container.Width - 120);
+            var y = _random.Next(0, (int)BlazorDiagram.Container.Height - 100);
+            BlazorDiagram.Nodes.Add(new NodeModel(new Point(x, y)));
+        }
     }
 
     protected void RemoveNode()

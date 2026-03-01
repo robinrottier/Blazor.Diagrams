@@ -40,7 +40,7 @@ public partial class PortlessLinks
             Segmentable = true
         });
         _blazorDiagram.Links.Add(new LinkModel(new ShapeIntersectionAnchor(node2),
-            new SinglePortAnchor(node3.GetPort(PortAlignment.Left)))
+            new SinglePortAnchor((node3.GetPort(PortAlignment.Left))!))
         {
             SourceMarker = LinkMarker.Arrow,
             TargetMarker = LinkMarker.Arrow,

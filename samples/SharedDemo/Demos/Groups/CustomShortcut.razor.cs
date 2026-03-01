@@ -21,8 +21,8 @@ public partial class CustomShortcut
         _blazorDiagram.Options.LinksLayerOrder = 2;
         _blazorDiagram.Options.NodesLayerOrder = 1;
         var ksb = _blazorDiagram.GetBehavior<KeyboardShortcutsBehavior>();
-        ksb.RemoveShortcut("g", true, false, true);
-        ksb.SetShortcut("k", true, true, false, KeyboardShortcutsDefaults.Grouping);
+        ksb?.RemoveShortcut("g", true, false, true);
+        ksb?.SetShortcut("k", true, true, false, KeyboardShortcutsDefaults.Grouping);
 
         var node1 = NewNode(50, 50);
         var node2 = NewNode(250, 250);
