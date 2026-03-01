@@ -3,7 +3,7 @@
 @using CustomNodesLinks.Models
 
 @{
-  if (Label.ShowLabel)
+  if (Label != null && Label.ShowLabel)
   {
     @((MarkupString) $"<foreignObject class=\"graphml-link\" x=\"{X.ToInvariantString()}\" y=\"{Y.ToInvariantString()}\"><div style=\"font-size:16px;width:140px\" class=\"link-label\">{Label.Content}</div></foreignObject>")
   }
@@ -12,11 +12,11 @@
 @code {
 
   [Parameter]
-  public DiagramLinkLabel Label { get; set; }
+  public DiagramLinkLabel? Label { get; set; }
 
   [Parameter]
-  public Point Position { get; set; }
+  public Point? Position { get; set; }
 
-  private double X => Position.X + (Label.Offset?.X ?? 0);
-  private double Y => Position.Y + (Label.Offset?.Y ?? 0);
+  private double X => (Position?.X ?? 0) + (Label?.Offset?.X ?? 0);
+  private double Y => (Position?.Y ?? 0) + (Label?.Offset?.Y ?? 0);
 }
