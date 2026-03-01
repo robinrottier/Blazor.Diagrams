@@ -13,7 +13,7 @@ public static class ReflectionUtils
         return ExtractPossibleOptions(type, string.Empty, Activator.CreateInstance(type));
     }
 
-    private static IEnumerable<PossibleOption> ExtractPossibleOptions(Type type, string prefix, object instance)
+    private static IEnumerable<PossibleOption> ExtractPossibleOptions(Type type, string prefix, object? instance)
     {
         foreach (var property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
         {
@@ -57,10 +57,10 @@ public class PossibleOption
 {
     public string Name { get; }
     public string Type { get; }
-    public string Default { get; }
-    public string Description { get; }
+    public string? Default { get; }
+    public string? Description { get; }
 
-    public PossibleOption(string name, string type, string @default, string description)
+    public PossibleOption(string name, string type, string? @default, string? description)
     {
         Name = name;
         Type = type;
