@@ -20,8 +20,8 @@
 
 @code {
     [Parameter] public string Href { get; set; } = "#";
-    [Parameter] public string Text { get; set; }
-    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string Text { get; set; } = default!;
+    [Parameter] public RenderFragment ChildContent { get; set; } = default!;
     public bool Collapsed { get; set; } = true;
 
     private void OnItemClicked()

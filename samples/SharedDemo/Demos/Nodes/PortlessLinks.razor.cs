@@ -66,7 +66,7 @@ public partial class PortlessLinks
 
 class RoundedNode : NodeModel
 {
-    public RoundedNode(Point position = null) : base(position)
+    public RoundedNode(Point? position = null) : base(position)
     {
     }
 
