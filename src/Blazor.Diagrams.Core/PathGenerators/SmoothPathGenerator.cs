@@ -77,6 +77,10 @@ public class SmoothPathGenerator : PathGenerator
 
     private Point[] GetRouteWithCurvePoints(BaseLinkModel link, Point[] route)
     {
+        // handle null source/target, although this would be unexpected...
+        if (link.Source == null || link.Target == null)
+            return route;
+
         var cX = (route[0].X + route[1].X) / 2;
         var cY = (route[0].Y + route[1].Y) / 2;
         var curvePointA = GetCurvePoint(route, link.Source, route[0].X, route[0].Y, cX, cY, first: true);
