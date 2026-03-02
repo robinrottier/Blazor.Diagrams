@@ -28,7 +28,7 @@ or it will not be rendered.
 </div>
 
 @code {
-  private BlazorDiagram Diagram { get; set; }
+  private BlazorDiagram? Diagram { get; set; }
 
   protected override void OnInitialized()
   {
@@ -56,9 +56,9 @@ or it will not be rendered.
     var node1 = NewNode(50, 50);
     var node2 = NewNode(300, 300);
     var node3 = NewNode(300, 50);
-    Diagram.Nodes.Add(new [] { node1, node2, node3 });
+    Diagram?.Nodes.Add(new [] { node1, node2, node3 });
     
-    Diagram.Links.Add(new LinkModel(node1.GetPort(PortAlignment.Right), node2.GetPort(PortAlignment.Left)));
+    Diagram?.Links.Add(new LinkModel(node1.GetPort(PortAlignment.Right), node2.GetPort(PortAlignment.Left)));
   }
   
   private static NodeModel NewNode(double x, double y)

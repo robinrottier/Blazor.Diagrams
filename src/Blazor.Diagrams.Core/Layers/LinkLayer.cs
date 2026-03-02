@@ -33,20 +33,22 @@ public class LinkLayer : BaseLayer<BaseLinkModel>
         Remove(link.Links.ToList());
     }
 
-    private static void OnLinkSourceChanged(BaseLinkModel link, Anchor old, Anchor @new)
+    private static void OnLinkSourceChanged(BaseLinkModel link, Anchor? old, Anchor? @new)
     {
         HandleAnchor(link, old, add: false);
         HandleAnchor(link, @new, add: true);
     }
 
-    private static void OnLinkTargetChanged(BaseLinkModel link, Anchor old, Anchor @new)
+    private static void OnLinkTargetChanged(BaseLinkModel link, Anchor? old, Anchor? @new)
     {
         HandleAnchor(link, old, add: false);
         HandleAnchor(link, @new, add: true);
     }
 
-    private static void HandleAnchor(BaseLinkModel link, Anchor anchor, bool add)
+    private static void HandleAnchor(BaseLinkModel link, Anchor? anchor, bool add)
     {
+        if (anchor is null) return;
+
         if (add)
         {
             anchor.Model?.AddLink(link);

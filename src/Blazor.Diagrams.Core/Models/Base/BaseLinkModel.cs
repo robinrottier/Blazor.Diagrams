@@ -11,24 +11,24 @@ public abstract class BaseLinkModel : SelectableModel, IHasBounds, ILinkable
 {
     private readonly List<BaseLinkModel> _links = new();
 
-    public event Action<BaseLinkModel, Anchor, Anchor>? SourceChanged;
-    public event Action<BaseLinkModel, Anchor, Anchor>? TargetChanged;
+    public event Action<BaseLinkModel, Anchor?, Anchor?>? SourceChanged;
+    public event Action<BaseLinkModel, Anchor?, Anchor?>? TargetChanged;
     public event Action<BaseLinkModel>? TargetAttached;
 
-    protected BaseLinkModel(Anchor source, Anchor target)
+    protected BaseLinkModel(Anchor? source, Anchor? target)
     {
         Source = source;
         Target = target;
     }
 
-    protected BaseLinkModel(string id, Anchor source, Anchor target) : base(id)
+    protected BaseLinkModel(string id, Anchor? source, Anchor? target) : base(id)
     {
         Source = source;
         Target = target;
     }
 
-    public Anchor Source { get; private set; }
-    public Anchor Target { get; private set; }
+    public Anchor? Source { get; private set; }
+    public Anchor? Target { get; private set; }
     public Diagram? Diagram { get; internal set; }
     public Point[]? Route { get; private set; }
     public PathGeneratorResult? PathGeneratorResult { get; private set; }
@@ -70,7 +70,7 @@ public abstract class BaseLinkModel : SelectableModel, IHasBounds, ILinkable
         return vertex;
     }
 
-    public void SetSource(Anchor anchor)
+    public void SetSource(Anchor? anchor)
     {
         ArgumentNullException.ThrowIfNull(anchor, nameof(anchor));
 
@@ -126,8 +126,8 @@ public abstract class BaseLinkModel : SelectableModel, IHasBounds, ILinkable
             var router = Router ?? Diagram.Options.Links.DefaultRouter;
             var pathGenerator = PathGenerator ?? Diagram.Options.Links.DefaultPathGenerator;
             var route = router.GetRoute(Diagram, this);
-            var source = Source.GetPosition(this, route);
-            var target = Target.GetPosition(this, route);
+            var source = Source?.GetPosition(this, route);
+            var target = Target?.GetPosition(this, route);
             if (source != null && target != null)
             {
                 Route = route;

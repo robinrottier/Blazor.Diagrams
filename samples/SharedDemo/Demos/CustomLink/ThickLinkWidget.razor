@@ -1,13 +1,13 @@
 ﻿@code {
     [Parameter]
-    public LinkModel Link { get; set; }
+    public LinkModel Link { get; set; } = default!;
 }
 
 @{
     Console.WriteLine(Link.Source);
     Console.WriteLine(Link.Target);
-    var sourcePosition = Link.Source.GetPosition(Link);
-    var targetPosition = Link.Target.GetPosition(Link);
+    var sourcePosition = Link.Source?.GetPosition(Link);
+    var targetPosition = Link.Target?.GetPosition(Link);
 
     if (sourcePosition is null || targetPosition is null)
         return;

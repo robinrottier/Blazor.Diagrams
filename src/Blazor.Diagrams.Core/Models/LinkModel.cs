@@ -9,8 +9,9 @@ public class LinkModel : BaseLinkModel
 
     public LinkModel(string id, Anchor source, Anchor target) : base(id, source, target) { }
 
-    public LinkModel(PortModel sourcePort, PortModel targetPort)
-        : base(new SinglePortAnchor(sourcePort), new SinglePortAnchor(targetPort)) { }
+    public LinkModel(PortModel? sourcePort, PortModel? targetPort)
+        : base(sourcePort == null ? null : new SinglePortAnchor(sourcePort),
+               targetPort == null ? null : new SinglePortAnchor(targetPort)) { }
 
     public LinkModel(NodeModel sourceNode, NodeModel targetNode)
         : base(new ShapeIntersectionAnchor(sourceNode), new ShapeIntersectionAnchor(targetNode)) { }
@@ -18,8 +19,9 @@ public class LinkModel : BaseLinkModel
     public LinkModel(string id, PortModel sourcePort, PortModel targetPort)
         : base(id, new SinglePortAnchor(sourcePort), new SinglePortAnchor(targetPort)) { }
 
-    public LinkModel(string id, NodeModel sourceNode, NodeModel targetNode)
-        : base(id, new ShapeIntersectionAnchor(sourceNode), new ShapeIntersectionAnchor(targetNode)) { }
+    public LinkModel(string id, NodeModel sourceNode, NodeModel? targetNode)
+        : base(id, new ShapeIntersectionAnchor(sourceNode), 
+            targetNode == null ? null : new ShapeIntersectionAnchor(targetNode)) { }
 
     public string? Color { get; set; }
     public string? SelectedColor { get; set; }

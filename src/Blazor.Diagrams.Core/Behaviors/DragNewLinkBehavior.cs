@@ -91,7 +91,7 @@ public class DragNewLinkBehavior : Behavior
 
     private void OnPointerUp(Model? model, MouseEventArgs e)
     {
-        if (OngoingLink == null)
+        if (OngoingLink == null || OngoingLink.Source == null)
             return;
 
         if (OngoingLink.IsAttached) // Snapped already
@@ -125,7 +125,7 @@ public class DragNewLinkBehavior : Behavior
     {
         var target = Diagram.GetRelativeMousePoint(clientX, clientY);
 
-        if (OngoingLink == null)
+        if (OngoingLink == null || OngoingLink.Source == null)
         {
             return target;
         }
@@ -138,7 +138,7 @@ public class DragNewLinkBehavior : Behavior
 
     private PortModel? FindNearPortToAttachTo()
     {
-        if (OngoingLink is null || _targetPositionAnchor is null)
+        if (OngoingLink is null || OngoingLink.Source is null || _targetPositionAnchor is null)
             return null;
 
         PortModel? nearestSnapPort = null;

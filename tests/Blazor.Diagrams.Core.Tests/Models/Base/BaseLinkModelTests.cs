@@ -15,7 +15,7 @@ public class BaseLinkModelTests
     public void SetSource_ShouldChangePropertiesAndTriggerEvent()
     {
         // Arrange
-        var link = new LinkModel(sourcePort: new PortModel(null), targetPort: null);
+        var link = new LinkModel(sourcePort: new PortModel(new ()), targetPort: new PortModel(new()));
         var parent = new NodeModel();
         var port = new PortModel(parent);
         var sp = new SinglePortAnchor(port);
@@ -41,14 +41,14 @@ public class BaseLinkModelTests
         oldSp.Should().NotBeNull();
         newSp.Should().BeSameAs(sp);
         linkInstance.Should().BeSameAs(link);
-        link.Source.Model.Should().BeSameAs(port);
+        link.Source!.Model!.Should().BeSameAs(port);
     }
 
     [Fact]
     public void SetTarget_ShouldChangePropertiesAndTriggerEvent()
     {
         // Arrange
-        var link = new LinkModel(new SinglePortAnchor(null), new PositionAnchor(Point.Zero));
+        var link = new LinkModel(new SinglePortAnchor(new(new())), new PositionAnchor(Point.Zero));
         var parent = new NodeModel();
         var port = new PortModel(parent);
         var tp = new SinglePortAnchor(port);

@@ -7,7 +7,7 @@ namespace SharedDemo;
 public class DocPage : ComponentBase
 {
     [Inject]
-    private IJSRuntime JsRuntime { get; set; }
+    private IJSRuntime JsRuntime { get; set; } = default!;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

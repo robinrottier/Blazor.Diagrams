@@ -28,7 +28,7 @@ or it will not be rendered.
 </div>
 
 @code {
-  private BlazorDiagram BlazorDiagram { get; set; }
+  private BlazorDiagram? BlazorDiagram { get; set; }
 
   protected override void OnInitialized()
   {
@@ -60,11 +60,11 @@ or it will not be rendered.
     var node1 = new DiagramNode("Node 0", new Point(50, 50));
     var node2 = new DiagramNode("Node 1", new Point(300, 300));
     var node3 = new DiagramNode("Node 2", new Point(300, 50));
-    BlazorDiagram.Nodes.Add(new[] { node1, node2, node3 });
+    BlazorDiagram?.Nodes.Add(new[] { node1, node2, node3 });
 
   // use portless links so connection points move around when we move node
     var link = new DiagramLink($"{node1.Name}-->{node2.Name}", node1, node2);
-    BlazorDiagram.Links.Add(link);
+    BlazorDiagram?.Links.Add(link);
   }
 
 }

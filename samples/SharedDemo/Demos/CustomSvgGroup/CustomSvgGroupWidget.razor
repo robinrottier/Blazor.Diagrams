@@ -1,5 +1,5 @@
 ﻿@{
-    var rectX = Group.Size.Width / 2 - 50;
+    var rectX = Group.Size!.Width / 2 - 50;
     var textX = rectX + 50;
     var textY = -60 + 25.0;
 }
@@ -16,5 +16,5 @@
 
 
 @code {
-    [Parameter] public CustomSvgGroupModel Group { get; set; }
+    [Parameter] public CustomSvgGroupModel Group { get; set; } = default!;
 }

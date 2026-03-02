@@ -67,7 +67,7 @@ namespace Blazor.Diagrams.Tests.Components
                     {
                         if (model == model1)
                         {
-                            await cut.InvokeAsync(() =>
+                            await cut!.InvokeAsync(() =>
                             {
                                 diagram.Controls.RemoveFor(model1);
                             });
