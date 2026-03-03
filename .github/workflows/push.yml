@@ -3,11 +3,13 @@ env:
   NUGET_DIR: '${{ github.workspace }}/nuget'
 
 on:
+  push:
+    tags: [ 'v*.*.*' ]
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Push packages to NuGet
+  pack:
+    name: Pack NuGet packages
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -15,23 +17,68 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10'
-  
+
+      - name: Set version from tag
+        run: |
+          BRANCH=$(git branch -r --contains HEAD | grep 'origin/main' || true)
+          if [[ -z "$BRANCH" ]]; then
+            echo "Tag is not on main branch, aborting."
+            exit 1
+          fi
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
+          else
+            echo "VERSION=0.0.0-dev" >> $GITHUB_ENV
+          fi
+
       - name: Pack Blazor.Diagrams.Core
         working-directory: src/Blazor.Diagrams.Core
-        run: 'dotnet pack -p:GeneratePackageOnBuild=false --configuration Release --output ${{ env.NUGET_DIR }}'
+        run: dotnet pack -p:GeneratePackageOnBuild=false --configuration Release -p:Version=${{ env.VERSION }} --output ${{ env.NUGET_DIR }}
 
       - name: Pack Blazor.Diagrams
         working-directory: src/Blazor.Diagrams
-        run: 'dotnet pack -p:GeneratePackageOnBuild=false --configuration Release --output ${{ env.NUGET_DIR }}'
+        run: dotnet pack -p:GeneratePackageOnBuild=false --configuration Release -p:Version=${{ env.VERSION }} --output ${{ env.NUGET_DIR }}
 
       - name: Pack Blazor.Diagrams.Algorithms
         working-directory: src/Blazor.Diagrams.Algorithms
-        run: 'dotnet pack -p:GeneratePackageOnBuild=false --configuration Release --output ${{ env.NUGET_DIR }}'
+        run: dotnet pack -p:GeneratePackageOnBuild=false --configuration Release -p:Version=${{ env.VERSION }} --output ${{ env.NUGET_DIR }}
 
-      - name: Push
-        run: >-
-          for i in $(find ${{ env.NUGET_DIR }} -type f -name "*.nupkg");
-          do
-           echo "File: ${i} \n";
-           dotnet nuget push $i --api-key "${{ secrets.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+      - name: Upload packages as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-packages
+          path: ${{ env.NUGET_DIR }}/*.nupkg
+          retention-days: 7
+
+  publish:
+    name: Publish to NuGet
+    needs: pack
+    runs-on: ubuntu-latest
+    environment: nuget
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10'
+
+      - name: Download packages
+        uses: actions/download-artifact@v4
+        with:
+          name: nuget-packages
+          path: ${{ env.NUGET_DIR }}
+
+      - name: Get OIDC token
+        id: oidc
+        run: |
+          TOKEN=$(curl -sS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=api://AzureADTokenExchange" | jq -r '.value')
+          echo "::add-mask::$TOKEN"
+          echo "token=$TOKEN" >> $GITHUB_OUTPUT
+
+      - name: Push to NuGet
+        run: |
+          for i in $(find ${{ env.NUGET_DIR }} -type f -name "*.nupkg"); do
+            echo "Pushing: ${i}"
+            dotnet nuget push $i --api-key "${{ steps.oidc.outputs.token }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
           done
