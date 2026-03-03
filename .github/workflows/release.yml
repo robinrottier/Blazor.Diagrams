@@ -1,0 +1,95 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Explicit version (e.g. 1.2.3). Leave blank to auto-bump.'
+        required: false
+      bump:
+        description: 'Version part to bump if no explicit version given.'
+        required: false
+        default: patch
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      suffix:
+        description: 'Pre-release suffix (e.g. beta.1, rc.1). Leave blank for stable release.'
+        required: false
+      prerelease:
+        description: 'Mark as pre-release on GitHub?'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Tag and create GitHub Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve version
+        id: version
+        run: |
+          if [[ -n "${{ inputs.version }}" ]]; then
+            BASE="${{ inputs.version }}"
+          else
+            LAST=$(git tag --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -1)
+            LAST=${LAST:-v0.0.0}
+            IFS='.' read -r MAJOR MINOR PATCH <<< "${LAST#v}"
+            case "${{ inputs.bump }}" in
+              major) MAJOR=$((MAJOR+1)); MINOR=0; PATCH=0 ;;
+              minor) MINOR=$((MINOR+1)); PATCH=0 ;;
+              patch) PATCH=$((PATCH+1)) ;;
+            esac
+            BASE="${MAJOR}.${MINOR}.${PATCH}"
+          fi
+
+          if [[ -n "${{ inputs.suffix }}" ]]; then
+            VERSION="${BASE}-${{ inputs.suffix }}"
+          else
+            VERSION="${BASE}"
+          fi
+
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "TAG=v$VERSION" >> $GITHUB_ENV
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=v$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Confirm tag does not already exist
+        run: |
+          if git rev-parse "${{ steps.version.outputs.tag }}" &>/dev/null; then
+            echo "Tag ${{ steps.version.outputs.tag }} already exists!"
+            exit 1
+          fi
+
+      - name: Create and push tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag "${{ steps.version.outputs.tag }}"
+          git push origin "${{ steps.version.outputs.tag }}"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          PRERELEASE_FLAG=""
+          if [[ "${{ inputs.prerelease }}" == "true" || -n "${{ inputs.suffix }}" ]]; then
+            PRERELEASE_FLAG="--prerelease"
+          fi
+          gh release create "${{ steps.version.outputs.tag }}" \
+            --title "v${{ steps.version.outputs.version }}" \
+            --generate-notes \
+            $PRERELEASE_FLAG
