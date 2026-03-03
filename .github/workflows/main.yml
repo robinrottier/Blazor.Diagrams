@@ -1,14 +1,26 @@
 name: DeployDemoToGitHubPages
 env:
   PUBLISH_DIR: site/Site/bin/Release/net10.0/publish/wwwroot
+  BASE_HREF: ${{ inputs.base_href || '/Blazor.Diagrams/' }}
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      base_href:
+        description: 'Base href (e.g. /Blazor.Diagrams/ for project pages, / for custom domain)'
+        required: false
+        default: '/Blazor.Diagrams/'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   build:
-    name: Deploy Site to GitHub Pages
+    name: Build Site
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -18,13 +30,26 @@ jobs:
         dotnet-version: '10'
 
     - name: Publish app
-      run: cd site/Site && dotnet publish -c Release
+      run: |
+        SEGMENTS=$(echo "${{ env.BASE_HREF }}" | grep -o '/' | wc -l)
+        SEGMENT_COUNT=$((SEGMENTS - 1))
+        sed -i "s/var segmentCount = [0-9]*/var segmentCount = $SEGMENT_COUNT/" site/Site/wwwroot/404.html
+        cd site/Site && dotnet publish -c Release /p:BlazorBaseHref=${{ env.BASE_HREF }}
 
-    - name: GitHub Pages
-      if: success()
-      uses: crazy-max/ghaction-github-pages@v1.5.1
+    - uses: actions/configure-pages@v5
+
+    - uses: actions/upload-pages-artifact@v3
       with:
-        target_branch: gh-pages
-        build_dir: ${{ env.PUBLISH_DIR }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        path: ${{ env.PUBLISH_DIR }}
+
+  deploy:
+    name: Deploy Site to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
