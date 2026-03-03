@@ -20,9 +20,14 @@ jobs:
     - name: Publish app
       run: cd site/Site && dotnet publish -c Release
 
-    - name: GitHub Pages
-      if: success()
-      uses: crazy-max/ghaction-github-pages@v1.5.1
+    - name: Patch base href and SPA base path
+      run: |
+        sed -i "s|<base href=\"/\" />|<base href=\"${{ env.BASE_HREF }}\" />|" ${{ env.PUBLISH_DIR }}/index.html
+        sed -i "s|var basePath = '/';|var basePath = '${{ env.BASE_HREF }}';|" ${{ env.PUBLISH_DIR }}/404.html
+
+    - uses: actions/configure-pages@v5
+
+    - uses: actions/upload-pages-artifact@v3
       with:
         target_branch: gh-pages
         build_dir: ${{ env.PUBLISH_DIR }}
