@@ -22,6 +22,7 @@ jobs:
   build:
     name: Build Site
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     steps:
     - uses: actions/checkout@v4
 
@@ -30,11 +31,14 @@ jobs:
         dotnet-version: '10'
 
     - name: Publish app
+      run: cd site/Site && dotnet publish -c Release
+
+    - name: Patch base href and SPA segment count
       run: |
         SEGMENTS=$(echo "${{ env.BASE_HREF }}" | grep -o '/' | wc -l)
         SEGMENT_COUNT=$((SEGMENTS - 1))
-        sed -i "s/var segmentCount = [0-9]*/var segmentCount = $SEGMENT_COUNT/" site/Site/wwwroot/404.html
-        cd site/Site && dotnet publish -c Release /p:BlazorBaseHref=${{ env.BASE_HREF }}
+        sed -i "s|<base href=\"/\" />|<base href=\"${{ env.BASE_HREF }}\" />|" ${{ env.PUBLISH_DIR }}/index.html
+        sed -i "s/var segmentCount = [0-9]*/var segmentCount = $SEGMENT_COUNT/" ${{ env.PUBLISH_DIR }}/404.html
 
     - uses: actions/configure-pages@v5
 
