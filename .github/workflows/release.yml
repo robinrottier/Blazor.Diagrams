@@ -89,7 +89,11 @@ jobs:
           if [[ "${{ inputs.prerelease }}" == "true" || -n "${{ inputs.suffix }}" ]]; then
             PRERELEASE_FLAG="--prerelease"
           fi
-          gh release create "${{ steps.version.outputs.tag }}" \
-            --title "v${{ steps.version.outputs.version }}" \
-            --generate-notes \
-            $PRERELEASE_FLAG
+          for attempt in 1 2 3; do
+            gh release create "${{ steps.version.outputs.tag }}" \
+              --title "v${{ steps.version.outputs.version }}" \
+              --generate-notes \
+              $PRERELEASE_FLAG && break
+            echo "Attempt $attempt failed, retrying in 10s..."
+            sleep 10
+          done
