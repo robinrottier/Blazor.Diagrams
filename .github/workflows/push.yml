@@ -3,8 +3,12 @@ env:
   NUGET_DIR: '${{ github.workspace }}/nuget'
 
 on:
-  push:
-    tags: [ 'v*' ]
+  workflow_call:
+    inputs:
+      version:
+        description: 'Version to publish (e.g. 1.2.3), without the v prefix.'
+        required: false
+        type: string
   workflow_dispatch:
 
 jobs:
@@ -20,19 +24,23 @@ jobs:
 
       - name: Set version from tag
         run: |
-          BRANCH=$(git branch -r --contains HEAD | grep 'origin/main' || true)
-          echo GIT BRANCH:      $BRANCH
-          echo GITHUB_REF:      ${GITHUB_REF}
-          echo GITHUB_REF_NAME: ${GITHUB_REF_NAME}
-          if [[ -z "$BRANCH" ]]; then
-            echo "Tag is not on main branch, aborting."
-            exit 1
-          fi
-          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
-            VERSION=${GITHUB_REF_NAME#v}
+          if [[ -n "${{ inputs.version }}" ]]; then
+            VERSION="${{ inputs.version }}"
           else
-            echo "Unrecognized version, aborting"
-            exit 1
+            BRANCH=$(git branch -r --contains HEAD | grep 'origin/main' || true)
+            echo GIT BRANCH:      $BRANCH
+            echo GITHUB_REF:      ${GITHUB_REF}
+            echo GITHUB_REF_NAME: ${GITHUB_REF_NAME}
+            if [[ -z "$BRANCH" ]]; then
+              echo "Tag is not on main branch, aborting."
+              exit 1
+            fi
+            if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+              VERSION=${GITHUB_REF_NAME#v}
+            else
+              echo "Unrecognized version, aborting"
+              exit 1
+            fi
           fi
           echo VERSION:         $VERSION
           echo "VERSION=$VERSION" >> $GITHUB_ENV

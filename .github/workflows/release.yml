@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version (e.g. 1.2.3). Leave blank to autobump.'
+        description: 'Version (e.g. 1.2.3). Blank for auto.'
         required: false
       bump:
-        description: 'Part to bump if no version given.'
+        description: 'Part to bump if blank.'
         required: false
         default: patch
         type: choice
@@ -34,6 +34,8 @@ jobs:
   release:
     name: Tag and create GitHub Release
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -99,3 +101,14 @@ jobs:
             echo "Attempt $attempt failed, retrying in 10s..."
             sleep 10
           done
+
+  publish:
+    name: Publish to NuGet
+    needs: release
+    uses: ./.github/workflows/push.yml
+    with:
+      version: ${{ needs.release.outputs.version }}
+    secrets: inherit
+    permissions:
+      id-token: write
+      contents: read
