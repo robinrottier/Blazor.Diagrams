@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Explicit version (e.g. 1.2.3). Leave blank to auto-bump.'
+        description: 'Version (e.g. 1.2.3). Leave blank to autobump.'
         required: false
       bump:
-        description: 'Version part to bump if no explicit version given.'
+        description: 'Part to bump if no version given.'
         required: false
         default: patch
         type: choice
@@ -16,7 +16,7 @@ on:
           - minor
           - major
       suffix:
-        description: 'Pre-release suffix (e.g. beta.1, rc.1). Leave blank for stable release.'
+        description: 'Pre-release suffix (e.g. test). Blank for stable.'
         required: false
       prerelease:
         description: 'Mark as pre-release on GitHub?'
@@ -75,11 +75,13 @@ jobs:
           fi
 
       - name: Create and push tag
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git tag "${{ steps.version.outputs.tag }}"
-          git push origin "${{ steps.version.outputs.tag }}"
+          git push "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" "${{ steps.version.outputs.tag }}"
 
       - name: Create GitHub Release
         env:
