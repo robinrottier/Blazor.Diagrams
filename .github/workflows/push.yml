@@ -21,15 +21,21 @@ jobs:
       - name: Set version from tag
         run: |
           BRANCH=$(git branch -r --contains HEAD | grep 'origin/main' || true)
+          echo GIT BRANCH:      $BRANCH
+          echo GITHUB_REF:      ${GITHUB_REF}
+          echo GITHUB_REF_NAME: ${GITHUB_REF_NAME}
           if [[ -z "$BRANCH" ]]; then
             echo "Tag is not on main branch, aborting."
             exit 1
           fi
           if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
-            echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
+            VERSION=${GITHUB_REF_NAME#v}
           else
-            echo "VERSION=0.0.0-dev" >> $GITHUB_ENV
+            echo "Unrecognized version, aborting"
+            exit 1
           fi
+          echo VERSION:         $VERSION
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Pack Blazor.Diagrams.Core
         working-directory: src/Blazor.Diagrams.Core
