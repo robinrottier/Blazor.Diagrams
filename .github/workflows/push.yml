@@ -94,5 +94,5 @@ jobs:
         run: |
           for i in $(find ${{ env.NUGET_DIR }} -type f -name "*.nupkg"); do
             echo "Pushing: ${i}"
-            dotnet nuget push $i --api-key "${{ steps.oidc.outputs.token }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+            dotnet nuget push $i --api-key "${{ NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
           done
