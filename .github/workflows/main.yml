@@ -4,8 +4,8 @@ env:
   BASE_HREF: ${{ inputs.base_href || '/Blazor.Diagrams/' }}
 
 on:
-  push:
-    ## branches: [ main ]
+  ## push:
+  ##   branches: [ main ]
   workflow_dispatch:
     inputs:
       base_href:
