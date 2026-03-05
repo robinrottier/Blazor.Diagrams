@@ -3,6 +3,15 @@ name: Create Release
 on:
   workflow_dispatch:
     inputs:
+      mode:
+        description: 'What to run'
+        required: true
+        default: check-only
+        type: choice
+        options:
+          - check-only
+          - tag-release
+          - and-push-nuget
       version:
         description: 'Version (e.g. 1.2.3). Blank for auto.'
         required: false
@@ -31,11 +40,12 @@ permissions:
   contents: write
 
 jobs:
-  release:
-    name: Tag and create GitHub Release
+  check-version:
+    name: Check Version
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.version.outputs.version }}
+      tag: ${{ steps.version.outputs.tag }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -66,8 +76,6 @@ jobs:
 
           echo "VERSION=$VERSION"
           echo "TAG=v$VERSION"
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "TAG=v$VERSION" >> $GITHUB_ENV
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "tag=v$VERSION" >> $GITHUB_OUTPUT
 
@@ -78,14 +86,24 @@ jobs:
             exit 1
           fi
 
+  tag-release:
+    name: Tag and create GitHub Release
+    needs: check-version
+    if: inputs.mode == 'tag-release' || inputs.mode == 'and-push-nuget'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Create and push tag
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag "${{ steps.version.outputs.tag }}"
-          git push "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" "${{ steps.version.outputs.tag }}"
+          git tag "${{ needs.check-version.outputs.tag }}"
+          git push "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" "${{ needs.check-version.outputs.tag }}"
 
       - name: Create GitHub Release
         env:
@@ -96,20 +114,21 @@ jobs:
             PRERELEASE_FLAG="--prerelease"
           fi
           for attempt in 1 2 3; do
-            gh release create "${{ steps.version.outputs.tag }}" \
-              --title "v${{ steps.version.outputs.version }}" \
+            gh release create "${{ needs.check-version.outputs.tag }}" \
+              --title "v${{ needs.check-version.outputs.version }}" \
               --generate-notes \
               $PRERELEASE_FLAG && break
             echo "Attempt $attempt failed, retrying in 10s..."
             sleep 10
           done
 
-  publish:
+  push-nuget:
     name: Publish to NuGet
-    needs: release
+    needs: [check-version, tag-release]
+    if: inputs.mode == 'and-push-nuget'
     uses: ./.github/workflows/push.yml
     with:
-      version: ${{ needs.release.outputs.version }}
+      version: ${{ needs.check-version.outputs.version }}
     secrets: inherit
     permissions:
       id-token: write
