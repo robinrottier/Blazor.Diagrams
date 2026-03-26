@@ -33,6 +33,10 @@ public class NodeModel : MovableModel, IHasBounds, IHasShape, ILinkable
             _size = value;
         }
     }
+    // TODO: Consider changing to { get; protected set; } so derived classes can set it in their
+    // constructors without relying on C# init-context semantics.
+    // A work-around is setting it in derivedNodeModel's constructor (valid because C# allows init access in
+    // derived-class constructors), but { get; protected set; } would be clearer and safer.
     public bool ControlledSize { get; init; }
 
     public GroupModel? Group { get; internal set; }
