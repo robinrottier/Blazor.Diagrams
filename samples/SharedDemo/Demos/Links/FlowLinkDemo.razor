@@ -1,0 +1,40 @@
+@page "/links/flow"
+@layout DemoLayout
+@inject LayoutData LayoutData
+
+<div style="position:absolute;top:10px;right:10px;z-index:1000;background:white;padding:12px;border:1px solid #ccc;border-radius:6px;min-width:220px;">
+    <div style="margin-bottom:8px;font-weight:600;">Flow Link Controls</div>
+
+    <label>Direction</label>
+    <select @onchange="OnDirectionChanged" style="width:100%;margin-bottom:8px;">
+        <option value="None">None (static)</option>
+        <option value="Forward" selected>Forward (source → target)</option>
+        <option value="Reverse">Reverse (target → source)</option>
+        <option value="Paused">Paused (frozen dashes)</option>
+    </select>
+
+    <label>Speed (s/cycle): @_speed.ToString("F1")</label>
+    <input type="range" min="0.2" max="5.0" step="0.1" value="@_speed"
+           @onchange="OnSpeedChanged" style="width:100%;margin-bottom:8px;" />
+
+    <label>Dash Size (px): @_dashSize.ToString("F0")</label>
+    <input type="range" min="4" max="40" step="2" value="@_dashSize"
+           @onchange="OnDashSizeChanged" style="width:100%;margin-bottom:8px;" />
+
+    <label>Flow Color</label>
+    <select @onchange="OnColorChanged" style="width:100%;margin-bottom:8px;">
+        <option value="">Default (link color)</option>
+        <option value="#00cc44">Green</option>
+        <option value="#ff4400">Red</option>
+        <option value="#0088ff">Blue</option>
+        <option value="#ffcc00">Yellow</option>
+    </select>
+
+    <label>Base Width: @_width.ToString("F0")</label>
+    <input type="range" min="1" max="10" step="1" value="@_width"
+           @onchange="OnWidthChanged" style="width:100%;" />
+</div>
+
+<CascadingValue Value="_blazorDiagram">
+    <DiagramCanvas></DiagramCanvas>
+</CascadingValue>
