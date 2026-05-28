@@ -107,7 +107,7 @@
         @for (var i = 0; i < count; i++)
         {
             var begin = $"-{(i * FlowLink.FlowSpeed).ToInvariantString()}s";
-            <path @key="@($"{FlowLink.Id}-shape-{i}")"
+            <path @key="@($"{FlowLink.Id}-shape-{i}-{motionDurStr}")"
                   d="@shapePath"
                   fill="@(isFilled ? flowColor : "none")"
                   stroke="@(isFilled ? "none" : flowColor)"
