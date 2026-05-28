@@ -2,39 +2,101 @@
 @layout DemoLayout
 @inject LayoutData LayoutData
 
-<div style="position:absolute;top:10px;right:10px;z-index:1000;background:white;padding:12px;border:1px solid #ccc;border-radius:6px;min-width:220px;">
-    <div style="margin-bottom:8px;font-weight:600;">Flow Link Controls</div>
+<style>
+    .flow-ctrl { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px; }
+    .flow-ctrl label { font-size: .82rem; font-weight: 500; margin: 0; white-space: nowrap; }
+    .flow-ctrl .val { font-size: .8rem; color: #666; white-space: nowrap; margin-left: 6px; }
+    .flow-panel { flex: 0 0 210px; width: 210px; min-width: 0; height: 100%; overflow-y: auto;
+                  background: #f8f8f8; border-right: 1px solid #ddd; padding: 10px 10px 10px 10px; }
+    .flow-panel .section-title { font-weight: 600; margin-bottom: 8px; font-size: .9rem; }
+    .flow-panel label.form-label { font-size: .82rem; font-weight: 500; margin-bottom: 2px; }
+    .flow-panel select, .flow-panel input[type=range] { width: 100%; }
+</style>
 
-    <label>Direction</label>
-    <select @onchange="OnDirectionChanged" style="width:100%;margin-bottom:8px;">
-        <option value="None">None (static)</option>
-        <option value="Forward" selected>Forward (source → target)</option>
-        <option value="Reverse">Reverse (target → source)</option>
-        <option value="Paused">Paused (frozen dashes)</option>
-    </select>
+<div class="d-flex h-100">
+    <div class="flow-panel">
+        <div class="section-title">Flow Link Controls</div>
 
-    <label>Speed (s/cycle): @_speed.ToString("F1")</label>
-    <input type="range" min="0.2" max="5.0" step="0.1" value="@_speed"
-           @onchange="OnSpeedChanged" style="width:100%;margin-bottom:8px;" />
+        <div class="mb-2">
+            <label class="form-label" style="font-size:.85rem;font-weight:500;">Direction</label>
+            <select class="form-select form-select-sm" @onchange="OnDirectionChanged">
+                <option value="None">None (static)</option>
+                <option value="Forward" selected>Forward →</option>
+                <option value="Reverse">Reverse ←</option>
+                <option value="Paused">Paused</option>
+            </select>
+        </div>
 
-    <label>Dash Size (px): @_dashSize.ToString("F0")</label>
-    <input type="range" min="4" max="40" step="2" value="@_dashSize"
-           @onchange="OnDashSizeChanged" style="width:100%;margin-bottom:8px;" />
+        <div class="mb-2">
+            <label class="form-label" style="font-size:.85rem;font-weight:500;">Flow Shape</label>
+            <select class="form-select form-select-sm" @onchange="OnFlowShapeChanged">
+                <option value="Dash">Dash (rounded)</option>
+                <option value="Rectangle">Rectangle</option>
+                <option value="Arrow" selected>Arrow ▶</option>
+                <option value="Chevron">Chevron ›</option>
+                <option value="DblChevron">Double Chevron »</option>
+                <option value="TripleChevron">Triple Chevron »»</option>
+            </select>
+        </div>
 
-    <label>Flow Color</label>
-    <select @onchange="OnColorChanged" style="width:100%;margin-bottom:8px;">
-        <option value="">Default (link color)</option>
-        <option value="#00cc44">Green</option>
-        <option value="#ff4400">Red</option>
-        <option value="#0088ff">Blue</option>
-        <option value="#ffcc00">Yellow</option>
-    </select>
+        <div class="mb-2">
+            <label class="form-label" style="font-size:.85rem;font-weight:500;">Line Color</label>
+            <select class="form-select form-select-sm" @onchange="OnLineColorChanged">
+                <option value="">Default</option>
+                <option value="transparent">Transparent</option>
+                <option value="#000000">Black</option>
+                <option value="#0088ff">Blue</option>
+                <option value="#00aa44">Green</option>
+                <option value="#ff4400">Red</option>
+                <option value="#ff8800" selected>Orange</option>
+                <option value="#aa00aa">Purple</option>
+            </select>
+        </div>
 
-    <label>Base Width: @_width.ToString("F0")</label>
-    <input type="range" min="1" max="10" step="1" value="@_width"
-           @onchange="OnWidthChanged" style="width:100%;" />
+        <div class="mb-2">
+            <label class="form-label" style="font-size:.85rem;font-weight:500;">Flow Color</label>
+            <select class="form-select form-select-sm" @onchange="OnColorChanged">
+                <option value="">Default (link color)</option>
+                <option value="transparent">Transparent</option>
+                <option value="black">Black</option>
+                <option value="#00cc44">Green</option>
+                <option value="#ff4400">Red</option>
+                <option value="#0088ff" selected>Blue</option>
+                <option value="#ffcc00">Yellow</option>
+            </select>
+        </div>
+
+        <hr style="margin: 8px 0;" />
+
+        <div class="mb-2">
+            <div class="flow-ctrl"><label>Speed</label><span class="val">@_speed.ToString("F1") s/cycle</span></div>
+            <input type="range" min="0.2" max="5.0" step="0.1" value="@_speed" @onchange="OnSpeedChanged" />
+        </div>
+
+        <div class="mb-2">
+            <div class="flow-ctrl"><label>Flow Size</label><span class="val">@_flowSize.ToString("F0") px</span></div>
+            <input type="range" min="0" max="50" step="1" value="@_flowSize" @onchange="OnFlowSizeChanged" />
+        </div>
+
+        <div class="mb-2">
+            <div class="flow-ctrl"><label>Flow Gap</label><span class="val">@_gapSize.ToString("F0") px</span></div>
+            <input type="range" min="0" max="50" step="1" value="@_gapSize" @onchange="OnGapSizeChanged" />
+        </div>
+
+        <div class="mb-2">
+            <div class="flow-ctrl"><label>Flow Width</label><span class="val">@_flowWidth.ToString("F0") px</span></div>
+            <input type="range" min="0" max="30" step="1" value="@_flowWidth" @onchange="OnFlowWidthChanged" />
+        </div>
+
+        <div class="mb-2">
+            <div class="flow-ctrl"><label>Line Width</label><span class="val">@_lineWidth.ToString("F0") px</span></div>
+            <input type="range" min="0" max="30" step="1" value="@_lineWidth" @onchange="OnLineWidthChanged" />
+        </div>
+    </div>
+    <div style="flex:1;min-width:0;">
+        <CascadingValue Value="_blazorDiagram">
+            <DiagramCanvas></DiagramCanvas>
+        </CascadingValue>
+    </div>
 </div>
 
-<CascadingValue Value="_blazorDiagram">
-    <DiagramCanvas></DiagramCanvas>
-</CascadingValue>

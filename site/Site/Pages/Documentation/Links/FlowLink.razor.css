@@ -1,0 +1,50 @@
+.diagram-container {
+    border: 1px solid black;
+    caret-color: transparent;
+}
+
+.control-button {
+    background-color: lightblue;
+    color: darkblue;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 2px 2px;
+}
+
+.control-button:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+.control-button:disabled {
+    background-color: #6c757d;
+    color: white;
+    cursor: not-allowed;
+}
+
+.control-button.active {
+    background-color: #0056b3;
+    color: white;
+}
+
+.controls-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin: 12px 0;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.control-label {
+    font-weight: 600;
+    margin-right: 4px;
+}

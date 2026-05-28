@@ -1,0 +1,252 @@
+@page "/documentation/links-flow"
+@using Blazor.Diagrams.Core.PathGenerators;
+@using Blazor.Diagrams.Core.Routers;
+@layout DocumentationLayout
+@inherits DocumentationPage
+
+<PageTitle>Flow Link - Documentation - Blazor Diagrams</PageTitle>
+
+<h1>Flow Link</h1>
+
+<p>
+    <code>FlowLinkModel</code> produces rich "marching ants" animated link overlays with directional
+    control, multiple shape options, and independent color/size properties for the line and the flow.
+    It is a higher-level alternative to the general-purpose
+    <a href="/documentation/links-animation">AnimateModel</a> approach: rather than assembling
+    SVG attributes by hand you set semantic properties and the built-in
+    <code>FlowLinkWidget</code> handles all rendering details.
+</p>
+<p>
+    The flow speed, direction, shape, and colors can all be changed at runtime — making it
+    easy to drive the animation from live data (e.g. signal flow, network traffic, energy direction).
+</p>
+
+<h2>Setup</h2>
+
+<p>Register the widget once on your diagram, then create links using <code>FlowLinkModel</code>.</p>
+
+<pre @key="@("registration")"><code class="language-cs">@_codeRegistration</code></pre>
+
+<h2>Properties</h2>
+<p>All properties call <code>Refresh()</code> internally so the diagram updates automatically.</p>
+
+<table class="w-full text-sm border-collapse mb-6">
+    <thead>
+        <tr class="bg-slate-100 text-left">
+            <th class="p-2 border border-slate-200">Property</th>
+            <th class="p-2 border border-slate-200">Type</th>
+            <th class="p-2 border border-slate-200">Default</th>
+            <th class="p-2 border border-slate-200">Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td class="p-2 border border-slate-200"><code>FlowDirection</code></td><td class="p-2 border border-slate-200">FlowDirection</td><td class="p-2 border border-slate-200">None</td><td class="p-2 border border-slate-200">None, Forward, Reverse, or Paused</td></tr>
+        <tr><td class="p-2 border border-slate-200"><code>FlowShape</code></td><td class="p-2 border border-slate-200">FlowShape</td><td class="p-2 border border-slate-200">Dash</td><td class="p-2 border border-slate-200">Dash, Rectangle, Arrow, Chevron, DblChevron, TripleChevron</td></tr>
+        <tr><td class="p-2 border border-slate-200"><code>FlowSpeed</code></td><td class="p-2 border border-slate-200">double</td><td class="p-2 border border-slate-200">1.0</td><td class="p-2 border border-slate-200">Seconds per spacing unit — lower = faster</td></tr>
+        <tr><td class="p-2 border border-slate-200"><code>FlowSize</code></td><td class="p-2 border border-slate-200">double</td><td class="p-2 border border-slate-200">10</td><td class="p-2 border border-slate-200">Size of each moving shape in px</td></tr>
+        <tr><td class="p-2 border border-slate-200"><code>FlowGapSize</code></td><td class="p-2 border border-slate-200">double</td><td class="p-2 border border-slate-200">10</td><td class="p-2 border border-slate-200">Gap between shapes in px</td></tr>
+        <tr><td class="p-2 border border-slate-200"><code>FlowColor</code></td><td class="p-2 border border-slate-200">string?</td><td class="p-2 border border-slate-200">null (= link color)</td><td class="p-2 border border-slate-200">Color of the moving shapes</td></tr>
+        <tr><td class="p-2 border border-slate-200"><code>FlowWidth</code></td><td class="p-2 border border-slate-200">double?</td><td class="p-2 border border-slate-200">null (= half line width)</td><td class="p-2 border border-slate-200">Stroke width of the moving shapes</td></tr>
+        <tr><td class="p-2 border border-slate-200"><code>Color</code></td><td class="p-2 border border-slate-200">string?</td><td class="p-2 border border-slate-200">null</td><td class="p-2 border border-slate-200">Color of the solid base line (inherited from LinkModel)</td></tr>
+        <tr><td class="p-2 border border-slate-200"><code>LineWidth</code></td><td class="p-2 border border-slate-200">double?</td><td class="p-2 border border-slate-200">null (= link width)</td><td class="p-2 border border-slate-200">Width of the solid base line</td></tr>
+    </tbody>
+</table>
+
+<h2>Live Example</h2>
+
+<pre @key="_codeKey"><code class="language-cs">@_codeSample</code></pre>
+
+<div class="diagram-container" style="width: 100%; height: 220px;">
+    <CascadingValue Value="_diagram" IsFixed="true">
+        <DiagramCanvas></DiagramCanvas>
+    </CascadingValue>
+</div>
+
+<div class="controls-row">
+    <div class="control-group">
+        <span class="control-label">Direction:</span>
+        <button @onclick='() => SetDirection(FlowDirection.Forward)' class="control-button @(_direction == FlowDirection.Forward ? "active" : "")">Forward</button>
+        <button @onclick='() => SetDirection(FlowDirection.Reverse)' class="control-button @(_direction == FlowDirection.Reverse ? "active" : "")">Reverse</button>
+        <button @onclick='() => SetDirection(FlowDirection.None)' class="control-button @(_direction == FlowDirection.None ? "active" : "")">Stop</button>
+    </div>
+    <div class="control-group">
+        <span class="control-label">Shape:</span>
+        @foreach (var shape in _shapes)
+        {
+            <button @onclick="() => SetShape(shape)" class="control-button @(_shape == shape ? "active" : "")">@shape</button>
+        }
+    </div>
+</div>
+<div class="controls-row">
+    <div class="control-group">
+        <span class="control-label">Speed:</span>
+        <button @onclick="SpeedUp" class="control-button" disabled="@(_speed <= 0.2)">Faster</button>
+        <button @onclick="SlowDown" class="control-button" disabled="@(_speed >= 5.0)">Slower</button>
+    </div>
+    <div class="control-group">
+        <span class="control-label">Flow size:</span>
+        <button @onclick="DecreaseSize" class="control-button" disabled="@(_flowSize <= 4)">−</button>
+        <button @onclick="IncreaseSize" class="control-button" disabled="@(_flowSize >= 50)">+</button>
+    </div>
+    <div class="control-group">
+        <span class="control-label">Gap:</span>
+        <button @onclick="DecreaseGap" class="control-button" disabled="@(_gapSize <= 4)">−</button>
+        <button @onclick="IncreaseGap" class="control-button" disabled="@(_gapSize >= 60)">+</button>
+    </div>
+</div>
+
+<NavigationButtons PreviousTitle="Animation"
+                   PreviousLink="/documentation/links-animation" />
+
+@code {
+    private BlazorDiagram _diagram = new();
+    private FlowLinkModel? _link;
+    private int _codeKey = 0;
+
+    private FlowDirection _direction = FlowDirection.Forward;
+    private FlowShape _shape = FlowShape.Arrow;
+    private double _speed = 1.0;
+    private double _flowSize = 20;
+    private double _gapSize = 15;
+
+    private readonly FlowShape[] _shapes = [
+        FlowShape.Dash,
+        FlowShape.Rectangle,
+        FlowShape.Arrow,
+        FlowShape.Chevron,
+        FlowShape.DblChevron,
+        FlowShape.TripleChevron,
+    ];
+
+    private string _codeRegistration =>
+        @"// Register once when creating your diagram
+diagram.RegisterComponent<FlowLinkModel, FlowLinkWidget>();";
+
+    private string _codeSample =>
+        $@"var link = diagram.Links.Add(new FlowLinkModel(sourceNode, targetNode)
+{{
+    Color      = ""#ff8800"",   // solid base line color (from LinkModel)
+    LineWidth  = 8,
+    FlowColor  = ""#0088ff"",   // moving shapes color
+    FlowWidth  = 6,
+    FlowShape  = FlowShape.{_shape},
+    FlowDirection = FlowDirection.{_direction},
+    FlowSpeed  = {_speed.ToString("G", System.Globalization.CultureInfo.InvariantCulture)},
+    FlowSize   = {_flowSize},
+    FlowGapSize = {_gapSize},
+}});
+
+// Change direction at any time — e.g. driven by live data
+link.FlowDirection = FlowDirection.Reverse;";
+
+    protected override void OnInitialized()
+    {
+        _diagram.Options.Zoom.Enabled = false;
+        _diagram.RegisterComponent<FlowLinkModel, FlowLinkWidget>();
+
+        var node1 = _diagram.Nodes.Add(new NodeModel(new Point(80, 80)));
+        var node2 = _diagram.Nodes.Add(new NodeModel(new Point(380, 80)));
+        var node3 = _diagram.Nodes.Add(new NodeModel(new Point(80, 160)));
+        var node4 = _diagram.Nodes.Add(new NodeModel(new Point(380, 160)));
+
+        _link = _diagram.Links.Add(new FlowLinkModel(node1, node2)
+        {
+            Color = "#ff8800",
+            LineWidth = 8,
+            FlowColor = "#0088ff",
+            FlowWidth = 6,
+            FlowShape = _shape,
+            FlowDirection = _direction,
+            FlowSpeed = _speed,
+            FlowSize = _flowSize,
+            FlowGapSize = _gapSize,
+        });
+
+        _diagram.Links.Add(new FlowLinkModel(node3, node4)
+        {
+            Color = "#888888",
+            LineWidth = 8,
+            FlowColor = "#22bb44",
+            FlowWidth = 6,
+            FlowShape = FlowShape.Chevron,
+            FlowDirection = FlowDirection.Reverse,
+            FlowSpeed = 1.5,
+            FlowSize = 14,
+            FlowGapSize = 20,
+        });
+    }
+
+    private void SetDirection(FlowDirection dir)
+    {
+        _direction = dir;
+        if (_link != null) _link.FlowDirection = dir;
+        _codeKey++;
+    }
+
+    private void SetShape(FlowShape shape)
+    {
+        _shape = shape;
+        if (_link != null) _link.FlowShape = shape;
+        _codeKey++;
+    }
+
+    private void SpeedUp()
+    {
+        if (_speed > 0.2)
+        {
+            _speed = Math.Round(_speed - 0.2, 1);
+            if (_link != null) _link.FlowSpeed = _speed;
+            _codeKey++;
+        }
+    }
+
+    private void SlowDown()
+    {
+        if (_speed < 5.0)
+        {
+            _speed = Math.Round(_speed + 0.2, 1);
+            if (_link != null) _link.FlowSpeed = _speed;
+            _codeKey++;
+        }
+    }
+
+    private void IncreaseSize()
+    {
+        if (_flowSize < 50)
+        {
+            _flowSize += 2;
+            if (_link != null) _link.FlowSize = _flowSize;
+            _codeKey++;
+        }
+    }
+
+    private void DecreaseSize()
+    {
+        if (_flowSize > 4)
+        {
+            _flowSize -= 2;
+            if (_link != null) _link.FlowSize = _flowSize;
+            _codeKey++;
+        }
+    }
+
+    private void IncreaseGap()
+    {
+        if (_gapSize < 60)
+        {
+            _gapSize += 4;
+            if (_link != null) _link.FlowGapSize = _gapSize;
+            _codeKey++;
+        }
+    }
+
+    private void DecreaseGap()
+    {
+        if (_gapSize > 4)
+        {
+            _gapSize -= 4;
+            if (_link != null) _link.FlowGapSize = _gapSize;
+            _codeKey++;
+        }
+    }
+}

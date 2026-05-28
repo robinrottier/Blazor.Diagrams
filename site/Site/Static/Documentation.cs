@@ -46,6 +46,7 @@ public static class Documentation
             new MenuItem("Markers", "/documentation/links-markers"),
             new MenuItem("Vertices", "/documentation/links-vertices"),
             new MenuItem("Animation", "/documentation/links-animation"),
+            new MenuItem("Flow Link", "/documentation/links-flow"),
         }, Icon: Icons.Link),
         new MenuGroup("Groups", new List<MenuItem>
         {

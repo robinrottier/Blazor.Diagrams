@@ -1,5 +1,6 @@
 using Blazor.Diagrams;
 using Blazor.Diagrams.Components;
+using Blazor.Diagrams.Core.Anchors;
 using Blazor.Diagrams.Core.Geometry;
 using Blazor.Diagrams.Core.Models;
 using Microsoft.AspNetCore.Components;
@@ -12,9 +13,13 @@ public partial class FlowLinkDemo
     private readonly List<FlowLinkModel> _links = new();
     private FlowDirection _direction = FlowDirection.Forward;
     private double _speed = 1.0;
-    private double _dashSize = 10;
-    private string? _color;
-    private double _width = 3;
+    private double _flowSize = 20;
+    private double _gapSize = 15;
+    private string? _color = "#0088ff";      // flow color: blue
+    private string? _lineColor = "#ff8800";  // line color: orange
+    private double _flowWidth = 10;
+    private double _lineWidth = 20;
+    private FlowShape _flowShape = FlowShape.Arrow;
 
     protected override void OnInitialized()
     {
@@ -22,45 +27,67 @@ public partial class FlowLinkDemo
 
         LayoutData.Title = "Flow Links";
         LayoutData.Info = "FlowLinkModel renders a marching-ants animated overlay on top of the base link path. " +
-            "Use the panel to control direction, speed, dash size, and color in real time.";
+            "Use the panel to control direction, speed, dash size, and color in real time. " +
+            "Drag from any port to create a new flow link with the current settings.";
         LayoutData.DataChanged();
 
         _blazorDiagram.RegisterComponent<FlowLinkModel, FlowLinkWidget>();
+
+        // New links dragged by the user become FlowLinkModel with current panel settings
+        _blazorDiagram.Options.Links.Factory = (_, source, targetAnchor) =>
+        {
+            var sourceAnchor = new SinglePortAnchor((PortModel)source);
+            return ConfigureLink(new FlowLinkModel(sourceAnchor, targetAnchor));
+        };
+
+        // Track user-created links so panel controls update them too
+        _blazorDiagram.Links.Added += OnLinkAdded;
+
         InitializeDiagram();
+    }
+
+    private void OnLinkAdded(Blazor.Diagrams.Core.Models.Base.BaseLinkModel link)
+    {
+        if (link is FlowLinkModel flow && !_links.Contains(flow))
+            _links.Add(flow);
+    }
+
+    private FlowLinkModel ConfigureLink(FlowLinkModel link)
+    {
+        link.Color = _lineColor;
+        link.FlowColor = string.IsNullOrEmpty(_color) ? null : _color;
+        link.FlowWidth = _flowWidth;
+        link.FlowDirection = _direction;
+        link.FlowSpeed = _speed;
+        link.FlowSize = _flowSize;
+        link.FlowGapSize = _gapSize;
+        link.FlowShape = _flowShape;
+        link.LineWidth = _lineWidth;
+        return link;
     }
 
     private void InitializeDiagram()
     {
-        // Three nodes in a chain
-        var node1 = NewNode(50, 200);
-        var node2 = NewNode(300, 100);
-        var node3 = NewNode(300, 300);
-        var node4 = NewNode(550, 200);
+        // Compact 2×2 grid — short lines so big shapes look impactful at startup
+        var node1 = NewNode(80,  180);   // top-left
+        var node2 = NewNode(280, 180);   // top-right
+        var node3 = NewNode(80,  360);   // bottom-left
+        var node4 = NewNode(280, 360);   // bottom-right
 
         _blazorDiagram.Nodes.Add(new[] { node1, node2, node3, node4 });
 
-        _links.Add(AddFlow(node1.GetPort(PortAlignment.Right)!, node2.GetPort(PortAlignment.Left)!, "#0088ff"));
-        _links.Add(AddFlow(node1.GetPort(PortAlignment.Right)!, node3.GetPort(PortAlignment.Left)!, "#ff8800"));
-        _links.Add(AddFlow(node2.GetPort(PortAlignment.Right)!, node4.GetPort(PortAlignment.Left)!, "#00aa44"));
-        _links.Add(AddFlow(node3.GetPort(PortAlignment.Right)!, node4.GetPort(PortAlignment.Left)!, "#aa0044"));
+        // Two short horizontal flow links
+        _links.Add(AddFlow(node1.GetPort(PortAlignment.Right)!, node2.GetPort(PortAlignment.Left)!));
+        _links.Add(AddFlow(node3.GetPort(PortAlignment.Right)!, node4.GetPort(PortAlignment.Left)!));
+
+        // Short vertical flow link on the right side
+        _links.Add(AddFlow(node2.GetPort(PortAlignment.Right)!, node4.GetPort(PortAlignment.Right)!));
 
         _blazorDiagram.Links.Add(_links.ToArray());
     }
 
-    private FlowLinkModel AddFlow(PortModel source, PortModel target, string baseColor)
-    {
-        var link = new FlowLinkModel(source, target)
-        {
-            Color = baseColor,
-            Width = _width,
-            FlowDirection = _direction,
-            FlowSpeed = _speed,
-            FlowDashSize = _dashSize,
-        };
-        if (!string.IsNullOrEmpty(_color))
-            link.FlowColor = _color;
-        return link;
-    }
+    private FlowLinkModel AddFlow(PortModel source, PortModel target)
+        => ConfigureLink(new FlowLinkModel(source, target));
 
     private NodeModel NewNode(double x, double y)
     {
@@ -89,13 +116,42 @@ public partial class FlowLinkDemo
         }
     }
 
-    private void OnDashSizeChanged(ChangeEventArgs e)
+    private void OnFlowSizeChanged(ChangeEventArgs e)
     {
         if (double.TryParse(e.Value?.ToString(), System.Globalization.NumberStyles.Any,
             System.Globalization.CultureInfo.InvariantCulture, out var val))
         {
-            _dashSize = val;
-            foreach (var link in _links) link.FlowDashSize = val;
+            _flowSize = val;
+            foreach (var link in _links) link.FlowSize = val;
+        }
+    }
+
+    private void OnGapSizeChanged(ChangeEventArgs e)
+    {
+        if (double.TryParse(e.Value?.ToString(), System.Globalization.NumberStyles.Any,
+            System.Globalization.CultureInfo.InvariantCulture, out var val))
+        {
+            _gapSize = val;
+            foreach (var link in _links) link.FlowGapSize = val;
+        }
+    }
+
+    private void OnFlowShapeChanged(ChangeEventArgs e)
+    {
+        if (Enum.TryParse<FlowShape>(e.Value?.ToString(), out var shape))
+        {
+            _flowShape = shape;
+            foreach (var link in _links) link.FlowShape = shape;
+        }
+    }
+
+    private void OnLineColorChanged(ChangeEventArgs e)
+    {
+        _lineColor = string.IsNullOrEmpty(e.Value?.ToString()) ? null : e.Value.ToString();
+        foreach (var link in _links)
+        {
+            link.Color = _lineColor;
+            link.Refresh();
         }
     }
 
@@ -106,17 +162,23 @@ public partial class FlowLinkDemo
             link.FlowColor = string.IsNullOrEmpty(_color) ? null : _color;
     }
 
-    private void OnWidthChanged(ChangeEventArgs e)
+    private void OnFlowWidthChanged(ChangeEventArgs e)
     {
         if (double.TryParse(e.Value?.ToString(), System.Globalization.NumberStyles.Any,
             System.Globalization.CultureInfo.InvariantCulture, out var val))
         {
-            _width = val;
-            foreach (var link in _links)
-            {
-                link.Width = val;
-                link.Refresh();
-            }
+            _flowWidth = val;
+            foreach (var link in _links) link.FlowWidth = val;
+        }
+    }
+
+    private void OnLineWidthChanged(ChangeEventArgs e)
+    {
+        if (double.TryParse(e.Value?.ToString(), System.Globalization.NumberStyles.Any,
+            System.Globalization.CultureInfo.InvariantCulture, out var val))
+        {
+            _lineWidth = val;
+            foreach (var link in _links) link.LineWidth = val;
         }
     }
 }

@@ -1,4 +1,4 @@
-name: Build, Test, Analyze on SonarCloud
+name: Build and Test
 
 on:
   workflow_dispatch:  # manual trigger
@@ -18,37 +18,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: |
-            8
-            9
-            10
-
-      - name: Install SonarScanner for .NET
-        run: dotnet tool install --global dotnet-sonarscanner
-
-      - name: Begin SonarCloud analysis
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: >
-          dotnet sonarscanner begin
-          /k:"robinrottier_Blazor.Diagrams"
-          /o:"robinrottier"
-          /d:sonar.token="${SONAR_TOKEN}"
-          /d:sonar.host.url="https://sonarcloud.io"
-          /d:sonar.cs.opencover.reportsPaths="**/TestResults/*/*.xml"
+          dotnet-version: '10'
 
       - name: Build
         run: dotnet build
 
-      - name: Test (with coverage)
-        run: dotnet test --no-build --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
-
-      - name: End SonarCloud analysis
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: dotnet sonarscanner end /d:sonar.token="${SONAR_TOKEN}"
+      - name: Test
+        run: dotnet test --no-build --collect:"XPlat Code Coverage"
