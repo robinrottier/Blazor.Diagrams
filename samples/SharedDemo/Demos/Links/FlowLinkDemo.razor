@@ -4,15 +4,17 @@
 
 <style>
     .flow-ctrl { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px; }
-    .flow-ctrl label { font-size: .85rem; font-weight: 500; margin: 0; }
-    .flow-ctrl .val { font-size: .8rem; color: #666; }
-    .flow-panel { height: 100%; overflow-y: auto; background: #f8f8f8; border-right: 1px solid #ddd; padding: 12px; }
-    .flow-panel .section-title { font-weight: 600; margin-bottom: 10px; }
-    .flow-panel .mb-2 select, .flow-panel .mb-2 input[type=range] { width: 100%; }
+    .flow-ctrl label { font-size: .82rem; font-weight: 500; margin: 0; white-space: nowrap; }
+    .flow-ctrl .val { font-size: .8rem; color: #666; white-space: nowrap; margin-left: 6px; }
+    .flow-panel { flex: 0 0 210px; width: 210px; min-width: 0; height: 100%; overflow-y: auto;
+                  background: #f8f8f8; border-right: 1px solid #ddd; padding: 10px 10px 10px 10px; }
+    .flow-panel .section-title { font-weight: 600; margin-bottom: 8px; font-size: .9rem; }
+    .flow-panel label.form-label { font-size: .82rem; font-weight: 500; margin-bottom: 2px; }
+    .flow-panel select, .flow-panel input[type=range] { width: 100%; }
 </style>
 
-<div class="row h-100">
-    <div class="col-3 flow-panel">
+<div class="d-flex h-100">
+    <div class="flow-panel">
         <div class="section-title">Flow Link Controls</div>
 
         <div class="mb-2">
@@ -91,7 +93,7 @@
             <input type="range" min="0" max="30" step="1" value="@_lineWidth" @onchange="OnLineWidthChanged" />
         </div>
     </div>
-    <div class="col-9">
+    <div style="flex:1;min-width:0;">
         <CascadingValue Value="_blazorDiagram">
             <DiagramCanvas></DiagramCanvas>
         </CascadingValue>

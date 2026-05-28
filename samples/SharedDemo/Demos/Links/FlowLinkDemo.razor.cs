@@ -1,5 +1,6 @@
 using Blazor.Diagrams;
 using Blazor.Diagrams.Components;
+using Blazor.Diagrams.Core.Anchors;
 using Blazor.Diagrams.Core.Geometry;
 using Blazor.Diagrams.Core.Models;
 using Microsoft.AspNetCore.Components;
@@ -26,11 +27,43 @@ public partial class FlowLinkDemo
 
         LayoutData.Title = "Flow Links";
         LayoutData.Info = "FlowLinkModel renders a marching-ants animated overlay on top of the base link path. " +
-            "Use the panel to control direction, speed, dash size, and color in real time.";
+            "Use the panel to control direction, speed, dash size, and color in real time. " +
+            "Drag from any port to create a new flow link with the current settings.";
         LayoutData.DataChanged();
 
         _blazorDiagram.RegisterComponent<FlowLinkModel, FlowLinkWidget>();
+
+        // New links dragged by the user become FlowLinkModel with current panel settings
+        _blazorDiagram.Options.Links.Factory = (_, source, targetAnchor) =>
+        {
+            var sourceAnchor = new SinglePortAnchor((PortModel)source);
+            return ConfigureLink(new FlowLinkModel(sourceAnchor, targetAnchor));
+        };
+
+        // Track user-created links so panel controls update them too
+        _blazorDiagram.Links.Added += OnLinkAdded;
+
         InitializeDiagram();
+    }
+
+    private void OnLinkAdded(Blazor.Diagrams.Core.Models.Base.BaseLinkModel link)
+    {
+        if (link is FlowLinkModel flow && !_links.Contains(flow))
+            _links.Add(flow);
+    }
+
+    private FlowLinkModel ConfigureLink(FlowLinkModel link)
+    {
+        link.Color = _lineColor;
+        link.FlowColor = string.IsNullOrEmpty(_color) ? null : _color;
+        link.FlowWidth = _flowWidth;
+        link.FlowDirection = _direction;
+        link.FlowSpeed = _speed;
+        link.FlowSize = _flowSize;
+        link.FlowGapSize = _gapSize;
+        link.FlowShape = _flowShape;
+        link.LineWidth = _lineWidth;
+        return link;
     }
 
     private void InitializeDiagram()
@@ -54,22 +87,7 @@ public partial class FlowLinkDemo
     }
 
     private FlowLinkModel AddFlow(PortModel source, PortModel target)
-    {
-        var link = new FlowLinkModel(source, target)
-        {
-            Color = _lineColor,
-            FlowWidth = _flowWidth,
-            FlowDirection = _direction,
-            FlowSpeed = _speed,
-            FlowSize = _flowSize,
-            FlowGapSize = _gapSize,
-            FlowShape = _flowShape,
-            LineWidth = _lineWidth,
-        };
-        if (!string.IsNullOrEmpty(_color))
-            link.FlowColor = _color;
-        return link;
-    }
+        => ConfigureLink(new FlowLinkModel(source, target));
 
     private NodeModel NewNode(double x, double y)
     {
