@@ -29,6 +29,7 @@ public class FlowLinkModel : LinkModel
     private string? _flowColor;
     private double? _flowWidth;
     private double _flowDashSize = 10;
+    private double _flowGapSize = 10;
 
     public FlowLinkModel(Anchor source, Anchor target) : base(source, target) { }
 
@@ -81,12 +82,21 @@ public class FlowLinkModel : LinkModel
     }
 
     /// <summary>
-    /// Size of each dash and gap in the marching-ants pattern. Default is 10 px.
+    /// Length of each dash in the marching-ants pattern. Default is 10 px.
     /// </summary>
     public double FlowDashSize
     {
         get => _flowDashSize;
         set { _flowDashSize = Math.Max(1, value); Refresh(); }
+    }
+
+    /// <summary>
+    /// Length of the gap between dashes in the marching-ants pattern. Default is 10 px.
+    /// </summary>
+    public double FlowGapSize
+    {
+        get => _flowGapSize;
+        set { _flowGapSize = Math.Max(1, value); Refresh(); }
     }
 
     /// <summary>
@@ -105,8 +115,8 @@ public class FlowLinkModel : LinkModel
     /// </summary>
     public string FlowAnimateTo => FlowDirection switch
     {
-        FlowDirection.Forward => (-FlowDashSize * 2).ToString("G", System.Globalization.CultureInfo.InvariantCulture),
-        FlowDirection.Reverse => (FlowDashSize * 2).ToString("G", System.Globalization.CultureInfo.InvariantCulture),
+        FlowDirection.Forward => (-(FlowDashSize + FlowGapSize)).ToString("G", System.Globalization.CultureInfo.InvariantCulture),
+        FlowDirection.Reverse => (FlowDashSize + FlowGapSize).ToString("G", System.Globalization.CultureInfo.InvariantCulture),
         _ => "0"
     };
 }

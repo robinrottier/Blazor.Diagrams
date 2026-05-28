@@ -17,6 +17,7 @@ public class FlowLinkModelTests
         link.FlowDirection.Should().Be(FlowDirection.None);
         link.FlowSpeed.Should().BeApproximately(1.0, 0.001);
         link.FlowDashSize.Should().BeApproximately(10.0, 0.001);
+        link.FlowGapSize.Should().BeApproximately(10.0, 0.001);
         link.FlowColor.Should().BeNull();
         link.FlowWidth.Should().BeNull();
     }
@@ -143,6 +144,55 @@ public class FlowLinkModelTests
         link.FlowColor = "#00ff00";
 
         link.ResolvedFlowColor.Should().Be("#00ff00");
+    }
+
+    [Fact]
+    public void FlowGapSize_CanBeChanged()
+    {
+        var link = NewLink();
+        link.FlowGapSize = 20;
+        link.FlowGapSize.Should().BeApproximately(20.0, 0.001);
+    }
+
+    [Fact]
+    public void FlowGapSize_ClampedToMinimumOfOne()
+    {
+        var link = NewLink();
+        link.FlowGapSize = 0;
+        link.FlowGapSize.Should().BeGreaterThanOrEqualTo(1);
+    }
+
+    [Fact]
+    public void FlowGapSize_Change_TriggersRefresh()
+    {
+        var link = NewLink();
+        var refreshCount = 0;
+        link.Changed += _ => refreshCount++;
+
+        link.FlowGapSize = 15;
+        refreshCount.Should().BeGreaterThan(0);
+    }
+
+    [Fact]
+    public void FlowAnimateTo_Forward_UsesDashPlusGap()
+    {
+        var link = NewLink();
+        link.FlowDashSize = 10;
+        link.FlowGapSize = 5;
+        link.FlowDirection = FlowDirection.Forward;
+
+        link.FlowAnimateTo.Should().Be("-15");
+    }
+
+    [Fact]
+    public void FlowAnimateTo_Reverse_UsesDashPlusGap()
+    {
+        var link = NewLink();
+        link.FlowDashSize = 10;
+        link.FlowGapSize = 5;
+        link.FlowDirection = FlowDirection.Reverse;
+
+        link.FlowAnimateTo.Should().Be("15");
     }
 
     [Fact]

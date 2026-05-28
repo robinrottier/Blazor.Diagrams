@@ -13,6 +13,7 @@ public partial class FlowLinkDemo
     private FlowDirection _direction = FlowDirection.Forward;
     private double _speed = 1.0;
     private double _dashSize = 10;
+    private double _gapSize = 10;
     private string? _color;
     private double _width = 3;
 
@@ -31,19 +32,21 @@ public partial class FlowLinkDemo
 
     private void InitializeDiagram()
     {
-        // Three nodes in a chain
-        var node1 = NewNode(50, 200);
-        var node2 = NewNode(300, 100);
-        var node3 = NewNode(300, 300);
-        var node4 = NewNode(550, 200);
+        // 2x2 grid — positioned below the info box
+        var node1 = NewNode(50,  270);   // top-left
+        var node2 = NewNode(310, 270);   // top-right
+        var node3 = NewNode(50,  450);   // bottom-left
+        var node4 = NewNode(310, 450);   // bottom-right
 
         _blazorDiagram.Nodes.Add(new[] { node1, node2, node3, node4 });
 
-        _links.Add(AddFlow(node1.GetPort(PortAlignment.Right)!, node2.GetPort(PortAlignment.Left)!, "#0088ff"));
-        _links.Add(AddFlow(node1.GetPort(PortAlignment.Right)!, node3.GetPort(PortAlignment.Left)!, "#ff8800"));
-        _links.Add(AddFlow(node2.GetPort(PortAlignment.Right)!, node4.GetPort(PortAlignment.Left)!, "#00aa44"));
-        _links.Add(AddFlow(node3.GetPort(PortAlignment.Right)!, node4.GetPort(PortAlignment.Left)!, "#aa0044"));
+        // Two horizontal flow links
+        _links.Add(AddFlow(node1.GetPort(PortAlignment.Right)!, node2.GetPort(PortAlignment.Left)!, "#00aa44"));
+        _links.Add(AddFlow(node3.GetPort(PortAlignment.Right)!, node4.GetPort(PortAlignment.Left)!, "#ff8800"));
 
+        // One plain curved link looping down the right side (no flow animation)
+        var plainLink = new LinkModel(node2.GetPort(PortAlignment.Right)!, node4.GetPort(PortAlignment.Right)!);
+        _blazorDiagram.Links.Add(plainLink);
         _blazorDiagram.Links.Add(_links.ToArray());
     }
 
@@ -56,6 +59,7 @@ public partial class FlowLinkDemo
             FlowDirection = _direction,
             FlowSpeed = _speed,
             FlowDashSize = _dashSize,
+            FlowGapSize = _gapSize,
         };
         if (!string.IsNullOrEmpty(_color))
             link.FlowColor = _color;
@@ -96,6 +100,26 @@ public partial class FlowLinkDemo
         {
             _dashSize = val;
             foreach (var link in _links) link.FlowDashSize = val;
+        }
+    }
+
+    private void OnGapSizeChanged(ChangeEventArgs e)
+    {
+        if (double.TryParse(e.Value?.ToString(), System.Globalization.NumberStyles.Any,
+            System.Globalization.CultureInfo.InvariantCulture, out var val))
+        {
+            _gapSize = val;
+            foreach (var link in _links) link.FlowGapSize = val;
+        }
+    }
+
+    private void OnLineColorChanged(ChangeEventArgs e)
+    {
+        var val = e.Value?.ToString();
+        foreach (var link in _links)
+        {
+            link.Color = string.IsNullOrEmpty(val) ? null : val;
+            link.Refresh();
         }
     }
 

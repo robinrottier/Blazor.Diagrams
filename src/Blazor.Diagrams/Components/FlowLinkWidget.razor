@@ -15,7 +15,8 @@
     var flowColor = FlowLink.ResolvedFlowColor ?? color;
     var flowWidth = FlowLink.ResolvedFlowWidth;
     var dashSize = FlowLink.FlowDashSize;
-    var dashArray = $"{dashSize.ToInvariantString()} {dashSize.ToInvariantString()}";
+    var gapSize = FlowLink.FlowGapSize;
+    var dashArray = $"{dashSize.ToInvariantString()} {gapSize.ToInvariantString()}";
     var animDur = $"{FlowLink.FlowSpeed.ToInvariantString()}s";
 }
 
