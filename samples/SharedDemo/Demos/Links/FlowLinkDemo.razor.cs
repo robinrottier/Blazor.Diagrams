@@ -12,12 +12,13 @@ public partial class FlowLinkDemo
     private readonly List<FlowLinkModel> _links = new();
     private FlowDirection _direction = FlowDirection.Forward;
     private double _speed = 1.0;
-    private double _flowSize = 10;
-    private double _gapSize = 10;
-    private string? _color = "black";
+    private double _flowSize = 20;
+    private double _gapSize = 15;
+    private string? _color = "#0088ff";      // flow color: blue
+    private string? _lineColor = "#ff8800";  // line color: orange
     private double _flowWidth = 10;
-    private double _lineWidth = 0;
-    private FlowShape _flowShape = FlowShape.Dash;
+    private double _lineWidth = 20;
+    private FlowShape _flowShape = FlowShape.Arrow;
 
     protected override void OnInitialized()
     {
@@ -34,29 +35,29 @@ public partial class FlowLinkDemo
 
     private void InitializeDiagram()
     {
-        // 2x2 grid — positioned below the info box
-        var node1 = NewNode(50,  270);   // top-left
-        var node2 = NewNode(310, 270);   // top-right
-        var node3 = NewNode(50,  450);   // bottom-left
-        var node4 = NewNode(310, 450);   // bottom-right
+        // Compact 2×2 grid — short lines so big shapes look impactful at startup
+        var node1 = NewNode(80,  180);   // top-left
+        var node2 = NewNode(280, 180);   // top-right
+        var node3 = NewNode(80,  360);   // bottom-left
+        var node4 = NewNode(280, 360);   // bottom-right
 
         _blazorDiagram.Nodes.Add(new[] { node1, node2, node3, node4 });
 
-        // Two horizontal flow links
-        _links.Add(AddFlow(node1.GetPort(PortAlignment.Right)!, node2.GetPort(PortAlignment.Left)!, "#00aa44"));
-        _links.Add(AddFlow(node3.GetPort(PortAlignment.Right)!, node4.GetPort(PortAlignment.Left)!, "#ff8800"));
+        // Two short horizontal flow links
+        _links.Add(AddFlow(node1.GetPort(PortAlignment.Right)!, node2.GetPort(PortAlignment.Left)!));
+        _links.Add(AddFlow(node3.GetPort(PortAlignment.Right)!, node4.GetPort(PortAlignment.Left)!));
 
-        // Right-side rounded flow link (direction None = static, but responds to panel changes)
-        _links.Add(AddFlow(node2.GetPort(PortAlignment.Right)!, node4.GetPort(PortAlignment.Right)!, "#0088ff"));
+        // Short vertical flow link on the right side
+        _links.Add(AddFlow(node2.GetPort(PortAlignment.Right)!, node4.GetPort(PortAlignment.Right)!));
 
         _blazorDiagram.Links.Add(_links.ToArray());
     }
 
-    private FlowLinkModel AddFlow(PortModel source, PortModel target, string baseColor)
+    private FlowLinkModel AddFlow(PortModel source, PortModel target)
     {
         var link = new FlowLinkModel(source, target)
         {
-            Color = baseColor,
+            Color = _lineColor,
             FlowWidth = _flowWidth,
             FlowDirection = _direction,
             FlowSpeed = _speed,
@@ -128,10 +129,10 @@ public partial class FlowLinkDemo
 
     private void OnLineColorChanged(ChangeEventArgs e)
     {
-        var val = e.Value?.ToString();
+        _lineColor = string.IsNullOrEmpty(e.Value?.ToString()) ? null : e.Value.ToString();
         foreach (var link in _links)
         {
-            link.Color = string.IsNullOrEmpty(val) ? null : val;
+            link.Color = _lineColor;
             link.Refresh();
         }
     }

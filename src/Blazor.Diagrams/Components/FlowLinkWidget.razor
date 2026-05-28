@@ -96,11 +96,13 @@
         var shapeStrokeW = Math.Max(1.0, flowWidth / 4.0).ToInvariantString();
         var isFilled = shape == FlowShape.Arrow;
 
-        // Apparent speed: spacing px per FlowSpeed seconds → full traversal time = pathLength * FlowSpeed / spacing
-        var motionDur = spacing > 0 ? pathLength * FlowLink.FlowSpeed / spacing : FlowLink.FlowSpeed;
+        // Round count to nearest integer so pathLength divides evenly into count spacing slots —
+        // the wrap interval then equals every other interval, eliminating bunching at the seam.
+        // motionDur = count * FlowSpeed makes each FlowSpeed-second stagger equal exactly one
+        // spacing unit of travel, so shapes stay perfectly evenly distributed at all times.
+        var count = spacing > 0 ? Math.Max(1, (int)Math.Round(pathLength / spacing)) : 1;
+        var motionDur = count * FlowLink.FlowSpeed;
         var motionDurStr = $"{motionDur.ToInvariantString()}s";
-        // Fixed stagger of FlowSpeed seconds between adjacent shapes → fixed spacing pixels between shapes
-        var count = spacing > 0 ? Math.Max(1, (int)Math.Ceiling(pathLength / spacing)) : 1;
 
         @for (var i = 0; i < count; i++)
         {
