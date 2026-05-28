@@ -1,0 +1,118 @@
+@using Blazor.Diagrams.Core.Behaviors;
+@using Blazor.Diagrams.Core.Models;
+
+@{
+    var color = FlowLink.Selected
+        ? FlowLink.SelectedColor ?? BlazorDiagram.Options.Links.DefaultSelectedColor
+        : FlowLink.Color ?? BlazorDiagram.Options.Links.DefaultColor;
+
+    var result = FlowLink.PathGeneratorResult;
+    if (result == null)
+        return;
+
+    var dnlb = BlazorDiagram.GetBehavior<DragNewLinkBehavior>();
+    var d = result.FullPath.ToString();
+    var flowColor = FlowLink.ResolvedFlowColor ?? color;
+    var flowWidth = FlowLink.ResolvedFlowWidth;
+    var dashSize = FlowLink.FlowDashSize;
+    var dashArray = $"{dashSize.ToInvariantString()} {dashSize.ToInvariantString()}";
+    var animDur = $"{FlowLink.FlowSpeed.ToInvariantString()}s";
+}
+
+@{
+    var extraPathAttributes = new Dictionary<string, object>();
+    if (!string.IsNullOrEmpty(FlowLink.DashPattern))
+        extraPathAttributes["stroke-dasharray"] = FlowLink.DashPattern;
+}
+
+@* Layer 1: Base solid path *@
+<path d="@d"
+      stroke-width="@FlowLink.Width.ToInvariantString()"
+      fill="none"
+      stroke="@color"
+      @attributes="extraPathAttributes">
+    @if (FlowLink.Animations != null)
+    {
+        @foreach (var animation in FlowLink.Animations)
+        {
+            if (animation.AttributeName != null)
+            {
+                <animate attributeName="@animation.AttributeName"
+                         from="@animation.From"
+                         to="@animation.To"
+                         dur="@animation.Duration"
+                         repeatCount="@(animation.RepeatCount ?? "indefinite")" />
+            }
+        }
+    }
+</path>
+
+@* Layer 2: Marching-ants flow overlay *@
+@if (FlowLink.FlowDirection != FlowDirection.None)
+{
+    <path d="@d"
+          stroke-width="@flowWidth.ToInvariantString()"
+          fill="none"
+          stroke="@flowColor"
+          stroke-dasharray="@dashArray"
+          stroke-linecap="round">
+        @if (FlowLink.FlowDirection is FlowDirection.Forward or FlowDirection.Reverse)
+        {
+            <animate attributeName="stroke-dashoffset"
+                     from="0"
+                     to="@FlowLink.FlowAnimateTo"
+                     dur="@animDur"
+                     repeatCount="indefinite" />
+        }
+    </path>
+}
+
+@* Layer 3: Selection helper paths *@
+@if (dnlb?.OngoingLink == null || dnlb.OngoingLink != FlowLink)
+{
+    @if (FlowLink.Vertices.Count == 0)
+    {
+        @GetSelectionHelperPath(color, d, 0)
+    }
+    else
+    {
+        @for (var i = 0; i < result.Paths.Length; i++)
+        {
+            d = result.Paths[i].ToString();
+            var index = i;
+            @GetSelectionHelperPath(color, d, index)
+        }
+    }
+}
+
+@if (FlowLink.SourceMarker != null && result.SourceMarkerAngle != null && result.SourceMarkerPosition != null)
+{
+    <g transform="@(FormattableString.Invariant($"translate({result.SourceMarkerPosition.X}, {result.SourceMarkerPosition.Y}) rotate({result.SourceMarkerAngle})"))">
+        <path d="@FlowLink.SourceMarker.Path" fill="@color"></path>
+    </g>
+}
+
+@if (FlowLink.TargetMarker != null && result.TargetMarkerAngle != null && result.TargetMarkerPosition != null)
+{
+    <g transform="@(FormattableString.Invariant($"translate({result.TargetMarkerPosition.X}, {result.TargetMarkerPosition.Y}) rotate({result.TargetMarkerAngle})"))">
+        <path d="@FlowLink.TargetMarker.Path" fill="@color"></path>
+    </g>
+}
+
+@if (FlowLink.Vertices.Count > 0)
+{
+    var selectedColor = FlowLink.SelectedColor ?? BlazorDiagram.Options.Links.DefaultSelectedColor;
+    var normalColor = FlowLink.Color ?? BlazorDiagram.Options.Links.DefaultColor;
+    @foreach (var vertex in FlowLink.Vertices)
+    {
+        <LinkVertexRenderer @key="vertex.Id"
+                    Vertex="vertex"
+                    Color="@normalColor"
+                    SelectedColor="@selectedColor" />
+    }
+}
+
+@foreach (var label in FlowLink.Labels)
+{
+    <LinkLabelRenderer @key="label.Id" Label="@label" Path="@result.FullPath" />
+}
