@@ -14,10 +14,11 @@
     var d = result.FullPath.ToString();
     var flowColor = FlowLink.ResolvedFlowColor ?? color;
     var flowWidth = FlowLink.ResolvedFlowWidth;
-    var dashSize = FlowLink.FlowDashSize;
+    var flowSize = FlowLink.FlowSize;
     var gapSize = FlowLink.FlowGapSize;
-    var dashArray = $"{dashSize.ToInvariantString()} {gapSize.ToInvariantString()}";
     var animDur = $"{FlowLink.FlowSpeed.ToInvariantString()}s";
+    var shape = FlowLink.FlowShape;
+    var isMotionShape = shape is FlowShape.Arrow or FlowShape.Chevron or FlowShape.DblChevron or FlowShape.TripleChevron;
 }
 
 @{
@@ -26,9 +27,9 @@
         extraPathAttributes["stroke-dasharray"] = FlowLink.DashPattern;
 }
 
-@* Layer 1: Base solid path *@
+@* Layer 1: Solid line *@
 <path d="@d"
-      stroke-width="@FlowLink.Width.ToInvariantString()"
+      stroke-width="@FlowLink.ResolvedLineWidth.ToInvariantString()"
       fill="none"
       stroke="@color"
       @attributes="extraPathAttributes">
@@ -48,24 +49,81 @@
     }
 </path>
 
-@* Layer 2: Marching-ants flow overlay *@
+@* Layer 2: Animated flow overlay *@
 @if (FlowLink.FlowDirection != FlowDirection.None)
 {
-    <path d="@d"
-          stroke-width="@flowWidth.ToInvariantString()"
-          fill="none"
-          stroke="@flowColor"
-          stroke-dasharray="@dashArray"
-          stroke-linecap="round">
-        @if (FlowLink.FlowDirection is FlowDirection.Forward or FlowDirection.Reverse)
+    var pathLength = Math.Max(1.0, result.FullPath.Length);
+    var spacing = flowSize + gapSize;
+
+    @if (!isMotionShape)
+    {
+        @* Dash / Rectangle: stroke-dasharray animation.
+           For Dash, round linecaps protrude by flowWidth/2 on each end, eating into visible dash and gap.
+           Adjust geometric values so: visual dash length = FlowSize, visual gap = FlowGapSize.
+             geomDash = max(0, FlowSize - FlowWidth)   (straight segment, caps add the rest)
+             geomGap  = FlowGapSize + FlowWidth         (gap shrunk by caps, so visible gap stays correct)
+           Period = geomDash + geomGap = FlowSize + FlowGapSize (unchanged — FlowAnimateTo stays valid). *@
+        var linecap = shape == FlowShape.Rectangle ? "butt" : "round";
+        var geomDash = shape == FlowShape.Dash ? Math.Max(0.0, flowSize - flowWidth) : flowSize;
+        var geomGap  = shape == FlowShape.Dash ? gapSize + flowWidth : gapSize;
+        var dashArrayStr = $"{geomDash.ToInvariantString()} {geomGap.ToInvariantString()}";
+
+        <path d="@d"
+              stroke-width="@flowWidth.ToInvariantString()"
+              fill="none"
+              stroke="@flowColor"
+              stroke-dasharray="@dashArrayStr"
+              stroke-linecap="@linecap">
+            @if (FlowLink.FlowDirection is FlowDirection.Forward or FlowDirection.Reverse)
+            {
+                <animate attributeName="stroke-dashoffset"
+                         from="0"
+                         to="@FlowLink.FlowAnimateTo"
+                         dur="@animDur"
+                         repeatCount="indefinite" />
+            }
+        </path>
+    }
+    else if (FlowLink.FlowDirection is FlowDirection.Forward or FlowDirection.Reverse)
+    {
+        @* Arrow / Chevron variants: animateMotion along the path.
+           Speed is consistent with Dash/Rectangle: one spacing unit (FlowSize + FlowGapSize) per FlowSpeed seconds.
+           Count is derived from path length so spacing stays fixed regardless of line length.
+           Reverse: shape geometry is mirrored (tip in -x direction) since rotate="auto" tangent
+           may not correctly invert for keyPoints="1;0" in all browsers. *@
+        var isForward = FlowLink.FlowDirection == FlowDirection.Forward;
+        var shapePath = BuildShapePath(shape, flowSize, flowWidth, !isForward);
+        var shapeStrokeW = Math.Max(1.0, flowWidth / 4.0).ToInvariantString();
+        var isFilled = shape == FlowShape.Arrow;
+
+        // Apparent speed: spacing px per FlowSpeed seconds → full traversal time = pathLength * FlowSpeed / spacing
+        var motionDur = spacing > 0 ? pathLength * FlowLink.FlowSpeed / spacing : FlowLink.FlowSpeed;
+        var motionDurStr = $"{motionDur.ToInvariantString()}s";
+        // Fixed stagger of FlowSpeed seconds between adjacent shapes → fixed spacing pixels between shapes
+        var count = spacing > 0 ? Math.Max(1, (int)Math.Ceiling(pathLength / spacing)) : 1;
+
+        @for (var i = 0; i < count; i++)
         {
-            <animate attributeName="stroke-dashoffset"
-                     from="0"
-                     to="@FlowLink.FlowAnimateTo"
-                     dur="@animDur"
-                     repeatCount="indefinite" />
+            var begin = $"-{(i * FlowLink.FlowSpeed).ToInvariantString()}s";
+            <path @key="@($"{FlowLink.Id}-shape-{i}")"
+                  d="@shapePath"
+                  fill="@(isFilled ? flowColor : "none")"
+                  stroke="@(isFilled ? "none" : flowColor)"
+                  stroke-width="@shapeStrokeW"
+                  stroke-linecap="round"
+                  stroke-linejoin="round">
+                @if (isForward)
+                {
+                    <animateMotion path="@d" dur="@motionDurStr" begin="@begin" repeatCount="indefinite" rotate="auto" />
+                }
+                else
+                {
+                    <animateMotion path="@d" dur="@motionDurStr" begin="@begin" repeatCount="indefinite" rotate="auto"
+                                   keyPoints="1;0" keyTimes="0;1" calcMode="linear" />
+                }
+            </path>
         }
-    </path>
+    }
 }
 
 @* Layer 3: Selection helper paths *@

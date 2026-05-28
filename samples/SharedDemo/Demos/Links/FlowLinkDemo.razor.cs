@@ -12,10 +12,12 @@ public partial class FlowLinkDemo
     private readonly List<FlowLinkModel> _links = new();
     private FlowDirection _direction = FlowDirection.Forward;
     private double _speed = 1.0;
-    private double _dashSize = 10;
+    private double _flowSize = 10;
     private double _gapSize = 10;
-    private string? _color;
-    private double _width = 3;
+    private string? _color = "black";
+    private double _flowWidth = 10;
+    private double _lineWidth = 0;
+    private FlowShape _flowShape = FlowShape.Dash;
 
     protected override void OnInitialized()
     {
@@ -44,9 +46,9 @@ public partial class FlowLinkDemo
         _links.Add(AddFlow(node1.GetPort(PortAlignment.Right)!, node2.GetPort(PortAlignment.Left)!, "#00aa44"));
         _links.Add(AddFlow(node3.GetPort(PortAlignment.Right)!, node4.GetPort(PortAlignment.Left)!, "#ff8800"));
 
-        // One plain curved link looping down the right side (no flow animation)
-        var plainLink = new LinkModel(node2.GetPort(PortAlignment.Right)!, node4.GetPort(PortAlignment.Right)!);
-        _blazorDiagram.Links.Add(plainLink);
+        // Right-side rounded flow link (direction None = static, but responds to panel changes)
+        _links.Add(AddFlow(node2.GetPort(PortAlignment.Right)!, node4.GetPort(PortAlignment.Right)!, "#0088ff"));
+
         _blazorDiagram.Links.Add(_links.ToArray());
     }
 
@@ -55,11 +57,13 @@ public partial class FlowLinkDemo
         var link = new FlowLinkModel(source, target)
         {
             Color = baseColor,
-            Width = _width,
+            FlowWidth = _flowWidth,
             FlowDirection = _direction,
             FlowSpeed = _speed,
-            FlowDashSize = _dashSize,
+            FlowSize = _flowSize,
             FlowGapSize = _gapSize,
+            FlowShape = _flowShape,
+            LineWidth = _lineWidth,
         };
         if (!string.IsNullOrEmpty(_color))
             link.FlowColor = _color;
@@ -93,13 +97,13 @@ public partial class FlowLinkDemo
         }
     }
 
-    private void OnDashSizeChanged(ChangeEventArgs e)
+    private void OnFlowSizeChanged(ChangeEventArgs e)
     {
         if (double.TryParse(e.Value?.ToString(), System.Globalization.NumberStyles.Any,
             System.Globalization.CultureInfo.InvariantCulture, out var val))
         {
-            _dashSize = val;
-            foreach (var link in _links) link.FlowDashSize = val;
+            _flowSize = val;
+            foreach (var link in _links) link.FlowSize = val;
         }
     }
 
@@ -110,6 +114,15 @@ public partial class FlowLinkDemo
         {
             _gapSize = val;
             foreach (var link in _links) link.FlowGapSize = val;
+        }
+    }
+
+    private void OnFlowShapeChanged(ChangeEventArgs e)
+    {
+        if (Enum.TryParse<FlowShape>(e.Value?.ToString(), out var shape))
+        {
+            _flowShape = shape;
+            foreach (var link in _links) link.FlowShape = shape;
         }
     }
 
@@ -130,17 +143,23 @@ public partial class FlowLinkDemo
             link.FlowColor = string.IsNullOrEmpty(_color) ? null : _color;
     }
 
-    private void OnWidthChanged(ChangeEventArgs e)
+    private void OnFlowWidthChanged(ChangeEventArgs e)
     {
         if (double.TryParse(e.Value?.ToString(), System.Globalization.NumberStyles.Any,
             System.Globalization.CultureInfo.InvariantCulture, out var val))
         {
-            _width = val;
-            foreach (var link in _links)
-            {
-                link.Width = val;
-                link.Refresh();
-            }
+            _flowWidth = val;
+            foreach (var link in _links) link.FlowWidth = val;
+        }
+    }
+
+    private void OnLineWidthChanged(ChangeEventArgs e)
+    {
+        if (double.TryParse(e.Value?.ToString(), System.Globalization.NumberStyles.Any,
+            System.Globalization.CultureInfo.InvariantCulture, out var val))
+        {
+            _lineWidth = val;
+            foreach (var link in _links) link.LineWidth = val;
         }
     }
 }

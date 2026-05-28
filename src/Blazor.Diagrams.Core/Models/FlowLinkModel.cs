@@ -18,6 +18,25 @@ public enum FlowDirection
 }
 
 /// <summary>
+/// Visual shape of each moving unit in the flow animation.
+/// </summary>
+public enum FlowShape
+{
+    /// <summary>Rounded pill / dash (default). <see cref="FlowLinkModel.FlowSize"/> = 0 produces dots/circles.</summary>
+    Dash,
+    /// <summary>Square-ended rectangle dash — same as Dash but with flat caps.</summary>
+    Rectangle,
+    /// <summary>Solid filled triangle pointing in the flow direction.</summary>
+    Arrow,
+    /// <summary>Open chevron "&gt;" pointing in the flow direction.</summary>
+    Chevron,
+    /// <summary>Two open chevrons "&gt;&gt;" pointing in the flow direction.</summary>
+    DblChevron,
+    /// <summary>Three open chevrons "&gt;&gt;&gt;" pointing in the flow direction.</summary>
+    TripleChevron,
+}
+
+/// <summary>
 /// A <see cref="LinkModel"/> that adds an animated "marching ants" flow overlay.
 /// The flow direction and speed can be driven at runtime (e.g. by an MQTT data value).
 /// Register a <c>FlowLinkWidget</c> for this type to render the layered SVG.
@@ -28,8 +47,11 @@ public class FlowLinkModel : LinkModel
     private double _flowSpeed = 1.0;
     private string? _flowColor;
     private double? _flowWidth;
-    private double _flowDashSize = 10;
+    private double _flowSize = 10;
     private double _flowGapSize = 10;
+    private double? _lineWidth;
+    private FlowShape _flowShape = FlowShape.Dash;
+    private int _flowShapeCount = 10;
 
     public FlowLinkModel(Anchor source, Anchor target) : base(source, target) { }
 
@@ -73,7 +95,7 @@ public class FlowLinkModel : LinkModel
     }
 
     /// <summary>
-    /// Width of the animated inner path. Defaults to half of <see cref="LinkModel.Width"/> when null.
+    /// Width of the animated flow overlay stroke. Defaults to half of <see cref="LinkModel.Width"/> when null.
     /// </summary>
     public double? FlowWidth
     {
@@ -82,16 +104,21 @@ public class FlowLinkModel : LinkModel
     }
 
     /// <summary>
-    /// Length of each dash in the marching-ants pattern. Default is 10 px.
+    /// Size of each moving unit in the flow animation.
+    /// For <see cref="FlowShape.Dash"/>/<see cref="FlowShape.Rectangle"/> this is the dash length in px (0 = dot/circle).
+    /// For shape modes this is the bounding-box width of each shape in px.
+    /// Default is 10 px.
     /// </summary>
-    public double FlowDashSize
+    public double FlowSize
     {
-        get => _flowDashSize;
-        set { _flowDashSize = Math.Max(1, value); Refresh(); }
+        get => _flowSize;
+        set { _flowSize = Math.Max(0, value); Refresh(); }
     }
 
     /// <summary>
-    /// Length of the gap between dashes in the marching-ants pattern. Default is 10 px.
+    /// Gap between each moving unit.
+    /// Applies to <see cref="FlowShape.Dash"/> and <see cref="FlowShape.Rectangle"/> only.
+    /// Default is 10 px.
     /// </summary>
     public double FlowGapSize
     {
@@ -100,7 +127,47 @@ public class FlowLinkModel : LinkModel
     }
 
     /// <summary>
-    /// Resolved flow path stroke width — half of base <see cref="LinkModel.Width"/>, or <see cref="FlowWidth"/> if set.
+    /// Width of the solid line drawn beneath the flow overlay (Layer 1).
+    /// When <c>0</c> the line is invisible — only the moving shapes render.
+    /// When <c>null</c> (default) falls back to <see cref="LinkModel.Width"/>.
+    /// </summary>
+    public double? LineWidth
+    {
+        get => _lineWidth;
+        set { _lineWidth = value; Refresh(); }
+    }
+
+    /// <summary>
+    /// Visual shape of each moving unit. Default is <see cref="FlowShape.Dash"/>.
+    /// </summary>
+    public FlowShape FlowShape
+    {
+        get => _flowShape;
+        set { _flowShape = value; Refresh(); }
+    }
+
+    /// <summary>
+    /// Number of shape instances simultaneously visible on the link for animateMotion-based shapes.
+    /// <para><b>Obsolete:</b> the default <c>FlowLinkWidget</c> now derives the shape count automatically
+    /// from the path length and <see cref="FlowSize"/>+<see cref="FlowGapSize"/> spacing, giving
+    /// fixed pixel spacing regardless of line length. This property is retained for custom widget
+    /// implementations that may still want a fixed count.</para>
+    /// </summary>
+    [Obsolete("FlowLinkWidget now derives count from path length. This property has no effect on the default widget.")]
+    public int FlowShapeCount
+    {
+        get => _flowShapeCount;
+        set { _flowShapeCount = Math.Max(1, value); Refresh(); }
+    }
+
+    /// <summary>
+    /// Resolved stroke-width for the solid base line. <see cref="LineWidth"/> when set,
+    /// otherwise <see cref="LinkModel.Width"/>.
+    /// </summary>
+    public double ResolvedLineWidth => LineWidth ?? Width;
+
+    /// <summary>
+    /// Resolved flow overlay stroke width — half of <see cref="LinkModel.Width"/>, or <see cref="FlowWidth"/> if set.
     /// </summary>
     public double ResolvedFlowWidth => FlowWidth ?? Math.Max(1, Width / 2.0);
 
@@ -110,13 +177,13 @@ public class FlowLinkModel : LinkModel
     public string? ResolvedFlowColor => FlowColor ?? Color;
 
     /// <summary>
-    /// SVG stroke-dashoffset 'to' value for the animate element based on the current <see cref="FlowDirection"/>.
-    /// Forward = negative offset (moves source→target), Reverse = positive, None/Paused = "0".
+    /// SVG stroke-dashoffset 'to' value for the animate element (Dash/Rectangle shapes).
+    /// Forward = negative offset (source→target), Reverse = positive, None/Paused = "0".
     /// </summary>
     public string FlowAnimateTo => FlowDirection switch
     {
-        FlowDirection.Forward => (-(FlowDashSize + FlowGapSize)).ToString("G", System.Globalization.CultureInfo.InvariantCulture),
-        FlowDirection.Reverse => (FlowDashSize + FlowGapSize).ToString("G", System.Globalization.CultureInfo.InvariantCulture),
+        FlowDirection.Forward => (-(FlowSize + FlowGapSize)).ToString("G", System.Globalization.CultureInfo.InvariantCulture),
+        FlowDirection.Reverse => (FlowSize + FlowGapSize).ToString("G", System.Globalization.CultureInfo.InvariantCulture),
         _ => "0"
     };
 }

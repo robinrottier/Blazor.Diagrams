@@ -2,6 +2,8 @@ using Blazor.Diagrams.Core.Models;
 using FluentAssertions;
 using Xunit;
 
+#pragma warning disable CS0618 // FlowShapeCount is intentionally obsolete but tests verify its retained behaviour
+
 namespace Blazor.Diagrams.Core.Tests.Models;
 
 public class FlowLinkModelTests
@@ -16,10 +18,13 @@ public class FlowLinkModelTests
 
         link.FlowDirection.Should().Be(FlowDirection.None);
         link.FlowSpeed.Should().BeApproximately(1.0, 0.001);
-        link.FlowDashSize.Should().BeApproximately(10.0, 0.001);
+        link.FlowSize.Should().BeApproximately(10.0, 0.001);
         link.FlowGapSize.Should().BeApproximately(10.0, 0.001);
         link.FlowColor.Should().BeNull();
         link.FlowWidth.Should().BeNull();
+        link.LineWidth.Should().BeNull();
+        link.FlowShape.Should().Be(FlowShape.Dash);
+        link.FlowShapeCount.Should().Be(10);
     }
 
     [Fact]
@@ -57,11 +62,19 @@ public class FlowLinkModelTests
     }
 
     [Fact]
-    public void FlowDashSize_IsClampedToMinimum()
+    public void FlowSize_IsClampedToZero()
     {
         var link = NewLink();
-        link.FlowDashSize = 0;
-        link.FlowDashSize.Should().BeGreaterOrEqualTo(1);
+        link.FlowSize = -1;
+        link.FlowSize.Should().Be(0);
+    }
+
+    [Fact]
+    public void FlowSize_AllowsZeroForDotMode()
+    {
+        var link = NewLink();
+        link.FlowSize = 0;
+        link.FlowSize.Should().Be(0);
     }
 
     [Theory]
@@ -70,7 +83,7 @@ public class FlowLinkModelTests
     public void FlowAnimateTo_IsNonZeroForAnimatedDirections(FlowDirection dir)
     {
         var link = NewLink();
-        link.FlowDashSize = 10;
+        link.FlowSize = 10;
         link.FlowDirection = dir;
 
         link.FlowAnimateTo.Should().NotBe("0");
@@ -91,7 +104,7 @@ public class FlowLinkModelTests
     public void FlowAnimateTo_ForwardIsNegative()
     {
         var link = NewLink();
-        link.FlowDashSize = 10;
+        link.FlowSize = 10;
         link.FlowDirection = FlowDirection.Forward;
 
         link.FlowAnimateTo.Should().StartWith("-");
@@ -101,7 +114,7 @@ public class FlowLinkModelTests
     public void FlowAnimateTo_ReverseIsPositive()
     {
         var link = NewLink();
-        link.FlowDashSize = 10;
+        link.FlowSize = 10;
         link.FlowDirection = FlowDirection.Reverse;
 
         double.Parse(link.FlowAnimateTo, System.Globalization.CultureInfo.InvariantCulture)
@@ -109,7 +122,7 @@ public class FlowLinkModelTests
     }
 
     [Fact]
-    public void ResolvedFlowWidth_DefaultsToHalfBaseWidth()
+    public void ResolvedFlowWidth_DefaultsToHalfWidth()
     {
         var link = NewLink();
         link.Width = 6;
@@ -174,10 +187,10 @@ public class FlowLinkModelTests
     }
 
     [Fact]
-    public void FlowAnimateTo_Forward_UsesDashPlusGap()
+    public void FlowAnimateTo_Forward_UsesSizePlusGap()
     {
         var link = NewLink();
-        link.FlowDashSize = 10;
+        link.FlowSize = 10;
         link.FlowGapSize = 5;
         link.FlowDirection = FlowDirection.Forward;
 
@@ -185,14 +198,55 @@ public class FlowLinkModelTests
     }
 
     [Fact]
-    public void FlowAnimateTo_Reverse_UsesDashPlusGap()
+    public void FlowAnimateTo_Reverse_UsesSizePlusGap()
     {
         var link = NewLink();
-        link.FlowDashSize = 10;
+        link.FlowSize = 10;
         link.FlowGapSize = 5;
         link.FlowDirection = FlowDirection.Reverse;
 
         link.FlowAnimateTo.Should().Be("15");
+    }
+
+    [Fact]
+    public void LineWidth_NullFallsBackToWidth()
+    {
+        var link = NewLink();
+        link.Width = 8;
+
+        link.LineWidth.Should().BeNull();
+        link.ResolvedLineWidth.Should().Be(8);
+    }
+
+    [Fact]
+    public void LineWidth_WhenSetOverridesWidth()
+    {
+        var link = NewLink();
+        link.Width = 8;
+        link.LineWidth = 2;
+
+        link.ResolvedLineWidth.Should().Be(2);
+    }
+
+    [Fact]
+    public void LineWidth_ZeroMakesLineInvisible()
+    {
+        var link = NewLink();
+        link.Width = 8;
+        link.LineWidth = 0;
+
+        link.ResolvedLineWidth.Should().Be(0);
+    }
+
+    [Fact]
+    public void LineWidth_Change_TriggersRefresh()
+    {
+        var link = NewLink();
+        var refreshCount = 0;
+        link.Changed += _ => refreshCount++;
+
+        link.LineWidth = 3;
+        refreshCount.Should().BeGreaterThan(0);
     }
 
     [Fact]
@@ -211,5 +265,63 @@ public class FlowLinkModelTests
         var tgtPort = new PortModel(new NodeModel());
         var link = new FlowLinkModel("my-id", srcPort, tgtPort);
         link.Id.Should().Be("my-id");
+    }
+
+    // ── FlowShape ────────────────────────────────────────────────────────────
+
+    [Fact]
+    public void FlowShape_DefaultsIsDash()
+    {
+        NewLink().FlowShape.Should().Be(FlowShape.Dash);
+    }
+
+    [Theory]
+    [InlineData(FlowShape.Dash)]
+    [InlineData(FlowShape.Rectangle)]
+    [InlineData(FlowShape.Arrow)]
+    [InlineData(FlowShape.Chevron)]
+    [InlineData(FlowShape.DblChevron)]
+    [InlineData(FlowShape.TripleChevron)]
+    public void FlowShape_CanBeSetToAllValues(FlowShape shape)
+    {
+        var link = NewLink();
+        link.FlowShape = shape;
+        link.FlowShape.Should().Be(shape);
+    }
+
+    [Fact]
+    public void FlowShape_Change_TriggersRefresh()
+    {
+        var link = NewLink();
+        var refreshCount = 0;
+        link.Changed += _ => refreshCount++;
+
+        link.FlowShape = FlowShape.Arrow;
+        refreshCount.Should().BeGreaterThan(0);
+    }
+
+    [Fact]
+    public void FlowShapeCount_DefaultsToTen()
+    {
+        NewLink().FlowShapeCount.Should().Be(10);
+    }
+
+    [Fact]
+    public void FlowShapeCount_ClampedToMinimumOfOne()
+    {
+        var link = NewLink();
+        link.FlowShapeCount = 0;
+        link.FlowShapeCount.Should().Be(1);
+    }
+
+    [Fact]
+    public void FlowShapeCount_Change_TriggersRefresh()
+    {
+        var link = NewLink();
+        var refreshCount = 0;
+        link.Changed += _ => refreshCount++;
+
+        link.FlowShapeCount = 5;
+        refreshCount.Should().BeGreaterThan(0);
     }
 }
