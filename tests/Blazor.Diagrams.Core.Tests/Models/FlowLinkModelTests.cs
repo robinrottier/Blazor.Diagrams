@@ -2,8 +2,6 @@ using Blazor.Diagrams.Core.Models;
 using FluentAssertions;
 using Xunit;
 
-#pragma warning disable CS0618 // FlowShapeCount is intentionally obsolete but tests verify its retained behaviour
-
 namespace Blazor.Diagrams.Core.Tests.Models;
 
 public class FlowLinkModelTests
@@ -24,7 +22,6 @@ public class FlowLinkModelTests
         link.FlowWidth.Should().BeNull();
         link.FlowMarker.Should().BeNull();
         link.FlowShape.Should().Be(FlowShape.Dash);
-        link.FlowShapeCount.Should().Be(10);
     }
 
     [Fact]
@@ -351,31 +348,6 @@ public class FlowLinkModelTests
         link.Changed += _ => refreshCount++;
 
         link.FlowShape = FlowShape.Arrow;
-        refreshCount.Should().BeGreaterThan(0);
-    }
-
-    [Fact]
-    public void FlowShapeCount_DefaultsToTen()
-    {
-        NewLink().FlowShapeCount.Should().Be(10);
-    }
-
-    [Fact]
-    public void FlowShapeCount_ClampedToMinimumOfOne()
-    {
-        var link = NewLink();
-        link.FlowShapeCount = 0;
-        link.FlowShapeCount.Should().Be(1);
-    }
-
-    [Fact]
-    public void FlowShapeCount_Change_TriggersRefresh()
-    {
-        var link = NewLink();
-        var refreshCount = 0;
-        link.Changed += _ => refreshCount++;
-
-        link.FlowShapeCount = 5;
         refreshCount.Should().BeGreaterThan(0);
     }
 }

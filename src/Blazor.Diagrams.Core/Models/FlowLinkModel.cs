@@ -50,7 +50,6 @@ public class FlowLinkModel : LinkModel
     private double _flowSize = 10;
     private double _flowGapSize = 10;
     private FlowShape _flowShape = FlowShape.Dash;
-    private int _flowShapeCount = 10;
     private LinkMarker? _flowMarker;
 
     public FlowLinkModel(Anchor source, Anchor target) : base(source, target) { }
@@ -136,20 +135,6 @@ public class FlowLinkModel : LinkModel
     }
 
     /// <summary>
-    /// Number of shape instances simultaneously visible on the link for animateMotion-based shapes.
-    /// <para><b>Obsolete:</b> the default <c>FlowLinkWidget</c> now derives the shape count automatically
-    /// from the path length and <see cref="FlowSize"/>+<see cref="FlowGapSize"/> spacing, giving
-    /// fixed pixel spacing regardless of line length. This property is retained for custom widget
-    /// implementations that may still want a fixed count.</para>
-    /// </summary>
-    [Obsolete("FlowLinkWidget now derives count from path length. This property has no effect on the default widget.")]
-    public int FlowShapeCount
-    {
-        get => _flowShapeCount;
-        set { _flowShapeCount = Math.Max(1, value); Refresh(); }
-    }
-
-    /// <summary>
     /// A marker placed at the flow-direction end of the link.
     /// When set, <see cref="BaseLinkModel.SourceMarker"/> and <see cref="BaseLinkModel.TargetMarker"/>
     /// are managed automatically: the marker appears at whichever end data is currently flowing toward.
@@ -171,12 +156,6 @@ public class FlowLinkModel : LinkModel
             Refresh();
         }
     }
-
-    /// <summary>
-    /// Resolved stroke-width for the solid base line — always <see cref="LinkModel.Width"/>.
-    /// </summary>
-    [Obsolete("Use Width directly. ResolvedLineWidth is retained for binary compatibility only.")]
-    public double ResolvedLineWidth => Width;
 
     /// <summary>
     /// Resolved flow overlay stroke width — half of <see cref="LinkModel.Width"/>, or <see cref="FlowWidth"/> if set.
