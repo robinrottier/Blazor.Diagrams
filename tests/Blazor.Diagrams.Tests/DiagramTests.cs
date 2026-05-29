@@ -1,4 +1,5 @@
 ﻿using Blazor.Diagrams.Components;
+using Blazor.Diagrams.Core.Behaviors;
 using Blazor.Diagrams.Core.Models;
 using Blazor.Diagrams.Core.Models.Base;
 using FluentAssertions;
@@ -77,6 +78,28 @@ public class DiagramTests
 
         // Assert
         componentType.Should().BeNull();
+    }
+
+    [Fact]
+    public void Constructor_ShouldRegisterDefaultBehaviors_ByDefault()
+    {
+        var diagram = new BlazorDiagram();
+
+        diagram.GetBehavior<SelectionBehavior>().Should().NotBeNull();
+        diagram.GetBehavior<PanBehavior>().Should().NotBeNull();
+        diagram.BehaviorOptions.DiagramDragBehavior.Should().NotBeNull();
+        diagram.BehaviorOptions.DiagramWheelBehavior.Should().NotBeNull();
+    }
+
+    [Fact]
+    public void Constructor_ShouldAllowDisablingDefaultBehaviorsRegistration()
+    {
+        var diagram = new BlazorDiagram(registerDefaultBehaviors: false);
+
+        diagram.GetBehavior<SelectionBehavior>().Should().BeNull();
+        diagram.GetBehavior<PanBehavior>().Should().BeNull();
+        diagram.BehaviorOptions.DiagramDragBehavior.Should().BeNull();
+        diagram.BehaviorOptions.DiagramWheelBehavior.Should().BeNull();
     }
 
     private class CustomModel : Model { }
