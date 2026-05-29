@@ -159,8 +159,10 @@ public class FlowLinkModel : LinkModel
 
     /// <summary>
     /// Resolved flow overlay stroke width — half of <see cref="LinkModel.Width"/>, or <see cref="FlowWidth"/> if set.
+    /// When <see cref="LinkModel.Width"/> is 0 and <see cref="FlowWidth"/> is not set, returns 0 (invisible).
+    /// Set <see cref="FlowWidth"/> explicitly to show a flow overlay with no base line.
     /// </summary>
-    public double ResolvedFlowWidth => FlowWidth ?? Math.Max(1, Width / 2.0);
+    public double ResolvedFlowWidth => FlowWidth ?? Math.Max(0, Width / 2.0);
 
     /// <summary>
     /// Resolved flow color — <see cref="FlowColor"/> if set, else <see cref="LinkModel.Color"/>.

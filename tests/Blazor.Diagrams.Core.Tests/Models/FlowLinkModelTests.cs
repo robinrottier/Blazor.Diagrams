@@ -128,6 +128,25 @@ public class FlowLinkModelTests
     }
 
     [Fact]
+    public void ResolvedFlowWidth_IsZeroWhenWidthIsZero()
+    {
+        var link = NewLink();
+        link.Width = 0;
+
+        link.ResolvedFlowWidth.Should().Be(0);
+    }
+
+    [Fact]
+    public void ResolvedFlowWidth_ExplicitFlowWidthOverridesZeroWidth()
+    {
+        var link = NewLink();
+        link.Width = 0;
+        link.FlowWidth = 4;
+
+        link.ResolvedFlowWidth.Should().Be(4);
+    }
+
+    [Fact]
     public void ResolvedFlowWidth_UsesExplicitFlowWidth()
     {
         var link = NewLink();
