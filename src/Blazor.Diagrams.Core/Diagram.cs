@@ -36,7 +36,11 @@ public abstract class Diagram
     public event Action? ContainerChanged;
     public event Action? Changed;
 
-    protected Diagram()
+    protected Diagram() : this(true)
+    {
+    }
+
+    protected Diagram(bool registerDefaultBehaviors)
     { 
         _behaviors = new Dictionary<Type, Behavior>();
         _orderedSelectables = new List<SelectableModel>();
@@ -55,11 +59,13 @@ public abstract class Diagram
         Links.Removed += OnSelectableRemoved;
         Groups.Removed += OnSelectableRemoved;
 
-        RegisterDefaultBehaviors();
-
-        BehaviorOptions.DiagramDragBehavior ??= GetBehavior<PanBehavior>();
-        BehaviorOptions.DiagramShiftDragBehavior ??= GetBehavior<SelectionBoxBehavior>();
-        BehaviorOptions.DiagramWheelBehavior ??= GetBehavior<ZoomBehavior>();
+        if (registerDefaultBehaviors)
+        {
+            RegisterDefaultBehaviors();
+            BehaviorOptions.DiagramDragBehavior ??= GetBehavior<PanBehavior>();
+            BehaviorOptions.DiagramShiftDragBehavior ??= GetBehavior<SelectionBoxBehavior>();
+            BehaviorOptions.DiagramWheelBehavior ??= GetBehavior<ZoomBehavior>();
+        }
     }
 
     public abstract DiagramOptions Options { get; }
