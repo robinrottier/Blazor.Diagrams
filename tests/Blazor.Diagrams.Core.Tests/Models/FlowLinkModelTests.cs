@@ -22,7 +22,7 @@ public class FlowLinkModelTests
         link.FlowGapSize.Should().BeApproximately(10.0, 0.001);
         link.FlowColor.Should().BeNull();
         link.FlowWidth.Should().BeNull();
-        link.LineWidth.Should().BeNull();
+        link.FlowMarker.Should().BeNull();
         link.FlowShape.Should().Be(FlowShape.Dash);
         link.FlowShapeCount.Should().Be(10);
     }
@@ -209,47 +209,6 @@ public class FlowLinkModelTests
     }
 
     [Fact]
-    public void LineWidth_NullFallsBackToWidth()
-    {
-        var link = NewLink();
-        link.Width = 8;
-
-        link.LineWidth.Should().BeNull();
-        link.ResolvedLineWidth.Should().Be(8);
-    }
-
-    [Fact]
-    public void LineWidth_WhenSetOverridesWidth()
-    {
-        var link = NewLink();
-        link.Width = 8;
-        link.LineWidth = 2;
-
-        link.ResolvedLineWidth.Should().Be(2);
-    }
-
-    [Fact]
-    public void LineWidth_ZeroMakesLineInvisible()
-    {
-        var link = NewLink();
-        link.Width = 8;
-        link.LineWidth = 0;
-
-        link.ResolvedLineWidth.Should().Be(0);
-    }
-
-    [Fact]
-    public void LineWidth_Change_TriggersRefresh()
-    {
-        var link = NewLink();
-        var refreshCount = 0;
-        link.Changed += _ => refreshCount++;
-
-        link.LineWidth = 3;
-        refreshCount.Should().BeGreaterThan(0);
-    }
-
-    [Fact]
     public void Constructor_WithPorts_Succeeds()
     {
         var srcPort = new PortModel(new NodeModel());
@@ -265,6 +224,101 @@ public class FlowLinkModelTests
         var tgtPort = new PortModel(new NodeModel());
         var link = new FlowLinkModel("my-id", srcPort, tgtPort);
         link.Id.Should().Be("my-id");
+    }
+
+    // ── FlowMarker ────────────────────────────────────────────────────────────
+
+    [Fact]
+    public void FlowMarker_DefaultIsNull()
+    {
+        var link = NewLink();
+        link.FlowMarker.Should().BeNull();
+        link.SourceMarker.Should().BeNull();
+        link.TargetMarker.Should().BeNull();
+    }
+
+    [Fact]
+    public void FlowMarker_ForwardDirection_SetsTargetMarker()
+    {
+        var link = NewLink();
+        link.FlowDirection = FlowDirection.Forward;
+        link.FlowMarker = LinkMarker.Arrow;
+
+        link.TargetMarker.Should().Be(LinkMarker.Arrow);
+        link.SourceMarker.Should().BeNull();
+    }
+
+    [Fact]
+    public void FlowMarker_ReverseDirection_SetsSourceMarker()
+    {
+        var link = NewLink();
+        link.FlowDirection = FlowDirection.Reverse;
+        link.FlowMarker = LinkMarker.Arrow;
+
+        link.SourceMarker.Should().Be(LinkMarker.Arrow);
+        link.TargetMarker.Should().BeNull();
+    }
+
+    [Fact]
+    public void FlowMarker_NoneDirection_ClearsMarkers()
+    {
+        var link = NewLink();
+        link.FlowMarker = LinkMarker.Arrow;
+        link.FlowDirection = FlowDirection.None;
+
+        link.SourceMarker.Should().BeNull();
+        link.TargetMarker.Should().BeNull();
+    }
+
+    [Fact]
+    public void FlowMarker_DirectionChange_UpdatesMarker()
+    {
+        var link = NewLink();
+        link.FlowMarker = LinkMarker.Arrow;
+        link.FlowDirection = FlowDirection.Forward;
+        link.TargetMarker.Should().Be(LinkMarker.Arrow);
+
+        link.FlowDirection = FlowDirection.Reverse;
+        link.SourceMarker.Should().Be(LinkMarker.Arrow);
+        link.TargetMarker.Should().BeNull();
+    }
+
+    [Fact]
+    public void FlowMarker_SetToNull_ClearsMarkers()
+    {
+        var link = NewLink();
+        link.FlowDirection = FlowDirection.Forward;
+        link.FlowMarker = LinkMarker.Arrow;
+        link.TargetMarker.Should().Be(LinkMarker.Arrow);
+
+        link.FlowMarker = null;
+        link.SourceMarker.Should().BeNull();
+        link.TargetMarker.Should().BeNull();
+    }
+
+    [Fact]
+    public void FlowMarker_Null_DoesNotClobberManualMarkers()
+    {
+        var link = NewLink();
+        link.SourceMarker = LinkMarker.Circle;
+        link.TargetMarker = LinkMarker.Square;
+
+        // Changing direction when FlowMarker is null should not touch manual markers
+        link.FlowDirection = FlowDirection.Forward;
+
+        link.SourceMarker.Should().Be(LinkMarker.Circle);
+        link.TargetMarker.Should().Be(LinkMarker.Square);
+    }
+
+    [Fact]
+    public void FlowMarker_Change_TriggersRefresh()
+    {
+        var link = NewLink();
+        var refreshCount = 0;
+        link.Changed += _ => refreshCount++;
+
+        link.FlowMarker = LinkMarker.Arrow;
+        refreshCount.Should().BeGreaterThan(0);
     }
 
     // ── FlowShape ────────────────────────────────────────────────────────────

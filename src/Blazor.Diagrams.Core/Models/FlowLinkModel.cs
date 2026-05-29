@@ -49,9 +49,9 @@ public class FlowLinkModel : LinkModel
     private double? _flowWidth;
     private double _flowSize = 10;
     private double _flowGapSize = 10;
-    private double? _lineWidth;
     private FlowShape _flowShape = FlowShape.Dash;
     private int _flowShapeCount = 10;
+    private LinkMarker? _flowMarker;
 
     public FlowLinkModel(Anchor source, Anchor target) : base(source, target) { }
 
@@ -91,7 +91,7 @@ public class FlowLinkModel : LinkModel
     public FlowDirection FlowDirection
     {
         get => _flowDirection;
-        set { _flowDirection = value; Refresh(); }
+        set { _flowDirection = value; UpdateFlowMarkers(); Refresh(); }
     }
 
     /// <summary>
@@ -127,17 +127,6 @@ public class FlowLinkModel : LinkModel
     }
 
     /// <summary>
-    /// Width of the solid line drawn beneath the flow overlay (Layer 1).
-    /// When <c>0</c> the line is invisible — only the moving shapes render.
-    /// When <c>null</c> (default) falls back to <see cref="LinkModel.Width"/>.
-    /// </summary>
-    public double? LineWidth
-    {
-        get => _lineWidth;
-        set { _lineWidth = value; Refresh(); }
-    }
-
-    /// <summary>
     /// Visual shape of each moving unit. Default is <see cref="FlowShape.Dash"/>.
     /// </summary>
     public FlowShape FlowShape
@@ -161,10 +150,33 @@ public class FlowLinkModel : LinkModel
     }
 
     /// <summary>
-    /// Resolved stroke-width for the solid base line. <see cref="LineWidth"/> when set,
-    /// otherwise <see cref="LinkModel.Width"/>.
+    /// A marker placed at the flow-direction end of the link.
+    /// When set, <see cref="BaseLinkModel.SourceMarker"/> and <see cref="BaseLinkModel.TargetMarker"/>
+    /// are managed automatically: the marker appears at whichever end data is currently flowing toward.
+    /// Setting this to <c>null</c> clears both markers.
     /// </summary>
-    public double ResolvedLineWidth => LineWidth ?? Width;
+    public LinkMarker? FlowMarker
+    {
+        get => _flowMarker;
+        set
+        {
+            if (value == null && _flowMarker != null)
+            {
+                // Clearing: remove markers we may have set
+                SourceMarker = null;
+                TargetMarker = null;
+            }
+            _flowMarker = value;
+            UpdateFlowMarkers();
+            Refresh();
+        }
+    }
+
+    /// <summary>
+    /// Resolved stroke-width for the solid base line — always <see cref="LinkModel.Width"/>.
+    /// </summary>
+    [Obsolete("Use Width directly. ResolvedLineWidth is retained for binary compatibility only.")]
+    public double ResolvedLineWidth => Width;
 
     /// <summary>
     /// Resolved flow overlay stroke width — half of <see cref="LinkModel.Width"/>, or <see cref="FlowWidth"/> if set.
@@ -186,4 +198,16 @@ public class FlowLinkModel : LinkModel
         FlowDirection.Reverse => (FlowSize + FlowGapSize).ToString("G", System.Globalization.CultureInfo.InvariantCulture),
         _ => "0"
     };
+
+    /// <summary>
+    /// Updates <see cref="BaseLinkModel.SourceMarker"/> and <see cref="BaseLinkModel.TargetMarker"/>
+    /// based on <see cref="FlowMarker"/> and the current <see cref="FlowDirection"/>.
+    /// Has no effect when <see cref="FlowMarker"/> is null.
+    /// </summary>
+    private void UpdateFlowMarkers()
+    {
+        if (_flowMarker == null) return;
+        SourceMarker = _flowDirection == FlowDirection.Reverse ? _flowMarker : null;
+        TargetMarker = _flowDirection == FlowDirection.Forward ? _flowMarker : null;
+    }
 }

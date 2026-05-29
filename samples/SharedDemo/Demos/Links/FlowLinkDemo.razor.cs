@@ -57,12 +57,11 @@ public partial class FlowLinkDemo
         link.Color = _lineColor;
         link.FlowColor = string.IsNullOrEmpty(_color) ? null : _color;
         link.FlowWidth = _flowWidth;
-        link.FlowDirection = _direction;
+        link.Width = _lineWidth;
         link.FlowSpeed = _speed;
         link.FlowSize = _flowSize;
         link.FlowGapSize = _gapSize;
         link.FlowShape = _flowShape;
-        link.LineWidth = _lineWidth;
         return link;
     }
 
@@ -178,7 +177,7 @@ public partial class FlowLinkDemo
             System.Globalization.CultureInfo.InvariantCulture, out var val))
         {
             _lineWidth = val;
-            foreach (var link in _links) link.LineWidth = val;
+            foreach (var link in _links) link.Width = val;
         }
     }
 }

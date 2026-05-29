@@ -48,7 +48,8 @@
         <tr><td class="p-2 border border-slate-200"><code>FlowColor</code></td><td class="p-2 border border-slate-200">string?</td><td class="p-2 border border-slate-200">null (= link color)</td><td class="p-2 border border-slate-200">Color of the moving shapes</td></tr>
         <tr><td class="p-2 border border-slate-200"><code>FlowWidth</code></td><td class="p-2 border border-slate-200">double?</td><td class="p-2 border border-slate-200">null (= half line width)</td><td class="p-2 border border-slate-200">Stroke width of the moving shapes</td></tr>
         <tr><td class="p-2 border border-slate-200"><code>Color</code></td><td class="p-2 border border-slate-200">string?</td><td class="p-2 border border-slate-200">null</td><td class="p-2 border border-slate-200">Color of the solid base line (inherited from LinkModel)</td></tr>
-        <tr><td class="p-2 border border-slate-200"><code>LineWidth</code></td><td class="p-2 border border-slate-200">double?</td><td class="p-2 border border-slate-200">null (= link width)</td><td class="p-2 border border-slate-200">Width of the solid base line</td></tr>
+        <tr><td class="p-2 border border-slate-200"><code>Width</code></td><td class="p-2 border border-slate-200">double</td><td class="p-2 border border-slate-200">2</td><td class="p-2 border border-slate-200">Width of the solid base line in px (inherited from LinkModel). Set to 0 to hide the base line.</td></tr>
+        <tr><td class="p-2 border border-slate-200"><code>FlowMarker</code></td><td class="p-2 border border-slate-200">LinkMarker?</td><td class="p-2 border border-slate-200">null</td><td class="p-2 border border-slate-200">Arrow marker placed at the downstream end, automatically following FlowDirection</td></tr>
     </tbody>
 </table>
 
@@ -126,7 +127,7 @@ diagram.RegisterComponent<FlowLinkModel, FlowLinkWidget>();";
         $@"var link = diagram.Links.Add(new FlowLinkModel(sourceNode, targetNode)
 {{
     Color      = ""#ff8800"",   // solid base line color (from LinkModel)
-    LineWidth  = 8,
+    Width      = 8,             // base line width (from LinkModel); 0 = hide base line
     FlowColor  = ""#0088ff"",   // moving shapes color
     FlowWidth  = 6,
     FlowShape  = FlowShape.{_shape},
@@ -152,7 +153,7 @@ link.FlowDirection = FlowDirection.Reverse;";
         _link = _diagram.Links.Add(new FlowLinkModel(node1, node2)
         {
             Color = "#ff8800",
-            LineWidth = 8,
+            Width = 8,
             FlowColor = "#0088ff",
             FlowWidth = 6,
             FlowShape = _shape,
@@ -165,7 +166,7 @@ link.FlowDirection = FlowDirection.Reverse;";
         _diagram.Links.Add(new FlowLinkModel(node3, node4)
         {
             Color = "#888888",
-            LineWidth = 8,
+            Width = 8,
             FlowColor = "#22bb44",
             FlowWidth = 6,
             FlowShape = FlowShape.Chevron,
