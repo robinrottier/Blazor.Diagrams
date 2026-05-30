@@ -11,7 +11,7 @@ namespace Blazor.Diagrams.Tests.Components
         public async Task Rendering_WithChangingModels_ShouldNotThrowException()
         {
             // Arrange
-            using var ctx = new TestContext();
+            using var ctx = new BunitContext();
             var diagram = new BlazorDiagram();
 
             var model1 = new CustomModel();
@@ -31,7 +31,7 @@ namespace Blazor.Diagrams.Tests.Components
             {
                 try
                 {
-                    cut = ctx.RenderComponent<ControlsLayerRenderer>(parameters => parameters
+                    cut = ctx.Render<ControlsLayerRenderer>(parameters => parameters
                         .Add(c => c.BlazorDiagram, diagram));
 
                     renderStarted.Set(); // Indicate that rendering has started

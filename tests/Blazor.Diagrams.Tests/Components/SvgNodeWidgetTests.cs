@@ -11,10 +11,10 @@ public class SvgNodeWidgetTests
     public void ShouldRenderSimpleRect()
     {
         // Arrange
-        using var ctx = new TestContext();
+        using var ctx = new BunitContext();
 
         // Act
-        var cut = ctx.RenderComponent<SvgNodeWidget>();
+        var cut = ctx.Render<SvgNodeWidget>();
 
         // Assert
         cut.MarkupMatches("<rect width=\"50\" height=\"50\" style=\"fill:rgb(0, 0, 255); stroke-width:3; stroke:rgb(0, 0, 0)\" />");

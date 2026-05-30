@@ -12,10 +12,10 @@ namespace Blazor.Diagrams.Tests.Components.Controls
         [Fact]
         public void ShouldRenderDiv()
         {
-            using var ctx = new TestContext();
+            using var ctx = new BunitContext();
             var providerMock = Mock.Of<ResizerProvider>();
  
-            var cut = ctx.RenderComponent<ResizeControlWidget>(parameters =>
+            var cut = ctx.Render<ResizeControlWidget>(parameters =>
                 parameters.Add(w => w.Control, new ResizeControl(providerMock))
             );
 

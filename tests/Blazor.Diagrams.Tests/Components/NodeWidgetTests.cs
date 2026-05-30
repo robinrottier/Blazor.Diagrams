@@ -17,11 +17,11 @@ public class NodeWidgetTests
     public void DefaultNodeWidget_ShouldHaveSingleClassAndNoPorts_WhenItHasNoPortsAndNoSelectionNorGroup()
     {
         // Arrange
-        using var ctx = new TestContext();
+        using var ctx = new BunitContext();
         var node = new NodeModel(Point.Zero);
 
         // Act
-        var cut = ctx.RenderComponent<NodeWidget>(parameters => parameters
+        var cut = ctx.Render<NodeWidget>(parameters => parameters
             .Add(n => n.Node, node));
 
         // Assert

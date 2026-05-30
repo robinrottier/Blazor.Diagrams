@@ -14,13 +14,13 @@ public class NodeRendererTests
     {
         // Arrange
         JSRuntimeInvocationHandler call;
-        using (var ctx = new TestContext())
+        using (var ctx = new BunitContext())
         {
             ctx.JSInterop.Setup<Rectangle>("ZBlazorDiagrams.getBoundingClientRect", _ => true);
             call = ctx.JSInterop.SetupVoid("ZBlazorDiagrams.observe", _ => true).SetVoidResult();
 
             // Act
-            var cut = ctx.RenderComponent<NodeRenderer>(p =>
+            var cut = ctx.Render<NodeRenderer>(p =>
             {
                 p.Add(n => n.BlazorDiagram, new BlazorDiagram());
                 p.Add(n => n.Node, new NodeModel()

@@ -1,4 +1,4 @@
-﻿using Blazor.Diagrams.Components.Renderers;
+using Blazor.Diagrams.Components.Renderers;
 using Blazor.Diagrams.Core.Geometry;
 using Blazor.Diagrams.Core.Models;
 using Blazor.Diagrams.Tests.TestComponents;
@@ -16,7 +16,7 @@ public class LinkVertexWidgetTests
     public void ShouldRenderCircle()
     {
         // Arrange
-        using var ctx = new TestContext();
+        using var ctx = new BunitContext();
         var node1 = new NodeModel();
         var node2 = new NodeModel();
         var link = new LinkModel(node1, node2);
@@ -24,7 +24,7 @@ public class LinkVertexWidgetTests
         link.Vertices.Add(vertex);
 
         // Act
-        var cut = ctx.RenderComponent<LinkVertexRenderer>(parameters => parameters
+        var cut = ctx.Render<LinkVertexRenderer>(parameters => parameters
             .Add(n => n.Vertex, vertex)
             .Add(n => n.Color, "red")
             .Add(n => n.SelectedColor, "blue")
@@ -38,7 +38,7 @@ public class LinkVertexWidgetTests
     public void ShouldRenderCircleWithSelectedColor_WhenVertexIsSelected()
     {
         // Arrange
-        using var ctx = new TestContext();
+        using var ctx = new BunitContext();
         var node1 = new NodeModel();
         var node2 = new NodeModel();
         var link = new LinkModel(node1, node2);
@@ -47,7 +47,7 @@ public class LinkVertexWidgetTests
         vertex.Selected = true;
 
         // Act
-        var cut = ctx.RenderComponent<LinkVertexRenderer>(parameters => parameters
+        var cut = ctx.Render<LinkVertexRenderer>(parameters => parameters
             .Add(n => n.Vertex, vertex)
             .Add(n => n.Color, "red")
             .Add(n => n.SelectedColor, "blue")
@@ -61,7 +61,7 @@ public class LinkVertexWidgetTests
     public void ShouldRerender_WhenVertexIsRefreshed()
     {
         // Arrange
-        using var ctx = new TestContext();
+        using var ctx = new BunitContext();
         var node1 = new NodeModel();
         var node2 = new NodeModel();
         var link = new LinkModel(node1, node2);
@@ -69,7 +69,7 @@ public class LinkVertexWidgetTests
         link.Vertices.Add(vertex);
 
         // Act
-        var cut = ctx.RenderComponent<LinkVertexRenderer>(parameters => parameters
+        var cut = ctx.Render<LinkVertexRenderer>(parameters => parameters
             .Add(n => n.Vertex, vertex)
             .Add(n => n.Color, "red")
             .Add(n => n.SelectedColor, "blue")
@@ -85,7 +85,7 @@ public class LinkVertexWidgetTests
     public async Task ShouldDeleteItselfAndRefreshParent_WhenDoubleClicked()
     {
         // Arrange
-        using var ctx = new TestContext();
+        using var ctx = new BunitContext();
         var node1 = new NodeModel();
         var node2 = new NodeModel();
         var link = new LinkModel(node1, node2);
@@ -95,7 +95,7 @@ public class LinkVertexWidgetTests
         link.Changed += _ => linkRefreshes++;
 
         // Act
-        var cut = ctx.RenderComponent<LinkVertexRenderer>(parameters => parameters
+        var cut = ctx.Render<LinkVertexRenderer>(parameters => parameters
             .Add(n => n.Vertex, vertex)
             .Add(n => n.Color, "red")
             .Add(n => n.SelectedColor, "blue")
@@ -112,7 +112,7 @@ public class LinkVertexWidgetTests
     public void ShouldUseCustomComponent_WhenProvided()
     {
         // Arrange
-        using var ctx = new TestContext();
+        using var ctx = new BunitContext();
         var diagram = new BlazorDiagram();
         diagram.RegisterComponent<LinkVertexModel, CustomVertexWidget>();
         var node1 = new NodeModel();
@@ -122,7 +122,7 @@ public class LinkVertexWidgetTests
         link.Vertices.Add(vertex);
 
         // Act
-        var cut = ctx.RenderComponent<LinkVertexRenderer>(parameters => parameters
+        var cut = ctx.Render<LinkVertexRenderer>(parameters => parameters
             .Add(n => n.Vertex, vertex)
             .Add(n => n.Color, "red")
             .Add(n => n.SelectedColor, "blue")

@@ -12,13 +12,13 @@ namespace Blazor.Diagrams.Tests.Components
         {
             // Arrange
             JSRuntimeInvocationHandler call;
-            using (var ctx = new TestContext())
+            using (var ctx = new BunitContext())
             {
                 ctx.JSInterop.Setup<Rectangle>("ZBlazorDiagrams.getBoundingClientRect", _ => true);
                 call = ctx.JSInterop.SetupVoid("ZBlazorDiagrams.unobserve", _ => true).SetVoidResult();
 
                 // Act
-                var cut = ctx.RenderComponent<DiagramCanvas>(p => p.Add(n => n.BlazorDiagram, new BlazorDiagram()));
+                var cut = ctx.Render<DiagramCanvas>(p => p.Add(n => n.BlazorDiagram, new BlazorDiagram()));
             }
 
             // Assert
