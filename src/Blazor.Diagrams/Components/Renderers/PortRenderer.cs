@@ -32,6 +32,7 @@ public class PortRenderer : ComponentBase, IDisposable
     {
         Port.Changed -= OnPortChanged;
         Port.VisibilityChanged -= OnPortChanged;
+        BlazorDiagram.ContainerChanged -= OnDiagramContainerChanged;
     }
 
     protected override void OnInitialized()
@@ -40,6 +41,7 @@ public class PortRenderer : ComponentBase, IDisposable
 
         Port.Changed += OnPortChanged;
         Port.VisibilityChanged += OnPortChanged;
+        BlazorDiagram.ContainerChanged += OnDiagramContainerChanged;
     }
 
     protected override void OnParametersSet()
@@ -170,6 +172,25 @@ public class PortRenderer : ComponentBase, IDisposable
         else
         {
             await UpdateDimensions();
+        }
+    }
+
+    // Called when the diagram container becomes available (fires after DiagramCanvas.OnAfterRenderAsync
+    // sets up the container bounding rect). This is the recovery path for ControlledSize=true nodes:
+    // PortRenderer.OnAfterRenderAsync runs before DiagramCanvas sets the container, so UpdateDimensions
+    // bails early. When the container is ready we retry here.
+    private async void OnDiagramContainerChanged()
+    {
+        if (Port.Initialized || _updatingDimensions || !Port.Visible || _element.Id == null)
+            return;
+
+        try
+        {
+            await UpdateDimensions();
+        }
+        catch (Exception ex) when (ex is JSDisconnectedException || ex is OperationCanceledException)
+        {
+            // Component disposed or circuit disconnected — safe to ignore
         }
     }
 }
